@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,7 +88,8 @@
             margin-top: 20px;
         }
 
-        table th, table td {
+        table th,
+        table td {
             padding: 10px;
             text-align: center;
             border: 1px solid #ddd;
@@ -159,28 +161,28 @@
 
 <body>
 
-<header>
-    <img src="logo.png" alt="SATE Logo">
-    <h1>SISTEM AKADEMIK TERPADU EFISIEN</h1>
-</header>
+    <header>
+        <img src="logo.png" alt="SATE Logo">
+        <h1>SISTEM AKADEMIK TERPADU EFISIEN</h1>
+    </header>
 
-<div id="sidebar">
-    <h2>Tambahkan Jadwal Perkuliahan</h2>
+    <div id="sidebar">
+        <h2>Tambahkan Jadwal Perkuliahan</h2>
 
-    <div class="dropdown">
-        <label for="matkul">Daftar Mata Kuliah</label>
-        <select id="matkul" class="form-control">
-            <option value="">-- Pilih Mata Kuliah --</option>
-        </select>
+        <div class="dropdown">
+            <label for="matkul">Daftar Mata Kuliah</label>
+            <select id="matkul" class="form-control">
+                <option value="">-- Pilih Mata Kuliah --</option>
+            </select>
+        </div>
+
+
+        <div id="profile">
+            <img src="profile.png" alt="Profile">
+            <h3>King Azzam</h3>
+            <h4>Informatika SI</h4>
+        </div>
     </div>
-    
-
-    <div id="profile">
-        <img src="profile.png" alt="Profile">
-        <h3>King Azzam</h3>
-        <h4>Informatika SI</h4>
-    </div>
-</div>
 
 
 
@@ -188,27 +190,32 @@
         <button class="btn-primary">AJUKAN</button>
         <button class="btn-success">LIHAT</button>
     </div>
-</div>
-<script>
-    $(document).ready(function() {
-        $('#matkul').select2({
-            placeholder: 'Pilih Mata Kuliah',
-            allowClear: true,
-            ajax: {
-                url: "{{ route('search.Mahasiswa') }}",
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return { query: params.term };
-                },
-                processResults: function(data) {
-                    return { results: data.results };
-                },
-                cache: true
-            }
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#matkul').select2({
+                placeholder: 'Pilih Mata Kuliah',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('search.Mahasiswa') }}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            query: params.term
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.results
+                        };
+                    },
+                    cache: true
+                }
+            });
         });
-    });
     </script>
-    
+
 </body>
+
 </html>
