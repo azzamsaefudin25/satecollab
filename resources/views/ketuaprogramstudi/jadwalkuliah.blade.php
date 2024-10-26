@@ -213,16 +213,16 @@
                         <option value="09:00">09:00</option>
                         <option value="13:00">13:00</option>
                     </select>
-                
+
                     <select name="jam_selesai_displayphp" id="jam_selesai_display" required>
                         <option value="">Jam Berakhir (otomatis)</option>
                     </select>
                 </div>
-                
+
                 <!-- Input Hidden untuk Jam Mulai dan Selesai -->
                 <input type="hidden" id="jam_mulai_hidden" name="jam_mulai">
                 <input type="hidden" id="jam_selesai_hidden" name="jam_selesai">
-                
+
                 <!-- Kelas -->
                 <select id="nama_kelas" name="nama_kelas" required>
                     <option value="">Pilih Kelas</option>
@@ -268,30 +268,30 @@
                 }
             });
 
-    $('#jam_mulai').on('change', function() {
-        const jamMulai = $(this).val();
-        const kodeMk = $('#kode_mk').val();
+            $('#jam_mulai').on('change', function() {
+                const jamMulai = $(this).val();
+                const kodeMk = $('#kode_mk').val();
 
-        $.ajax({
-            url: '{{ route('jadwalkuliah.hitungJamSelesai') }}',
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                jam: jamMulai,
-                kode_mk: kodeMk
-            },
-            success: function(response) {
-                // Mengganti opsi dalam select untuk jam selesai dengan hasil dari AJAX
-                $('#jam_selesai_display').empty().append('<option value="' + response.jam_selesai + '">' + response.jam_selesai + '</option>');
+                $.ajax({
+                    url: '{{ route('jadwalkuliah.hitungJamSelesai') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        jam: jamMulai,
+                        kode_mk: kodeMk
+                    },
+                    success: function(response) {
+                        // Mengganti opsi dalam select untuk jam selesai dengan hasil dari AJAX
+                        $('#jam_selesai_display').empty().append('<option value="' + response
+                            .jam_selesai + '">' + response.jam_selesai + '</option>');
 
-                // Menyimpan nilai jam mulai dan jam selesai di input hidden
-                $('#jam_mulai_hidden').val(jamMulai);
-                $('#jam_selesai_hidden').val(response.jam_selesai);
-            }
+                        // Menyimpan nilai jam mulai dan jam selesai di input hidden
+                        $('#jam_mulai_hidden').val(jamMulai);
+                        $('#jam_selesai_hidden').val(response.jam_selesai);
+                    }
+                });
+            });
         });
-    });
-});
-
     </script>
 </body>
 
