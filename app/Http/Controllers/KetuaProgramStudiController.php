@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Log;
 
 class KetuaProgramStudiController extends Controller
 {
+
     public function getRuangan($id_programstudi)
     {
         // Ambil ruangan berdasarkan pengalokasian program studi
         $ruangPerkuliahan = PengalokasianRuang::where('id_programstudi', $id_programstudi)
+            ->where('status', 'disetujui')
             ->with('ruangperkuliahan') // Relasi ke RuangPerkuliahan
             ->get()
             ->pluck('ruangperkuliahan'); // Ambil data ruangan dari relasi
@@ -26,6 +28,14 @@ class KetuaProgramStudiController extends Controller
         // Kembalikan data sebagai JSON untuk AJAX
         return response()->json($ruangPerkuliahan);
     }
+    /**
+     * Display a listing of the resource.
+     */
+    public function index() {}
+
+    /**
+     * Show the form for creating a new resource.
+     */
 
     public function indexjadwalKuliah()
     {
@@ -43,6 +53,7 @@ class KetuaProgramStudiController extends Controller
         // }
         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
     }
+
     public function createMemilihMataKuliah()
     {
         $dosenpengampu = DosenPengampu::all();
@@ -57,6 +68,8 @@ class KetuaProgramStudiController extends Controller
         $programstudi = ProgramStudi::all();
         return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'programstudi'));
     }
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -138,7 +151,6 @@ class KetuaProgramStudiController extends Controller
         ]);
     }
 
-
     public function storeJadwalKuliah(Request $request)
     {
         // dd($request->all());  // Untuk debugging input yang masuk
@@ -158,7 +170,17 @@ class KetuaProgramStudiController extends Controller
             return redirect()->back()->withErrors(['kode_mk' => 'Mata kuliah tidak ditemukan.']);
         }
 
-        // Pengecekan bentrok ruangan dan jadwal
+
+        // Validasi apakah kelas sudah mengambil mata kuliah yang sama
+        $duplicateMatakuliah = JadwalKuliah::where('nama_kelas', $request->nama_kelas)
+            ->where('kode_mk', $request->kode_mk) // Asumsikan nama_mk adalah nama mata kuliah
+            ->exists();
+
+        if ($duplicateMatakuliah) {
+            return redirect()->back()->withErrors(['nama_mk' => 'Kelas ini sudah terdaftar untuk mata kuliah tersebut di hari lain.']);
+        }
+
+        // Lanjutkan dengan validasi bentrok ruangan dan jadwal
         $overlapRuangan = JadwalKuliah::where('kode_ruang', $request->kode_ruang)
             ->where('hari', $request->hari)
             ->where(function ($query) use ($request) {
@@ -184,6 +206,7 @@ class KetuaProgramStudiController extends Controller
             return redirect()->back()->withErrors(['nama_kelas' => 'Kelas sudah memiliki mata kuliah lain pada hari dan jam yang dipilih.']);
         }
 
+
         // Simpan jadwal kuliah
         JadwalKuliah::create([
             'kode_mk' => $request->kode_mk,
@@ -201,6 +224,7 @@ class KetuaProgramStudiController extends Controller
 
         return redirect()->route('jadwalkuliah.create')->with('success', 'Jadwal kuliah berhasil disimpan.');
     }
+
 
 
     public function indexMemilihMataKuliah()
@@ -262,4 +286,40 @@ class KetuaProgramStudiController extends Controller
 
         return redirect()->route('memilihmatakuliah.index')->with('success', 'Mata kuliah berhasil dihapus.');
     }
+
+    // public function hitungJam(Request $request)
+    // {
+    //     // Mendapatkan data mata kuliah berdasarkan kode_mk
+    //     $mataKuliah = MataKuliah::where('kode_mk', $request->kode_mk)->firstOrFail();
+    //     $sks = $mataKuliah->sks;
+
+    //     // Mendapatkan jam mulai dari request
+    //     $jamMulai = $request->input('jam');
+
+    //     // Konversi jam mulai ke format DateTime agar bisa ditambah waktu
+    //     $jamMulaiDateTime = new \DateTime($jamMulai);
+
+    //     // 1 SKS = 50 menit, maka total menit yang akan ditambahkan adalah SKS * 50
+    //     $durasi = $sks * 50;
+
+    //     // Tambahkan durasi ke jam mulai
+    //     $jamSelesaiDateTime = clone $jamMulaiDateTime; // Salin object DateTime
+    //     $jamSelesaiDateTime->modify("+$durasi minutes");
+
+    //     // Format hasil ke string
+    //     $jamSelesai = $jamSelesaiDateTime->format('H:i');
+
+    //     // Kembalikan view dengan hasil perhitungan
+    //     return view('KetuaProgramStudi.JadwalKuliah', [
+    //         'jamMulai' => $jamMulai,
+    //         'jamSelesai' => $jamSelesai,
+    //         'sks' => $sks,
+    //         'kode_ruang' => $request->kode_ruang, // Jika ada input ruang
+    //         'hari' => $request->hari, // Jika ada input hari
+    //         'nama_kelas' => $request->nama_kelas, // Jika ada input nama kelas
+    //         'mataKuliah' => MataKuliah::all() // Data MK untuk dropdown
+    //     ]);
+    // }
+
+
 }

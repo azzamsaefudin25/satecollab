@@ -17,9 +17,10 @@ class MahasiswaController extends Controller
     public function searchMatakuliah(Request $request)
     {
         $query = $request->get('query');
-        $mataKuliah = JadwalKuliah::where('nama_mk', 'LIKE', "%{$query}%")
-                                ->orderBy('nama_mk', 'asc')
-                                ->get(['kode_mk', 'nama_mk', 'jenis', 'semester','nama_kelas']);
+        $mataKuliah = JadwalKuliah::where('status', 'disetujui') // Filter berdasarkan status
+                                    ->where('nama_mk', 'LIKE', "%{$query}%")
+                                    ->orderBy('nama_mk', 'asc')
+                                    ->get(['kode_mk', 'nama_mk', 'jenis', 'semester', 'nama_kelas']);
     
         $result = $mataKuliah->map(function($mk) {
             return [
