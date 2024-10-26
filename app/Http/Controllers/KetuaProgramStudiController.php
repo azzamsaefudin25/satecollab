@@ -10,7 +10,7 @@ use App\Models\MataKuliah;
 use App\Models\JadwalKuliah;
 use App\Models\PengalokasianRuang;
 use App\Models\ProgramStudi;
-
+use Illuminate\Support\Facades\Log;
 
 
 class KetuaProgramStudiController extends Controller
@@ -112,18 +112,18 @@ class KetuaProgramStudiController extends Controller
                 'jam' => 'required|date_format:H:i',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('Validation Error:', $e->errors());
+            Log::error('Validation Error:', $e->errors());
             return response()->json(['errors' => $e->errors()], 422);
         }
     
         // Log data request
-        \Log::info('Request Data:', $request->all()); 
+        Log::info('Request Data:', $request->all()); 
     
         // Dapatkan mata kuliah berdasarkan kode_mk
         $mataKuliah = MataKuliah::where('kode_mk', $request->kode_mk)->first();
     
         if (!$mataKuliah) {
-            \Log::error('Mata Kuliah Tidak Ditemukan:', ['kode_mk' => $request->kode_mk]);
+            Log::error('Mata Kuliah Tidak Ditemukan:', ['kode_mk' => $request->kode_mk]);
             return response()->json(['message' => 'Mata kuliah tidak ditemukan.'], 404);
         }
     
@@ -133,7 +133,7 @@ class KetuaProgramStudiController extends Controller
         try {
             $jamMulai = new \DateTime($request->input('jam'));
         } catch (\Exception $e) {
-            \Log::error('Error Mengonversi Jam:', ['error' => $e->getMessage()]);
+            Log::error('Error Mengonversi Jam:', ['error' => $e->getMessage()]);
             return response()->json(['message' => 'Format jam tidak valid.'], 400);
         }
     
