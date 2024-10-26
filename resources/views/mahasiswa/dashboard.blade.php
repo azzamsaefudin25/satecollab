@@ -154,8 +154,8 @@
 <div class="profile">
     <img src="profile.png" alt="Profile Image">
     <div class="profile-name">
-        <p>Nama: Yohanes Pannjaitan</p>
-        <p>NIM: 24060122140108</p>
+        <p>Nama:  {{ $user->name ?? 'User tidak ditemukan' }}</p>
+        <p>NIM: {{ $nim ?? 'NIM tidak ditemukan' }}</p>
         <p>Informatika</p>
     </div>
 </div>

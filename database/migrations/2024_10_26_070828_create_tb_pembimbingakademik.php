@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pembimbingakademik', function (Blueprint $table) {
-            $table->string('nidn_pembimbingakademik', 18)->primary(); // NIDN pembimbing akademik sebagai primary key
+            $table->string('nidn_pembimbingakademik', 18); // NIDN pembimbing akademik sebagai primary key
             $table->string('nama_pembimbingakademik', 50); // Nama pembimbing akademik
             $table->unsignedBigInteger('id_programstudi'); // Foreign key untuk id_programstudi
             $table->string('email'); // Foreign key untuk email
