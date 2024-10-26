@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\JadwalKuliah;
-use Illuminate\Support\Facades\Log;
 
 class MahasiswaController extends Controller
 {
@@ -30,7 +29,7 @@ class MahasiswaController extends Controller
         });
     
         // Tambahkan log untuk debugging
-        Log::info($result);
+        \Log::info($result);
     
         return response()->json(['results' => $result]);
     }
