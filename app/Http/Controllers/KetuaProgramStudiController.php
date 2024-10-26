@@ -37,22 +37,23 @@ class KetuaProgramStudiController extends Controller
      * Show the form for creating a new resource.
      */
 
-     public function indexjadwalKuliah()
-     {
-        $jadwal = JadwalKuliah::with('matakuliah.dosenPengampu')->get(); ;
+    public function indexjadwalKuliah()
+    {
+        $jadwal = JadwalKuliah::with('matakuliah.dosenPengampu')->get();;
         // dd($jadwal[0]->toArray());
         // dd($jadwal->toArray());
         // foreach ($jadwal as $item) {
         //     echo '<pre>'; // Menambahkan <pre> agar output lebih rapi
         //     echo 'Mata Kuliah: ';
         //     print_r($item->mataKuliah ? $item->mataKuliah->toArray() : 'Mata Kuliah not available');
-            
+
         //     echo 'Dosen Pengampu: ';
         //     print_r($item->mataKuliah && $item->mataKuliah->dosenPengampu ? $item->mataKuliah->dosenPengampu->toArray() : 'Dosen not available');
         //     echo '</pre>';
         // }
         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
     }
+
     public function createMemilihMataKuliah()
     {
         $dosenpengampu = DosenPengampu::all();
@@ -65,7 +66,7 @@ class KetuaProgramStudiController extends Controller
         $ruangperkuliahan = RuangPerkuliahan::all();
         $kelas = Kelas::all();
         $programstudi = ProgramStudi::all();
-        return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas','programstudi'));
+        return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'programstudi'));
     }
 
 
@@ -115,20 +116,20 @@ class KetuaProgramStudiController extends Controller
             Log::error('Validation Error:', $e->errors());
             return response()->json(['errors' => $e->errors()], 422);
         }
-    
+
         // Log data request
-        Log::info('Request Data:', $request->all()); 
-    
+        Log::info('Request Data:', $request->all());
+
         // Dapatkan mata kuliah berdasarkan kode_mk
         $mataKuliah = MataKuliah::where('kode_mk', $request->kode_mk)->first();
-    
+
         if (!$mataKuliah) {
             Log::error('Mata Kuliah Tidak Ditemukan:', ['kode_mk' => $request->kode_mk]);
             return response()->json(['message' => 'Mata kuliah tidak ditemukan.'], 404);
         }
-    
+
         $sks = $mataKuliah->sks;
-    
+
         // Konversi jam mulai ke format DateTime
         try {
             $jamMulai = new \DateTime($request->input('jam'));
@@ -136,20 +137,19 @@ class KetuaProgramStudiController extends Controller
             Log::error('Error Mengonversi Jam:', ['error' => $e->getMessage()]);
             return response()->json(['message' => 'Format jam tidak valid.'], 400);
         }
-    
+
         // 1 SKS = 50 menit
         $durasi = $sks * 50;
-    
+
         // Hitung jam selesai
         $jamSelesai = clone $jamMulai;
         $jamSelesai->modify("+$durasi minutes");
-    
+
         // Format hasil ke string dan kirim sebagai response JSON
         return response()->json([
             'jam_selesai' => $jamSelesai->format('H:i')  // Pastikan ini sesuai dengan yang akan ditampilkan di view
         ]);
     }
-
 
     public function storeJadwalKuliah(Request $request)
     {
@@ -165,12 +165,22 @@ class KetuaProgramStudiController extends Controller
         ]);
 
         $mataKuliah = MataKuliah::where('kode_mk', $request->kode_mk)->first();
-    
+
         if (!$mataKuliah) {
             return redirect()->back()->withErrors(['kode_mk' => 'Mata kuliah tidak ditemukan.']);
         }
 
-        // Pengecekan bentrok ruangan dan jadwal
+
+        // Validasi apakah kelas sudah mengambil mata kuliah yang sama
+        $duplicateMatakuliah = JadwalKuliah::where('nama_kelas', $request->nama_kelas)
+            ->where('kode_mk', $request->kode_mk) // Asumsikan nama_mk adalah nama mata kuliah
+            ->exists();
+
+        if ($duplicateMatakuliah) {
+            return redirect()->back()->withErrors(['nama_mk' => 'Kelas ini sudah terdaftar untuk mata kuliah tersebut di hari lain.']);
+        }
+
+        // Lanjutkan dengan validasi bentrok ruangan dan jadwal
         $overlapRuangan = JadwalKuliah::where('kode_ruang', $request->kode_ruang)
             ->where('hari', $request->hari)
             ->where(function ($query) use ($request) {
@@ -196,6 +206,7 @@ class KetuaProgramStudiController extends Controller
             return redirect()->back()->withErrors(['nama_kelas' => 'Kelas sudah memiliki mata kuliah lain pada hari dan jam yang dipilih.']);
         }
 
+
         // Simpan jadwal kuliah
         JadwalKuliah::create([
             'kode_mk' => $request->kode_mk,
@@ -210,9 +221,10 @@ class KetuaProgramStudiController extends Controller
             'nama_kelas' => $request->nama_kelas,
             'nidn_dosenpengampu' => MataKuliah::where('kode_mk', $request->kode_mk)->first()->nidn_dosenpengampu,
         ]);
-    
+
         return redirect()->route('jadwalkuliah.create')->with('success', 'Jadwal kuliah berhasil disimpan.');
     }
+
 
 
     public function indexMemilihMataKuliah()
@@ -221,56 +233,56 @@ class KetuaProgramStudiController extends Controller
         return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah'));
     }
 
-public function editMemilihMataKuliah($kode_mk)
-{
-    $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
-    $dosenpengampu = DosenPengampu::all();
+    public function editMemilihMataKuliah($kode_mk)
+    {
+        $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
+        $dosenpengampu = DosenPengampu::all();
 
-    if (!$matakuliah) {
-        return redirect()->route('memilihmatakuliah.index')->withErrors('Mata kuliah tidak ditemukan.');
+        if (!$matakuliah) {
+            return redirect()->route('memilihmatakuliah.index')->withErrors('Mata kuliah tidak ditemukan.');
+        }
+
+        return view('ketuaprogramstudi.memilihmatakuliah.edit', compact('matakuliah', 'dosenpengampu'));
     }
 
-    return view('ketuaprogramstudi.memilihmatakuliah.edit', compact('matakuliah', 'dosenpengampu'));
-}
+    public function updateMemilihMataKuliah(Request $request, $kode_mk)
+    {
+        // Validasi input
+        $request->validate([
+            'nama_mk' => 'required|string|max:50',
+            'semester' => 'required|integer|min:1|max:8',
+            'sks' => 'required|integer|min:1|max:6',
+            'jenis' => 'required|string|max:10',
+            'nidn_dosenpengampu' => 'required|exists:dosenpengampu,nidn_dosenpengampu',
+        ]);
 
-public function updateMemilihMataKuliah(Request $request, $kode_mk)
-{
-    // Validasi input
-    $request->validate([
-        'nama_mk' => 'required|string|max:50',
-        'semester' => 'required|integer|min:1|max:8',
-        'sks' => 'required|integer|min:1|max:6',
-        'jenis' => 'required|string|max:10',
-        'nidn_dosenpengampu' => 'required|exists:dosenpengampu,nidn_dosenpengampu',
-    ]);
+        $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
 
-    $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
+        if (!$matakuliah) {
+            return redirect()->route('memilihmatakuliah.index')->withErrors('Mata kuliah tidak ditemukan.');
+        }
 
-    if (!$matakuliah) {
-        return redirect()->route('memilihmatakuliah.index')->withErrors('Mata kuliah tidak ditemukan.');
+        // Update data
+        $matakuliah->update([
+            'nama_mk' => $request->nama_mk,
+            'semester' => $request->semester,
+            'sks' => $request->sks,
+            'jenis' => $request->jenis,
+            'nidn_dosenpengampu' => $request->nidn_dosenpengampu,
+        ]);
+
+        return redirect()->route('memilihmatakuliah.index')->with('success', 'Mata kuliah berhasil diperbarui.');
     }
 
-    // Update data
-    $matakuliah->update([
-        'nama_mk' => $request->nama_mk,
-        'semester' => $request->semester,
-        'sks' => $request->sks,
-        'jenis' => $request->jenis,
-        'nidn_dosenpengampu' => $request->nidn_dosenpengampu,
-    ]);
+    public function destroyMemilihMataKuliah($kode_mk)
+    {
+        $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
 
-    return redirect()->route('memilihmatakuliah.index')->with('success', 'Mata kuliah berhasil diperbarui.');
-}
+        if (!$matakuliah) {
+            return redirect()->route('memilihmatakuliah.index')->withErrors('Mata kuliah tidak ditemukan.');
+        }
 
-public function destroyMemilihMataKuliah($kode_mk)
-{
-    $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
-
-    if (!$matakuliah) {
-        return redirect()->route('memilihmatakuliah.index')->withErrors('Mata kuliah tidak ditemukan.');
-    }
-
-    $matakuliah->delete();
+        $matakuliah->delete();
 
         return redirect()->route('memilihmatakuliah.index')->with('success', 'Mata kuliah berhasil dihapus.');
     }
