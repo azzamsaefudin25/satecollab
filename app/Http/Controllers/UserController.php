@@ -86,7 +86,10 @@ class UserController extends Controller
                 $roles[] = 'dosenpengampu';
             }
             if (count($roles) === 1) {
-                return redirect()->route($roles[0]); // Mengarahkan ke route berdasarkan role
+                // Menyimpan role yang ditemukan
+                session(['role' => $roles[0]]);
+                // Mengarahkan ke route berdasarkan role
+                return redirect()->route($roles[0]);
             }
             // Jika user punya lebih dari 1 role, arahkan ke halaman pemilihan role
             return view('user.pemilihanrole', compact('roles'));
@@ -125,7 +128,6 @@ class UserController extends Controller
         }
     }
 
-
     public function index()
     {
         // Ambil pengguna yang sedang login
@@ -145,40 +147,90 @@ class UserController extends Controller
         $dosen = $user->dosen; // Ambil relasi dosen dari user
 
         // Redirect sesuai dengan role yang dipilih
-        if (session('role') == 'bagianakademik' && $bagianAkademik) {
+        switch (session('role')) {
+            case 'mahasiswa':
+                return $this->redirectMahasiswa($mahasiswa, $user);
+            case 'bagianakademik':
+                return $this->redirectBagianAkademik($bagianAkademik, $user);
+            case 'dekan':
+                return $this->redirectDekan($dekan, $user);
+            case 'ketuaprogramstudi':
+                return $this->redirectKetuaProgramStudi($ketuaProgramStudi, $user);
+            case 'pembimbingakademik':
+                return $this->redirectPembimbingAkademik($pembimbingAkademik, $user);
+            case 'dosenpengampu':
+                return $this->redirectDosenPengampu($dosen, $user);
+            default:
+                return redirect()->route('home');
+        }
+    }
+
+    protected function redirectBagianAkademik($bagianAkademik, $user)
+    {
+        if ($bagianAkademik) {
             return view('bagianakademik.dashboard', [
                 'user' => $user,
                 'nidn' => $bagianAkademik->nidn_bagianakademik
             ]);
-        } elseif (session('role') == 'dekan' && $dekan) {
+        }
+        return redirect()->route('home');
+    }
+
+    protected function redirectDekan($dekan, $user)
+    {
+        if ($dekan) {
             return view('dekan.dashboard', [
                 'user' => $user,
                 'nidn' => $dekan->nidn_dekan
             ]);
-        } elseif (session('role') == 'ketuaprogramstudi' && $ketuaProgramStudi) {
+        }
+        return redirect()->route('home');
+    }
+
+    protected function redirectKetuaProgramStudi($ketuaProgramStudi, $user)
+    {
+        if ($ketuaProgramStudi) {
             return view('ketuaprogramstudi.dashboard', [
                 'user' => $user,
                 'nidn' => $ketuaProgramStudi->nidn_ketuaprogramstudi
             ]);
-        } elseif (session('role') == 'pembimbingakademik' && $pembimbingAkademik) {
+        }
+        return redirect()->route('home');
+    }
+
+    protected function redirectPembimbingAkademik($pembimbingAkademik, $user)
+    {
+        if ($pembimbingAkademik) {
             return view('pembimbingakademik.dashboard', [
                 'user' => $user,
                 'nidn' => $pembimbingAkademik->nidn_pembimbingakademik
             ]);
-        } elseif (session('role') == 'dosenpengampu' && $dosen) {
+        }
+        return redirect()->route('home');
+    }
+
+    protected function redirectDosenPengampu($dosen, $user)
+    {
+        if ($dosen) {
             return view('dosenpengampu.dashboard', [
                 'user' => $user,
                 'nidn' => $dosen->nidn
             ]);
-        } elseif ($mahasiswa) {
+        }
+        return redirect()->route('home');
+    }
+
+    protected function redirectMahasiswa($mahasiswa, $user)
+    {
+        if ($mahasiswa) {
             return view('mahasiswa.dashboard', [
                 'user' => $user,
                 'nim' => $mahasiswa->nim
             ]);
-
-            return redirect()->route('home');
         }
+        return redirect()->route('home');
     }
+
 
     public function password()
     {
@@ -208,3 +260,112 @@ class UserController extends Controller
         return redirect()->route('login')->with('success', 'Anda Berhasil Logout');
     }
 }
+
+ // public function index()
+    // {
+    //     // Ambil pengguna yang sedang login
+    //     $user = Auth::user();
+
+    //     // Pastikan user ditemukan
+    //     if (!$user) {
+    //         return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+    //     }
+
+    //     // Ambil data role berdasarkan relasi
+    //     $bagianAkademik = $user->bagianAkademik;
+    //     $dekan = $user->dekan;
+    //     $pembimbingAkademik = $user->pembimbingAkademik;
+    //     $ketuaProgramStudi = $user->ketuaProgramStudi;
+    //     $mahasiswa = $user->mahasiswa;
+    //     $dosen = $user->dosen; // Ambil relasi dosen dari user
+
+    //     // Redirect sesuai dengan role yang dipilih
+    //     if (session('role') == 'bagianakademik' && $bagianAkademik) {
+    //         return view('bagianakademik.dashboard', [
+    //             'user' => $user,
+    //             'nidn' => $bagianAkademik->nidn_bagianakademik
+    //         ]);
+    //     } elseif (session('role') == 'dekan' && $dekan) {
+    //         return view('dekan.dashboard', [
+    //             'user' => $user,
+    //             'nidn' => $dekan->nidn_dekan
+    //         ]);
+    //     } elseif (session('role') == 'ketuaprogramstudi' && $ketuaProgramStudi) {
+    //         return view('ketuaprogramstudi.dashboard', [
+    //             'user' => $user,
+    //             'nidn' => $ketuaProgramStudi->nidn_ketuaprogramstudi
+    //         ]);
+    //     } elseif (session('role') == 'pembimbingakademik' && $pembimbingAkademik) {
+    //         return view('pembimbingakademik.dashboard', [
+    //             'user' => $user,
+    //             'nidn' => $pembimbingAkademik->nidn_pembimbingakademik
+    //         ]);
+    //     } elseif (session('role') == 'dosenpengampu' && $dosen) {
+    //         return view('dosenpengampu.dashboard', [
+    //             'user' => $user,
+    //             'nidn' => $dosen->nidn
+    //         ]);
+    //     } elseif ($mahasiswa) {
+    //         return view('mahasiswa.dashboard', [
+    //             'user' => $user,
+    //             'nim' => $mahasiswa->nim
+    //         ]);
+    //     }
+
+    //     return redirect()->route('home');
+    // }
+
+// public function dashboardBagianAkademik()
+// {
+//     $user = Auth::user();
+//     $bagianAkademik = $user->bagianAkademik;
+
+//     return view('bagianakademik.dashboard', [
+//         'user' => $user,
+//         'nidn' => $bagianAkademik->nidn_bagianakademik,
+//     ]);
+// }
+
+// public function dashboardDekan()
+// {
+//     $user = Auth::user();
+//     $dekan = $user->dekan;
+
+//     return view('dekan.dashboard', [
+//         'user' => $user,
+//         'nidn' => $dekan->nidn_dekan,
+//     ]);
+// }
+
+// public function dashboardPembimbingAkademik()
+// {
+//     $user = Auth::user();
+//     $pembimbingAkademik = $user->pembimbingAkademik;
+
+//     return view('pembimbingakademik.dashboard', [
+//         'user' => $user,
+//         'nidn' => $pembimbingAkademik->nidn_pembimbingakademik,
+//     ]);
+// }
+
+// public function dashboardKetuaProgramStudi()
+// {
+//     $user = Auth::user();
+//     $ketuaProgramStudi = $user->ketuaProgramStudi;
+
+//     return view('ketuaprogramstudi.dashboard', [
+//         'user' => $user,
+//         'nidn' => $ketuaProgramStudi->nidn_ketuaprogramstudi,
+//     ]);
+// }
+
+// public function dashboardMahasiswa()
+// {
+//     $user = Auth::user();
+//     $mahasiswa = $user->mahasiswa;
+
+//     return view('mahasiswa.dashboard', [
+//         'user' => $user,
+//         'nim' => $mahasiswa->nim,
+//     ]);
+// }

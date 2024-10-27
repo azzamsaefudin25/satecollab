@@ -6,6 +6,7 @@ use App\Http\Controllers\KetuaProgramStudiController;
 use App\Http\Controllers\BagianAkademikController;
 use App\Http\Controllers\DekanController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\IRSController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,5 +82,9 @@ Route::get('/dekan/approve-jadwal', [DekanController::class, 'createPengajuanJad
 Route::patch('/dekan/update-pengajuan/{id}', [DekanController::class, 'updatePengajuanJadwal'])->name('pengajuan.updatejadwal');
 
 // IRS
-Route::get('memilihmatakuliah/IRS', [MahasiswaController::class, 'createIRS'])->name('mahasiswa.IRS.create');
+Route::get('memilihmatakuliah/IRS', [MahasiswaController::class, 'createIRS'])->name('IRS.create');
 Route::get('/search-matakuliah', [MahasiswaController::class, 'searchMatakuliah'])->name('search.Mahasiswa');
+
+Route::get('/get-matkul-details', [MahasiswaController::class, 'getMatkulDetails'])->name('get.matkul.details');
+Route::post('/irs/store', [IRSController::class, 'store'])->name('irs.store');
+Route::get('/Lihat/IRS', [IRSController::class, 'index'])->name('IRS.index');

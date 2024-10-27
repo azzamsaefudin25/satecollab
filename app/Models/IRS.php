@@ -13,7 +13,7 @@ class IRS extends Model
     
     public $incrementing = false;
 
-    protected $fillable = ['nim','kode_ruang', 'kode_mk', 'nama_kelas'];
+    protected $fillable = ['nim','kode_ruang', 'kode_mk', 'nama_kelas','status','status_approve'];
 
       // Relasi dengan Mahasiswa
       public function mahasiswa()
