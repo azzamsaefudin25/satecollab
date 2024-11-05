@@ -74,4 +74,8 @@ class User extends Authenticatable
         return $this->hasOne(Dosen::class, 'email', 'email');
     }
 
+    // public function dekan()
+    // {
+    //     return $this->dosen->dekan();
+    // }
 }

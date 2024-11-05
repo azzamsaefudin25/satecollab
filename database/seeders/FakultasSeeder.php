@@ -14,7 +14,7 @@ class FakultasSeeder extends Seeder
     public function run(): void
     {
         $fakultas = new Fakultas();
-        $fakultas -> nama_fakultas = 'Fakultas Sains dan Matematika(FSM)';
+        $fakultas -> nama_fakultas = 'Fakultas Sains dan Matematika';
         $fakultas -> save();
     }
 }

@@ -13,6 +13,6 @@ class PembimbingAkademikSeeder extends Seeder
      */
     public function run(): void
     {
-        PembimbingAkademik::factory()->count(10)->create();
+        PembimbingAkademik::factory()->count(5)->create();
     }
 }

@@ -11,17 +11,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class KetuaprogramStudiFactory extends Factory
 {
 
-    protected $model = Ketuaprogramstudi::class;
+    
     public function definition(): array
     {
-        $user = User::inRandomOrder()->first();
-
         return [
-            'nidn_ketuaprogramstudi' => $this->faker->unique()->numerify('1981010200000000##'), 
-            'nama_ketuaprogramstudi' => $user->name, 
-            'id_programstudi' => 1, 
-            'email' => $user->email, 
-            'id_fakultas' => 1, 
+            //
         ];
     }
 }

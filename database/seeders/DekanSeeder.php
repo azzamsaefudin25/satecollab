@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Dekan;
+use App\Models\Dosen;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -14,12 +15,11 @@ class DekanSeeder extends Seeder
      */
     public function run(): void
     {
-        Dekan::factory()->count(1)->create();
-        // DB::table('dekan')->insert([
-        //     'nidn_dekan' => '198101020000000418',
-        //     'nama_dekan' => 'Dr. Aris Puji Widodo, S.Si, M.T', // Nama dekan mengikuti nama di user
-        //     'email' => 'aris.widodo@lecturer.undip.ac.id', // Email mengikuti email di user
-        //     'id_fakultas' => 1,
-        // ]);
+        $dosenData = Dosen::where('email', 'like', 'aris.widodo@lecturer.undip.ac.id') 
+            ->get(['nidn_dosen as nidn_dekan', 'nama_dosen as nama_dekan', 'email']) // Ambil dan sesuaikan nama kolom
+            ->toArray();
+
+        // Insert semua data ke tabel dekan
+        Dekan::insert($dosenData);
     }
 }

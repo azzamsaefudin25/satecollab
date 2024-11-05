@@ -30,6 +30,6 @@ class PembimbingAkademik extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'nidn_pembimbingakademik', 'nidn');
+        return $this->belongsTo(Dosen::class, 'nidn_pembimbingakademik', 'nidn_dosen');
     }
 }

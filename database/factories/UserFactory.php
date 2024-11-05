@@ -19,9 +19,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            // 'name' => substr($this->faker->name, 0, 10),
             'name' => $this->faker->name,
-            'email' => $this->faker->unique()->userName . '@students.undip.ac.id',
+            'email' => $this->faker->unique()->userName . '@lecturer.undip.ac.id',
             'password' => Hash::make('root'), // Tidak di-hash
         ];
     }

@@ -1,10 +1,14 @@
 <?php
 
 namespace Database\Seeders;
+
 use App\Models\Mahasiswa;
+use App\Models\User;
+use App\Models\PembimbingAkademik;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class MahasiswaSeeder extends Seeder
 {
@@ -13,22 +17,24 @@ class MahasiswaSeeder extends Seeder
      */
     public function run(): void
     {
-        // $mahasiswa = new Mahasiswa;
-        // $mahasiswa -> nim = '24060122130076';
-        // $mahasiswa -> nama = 'Azzam Saefudin Rosyidi';
-        // $mahasiswa -> email = 'azzamsaefudinrosyidi@students.undip.ac.id';
-        // $mahasiswa -> semester = 7;
-        // $mahasiswa -> save();
-        Mahasiswa::factory()->count(30)->create();
-        DB::table('mahasiswa')->insert([
-            'nim' => '24060122130076', 
-            'nama_mahasiswa' => 'AZZAM SAEFUDIN ROSYIDI', 
-            'semester' => 5, 
-            'email' => 'azzam.saefudin@students.undip.ac.id', 
-            'nidn_pembimbingakademik' => '198101020000000597',
-            'id_programstudi' => 1, 
-            'id_fakultas' => 1, 
-        ]);
-        
+        // Ambil semua User yang memenuhi kriteria
+        $users = User::where('email', 'like', '%@students.undip.ac.id')
+            ->whereDoesntHave('mahasiswa')
+            ->inRandomOrder()
+            ->get();
+        $pembimbingakademik = PembimbingAkademik::inRandomOrder()->first();
+
+        foreach ($users as $user) {
+            if (!Mahasiswa::where('email', $user->email)->exists()) {
+                Mahasiswa::create([
+                    'nim' => fake()->unique()->numerify('2406012#######'),
+                    'nama_mahasiswa' => $user->name,
+                    'semester' => fake()->numberBetween(4, 6),
+                    'email' => $user->email,
+                    'nidn_pembimbingakademik' => $pembimbingakademik->nidn_pembimbingakademik,
+                    'id_programstudi' => 1,
+                ]);
+            }
+        }
     }
 }

@@ -14,14 +14,8 @@ class BagianAkademikFactory extends Factory
 
     public function definition(): array
     {
-        // Ambil user secara acak dari tabel User
-
-        $user = User::where('email', 'like', '%sarwoko@lecturer.undip.ac.id')->inRandomOrder()->first();
         return [
-            'nidn_bagianakademik' => $this->faker->unique()->numerify('198101020000000028'), // NIDN dekan unik
-            'nama_bagianakademik' => $user->name, // Nama dekan mengikuti nama di user
-            'email' => $user->email, // Email mengikuti email di user
-            'id_fakultas' => 1, // Set fakultas ke ID 1
+            //
         ];
     }
 }

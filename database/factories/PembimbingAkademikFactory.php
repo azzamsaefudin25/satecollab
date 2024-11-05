@@ -27,11 +27,9 @@ class PembimbingAkademikFactory extends Factory
         }
 
         return [
-            'nidn_pembimbingakademik' => $dosen->nidn, // NIDN unik dari dosen
+            'nidn_pembimbingakademik' => $dosen->nidn_dosen, // NIDN unik dari dosen
             'nama_pembimbingakademik' => $dosen->nama_dosen, // Nama dosen yang diambil dari tabel Dosen
-            'id_programstudi' => 1,
             'email' => $dosen->email, // Email dosen
-            'id_fakultas' => 1,
         ];
     }
 }

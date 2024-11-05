@@ -49,6 +49,6 @@ class JadwalKuliah extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'nidn_dekan', 'nidn');
+        return $this->belongsTo(Dosen::class, 'nidn_dosen', 'nidn_dosen');
     }
 }

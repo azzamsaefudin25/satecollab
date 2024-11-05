@@ -27,6 +27,6 @@ class Ketuaprogramstudi extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'nidn_ketuaprogramstudi', 'nidn');
+        return $this->belongsTo(Dosen::class, 'nidn_ketuaprogramstudi', 'nidn_dosen');
     }
 }

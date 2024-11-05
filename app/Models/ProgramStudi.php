@@ -14,7 +14,7 @@ class ProgramStudi extends Model
      *
      * @var string
      */
-    protected $table = 'program_studi';
+    protected $table = 'programstudi';
 
     /**
      * The primary key associated with the table.

@@ -13,9 +13,17 @@ class ProgramStudiSeeder extends Seeder
      */
     public function run(): void
     {
-        $programstudi = new ProgramStudi();
-        $programstudi -> nama_programstudi = 'Matematika';
-        $programstudi -> id_fakultas = 1;
-        $programstudi -> save(); 
+        $programStudis = [
+            ['nama_programstudi' => 'Informatika', 'id_fakultas' => 1],
+            ['nama_programstudi' => 'Matematika', 'id_fakultas' => 1],
+            ['nama_programstudi' => 'Statistika', 'id_fakultas' => 1],
+        ];
+
+        foreach ($programStudis as $programStudiData) {
+            $programStudi = new ProgramStudi();
+            $programStudi->nama_programstudi = $programStudiData['nama_programstudi'];
+            $programStudi->id_fakultas = $programStudiData['id_fakultas'];
+            $programStudi->save();
+        }
     }
 }

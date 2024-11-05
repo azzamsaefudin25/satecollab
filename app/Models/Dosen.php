@@ -10,7 +10,7 @@ class Dosen extends Model
     use HasFactory;
 
     // Mengatur primary key (default di Laravel adalah 'id', jadi kita sesuaikan)
-    protected $primaryKey = 'nidn';
+    protected $primaryKey = 'nidn_dosen';
     public $incrementing = false; // Primary key tipe string, bukan integer yang auto-increment
     
     protected $keyType = 'string'; // Tipe data dari primary key adalah string
@@ -20,7 +20,7 @@ class Dosen extends Model
 
     // Kolom yang bisa diisi secara massal
     protected $fillable = [
-        'nidn',
+        'nidn_dosen',
         'nama_dosen',
         'email',
         'id_programstudi',
@@ -40,7 +40,7 @@ class Dosen extends Model
 
     public function dekan()
     {
-        return $this->hasOne(Dekan::class, 'nidn_dekan', 'nidn');
+        return $this->hasOne(Dekan::class, 'nidn_dekan', 'nidn_dosen');
     }
 
     /**
@@ -49,7 +49,7 @@ class Dosen extends Model
      */
     public function ketuaProgramStudi()
     {
-        return $this->hasOne(KetuaProgramStudi::class, 'nidn_ketuaprogramstudi', 'nidn');
+        return $this->hasOne(KetuaProgramStudi::class, 'nidn_ketuaprogramstudi', 'nidn_dosen');
     }
 
     /**
@@ -58,7 +58,7 @@ class Dosen extends Model
      */
     public function pembimbingAkademik()
     {
-        return $this->hasOne(PembimbingAkademik::class, 'nidn_pembimbingakademik', 'nidn');
+        return $this->hasOne(PembimbingAkademik::class, 'nidn_pembimbingakademik', 'nidn_dosen');
     }
 
 }
