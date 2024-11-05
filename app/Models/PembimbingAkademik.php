@@ -21,33 +21,7 @@ class PembimbingAkademik extends Model
         'nidn_pembimbingakademik', 
         'nama_pembimbingakademik', 
         'email', 
-        'id_programstudi', 
-        'id_fakultas'
     ];
-
-    /**
-     * Relasi belongs-to dengan User.
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'email', 'email');
-    }
-
-    /**
-     * Relasi belongs-to dengan Fakultas.
-     */
-    public function fakultas()
-    {
-        return $this->belongsTo(Fakultas::class, 'id_fakultas', 'id_fakultas');
-    }
-
-    /**
-     * Relasi belongs-to dengan ProgramStudi.
-     */
-    public function programStudi()
-    {
-        return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
-    }
 
     public function mahasiswa()
     {

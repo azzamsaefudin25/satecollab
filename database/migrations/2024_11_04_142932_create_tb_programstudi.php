@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('program_studi', function (Blueprint $table) {
+        Schema::create('programstudi', function (Blueprint $table) {
             // Primary key untuk program studi
             $table->id('id_programstudi'); // Auto-incrementing id
             $table->string('nama_programstudi',50); // Nama program studi
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('program_studi');
+        Schema::dropIfExists('programstudi');
     }
 };

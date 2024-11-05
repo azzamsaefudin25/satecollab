@@ -25,11 +25,6 @@ class Fakultas extends Model
         'nama_fakultas',
     ];
 
-    // Relasi dengan Ketuaprogramstudi (jika ada)
-    public function ketuaProgramStudi()
-    {
-        return $this->hasMany(Ketuaprogramstudi::class, 'id_fakultas', 'id_fakultas');
-    }
 
     // Relasi dengan ProgramStudi (jika ada)
     public function programStudi()
@@ -37,24 +32,10 @@ class Fakultas extends Model
         return $this->hasMany(ProgramStudi::class, 'id_fakultas', 'id_fakultas');
     }
 
-    public function dekan()
-    {
-        return $this->hasOne(Dekan::class, 'id_fakultas', 'id_fakultas');
-    }
-
     public function bagianAkademik()
     {
         return $this->hasOne(BagianAkademik::class, 'id_fakultas', 'id_fakultas');
     }
 
-    public function pembimbingAkademik()
-    {
-        return $this->hasMany(PembimbingAkademik::class, 'id_fakultas', 'id_fakultas');
-    }
-
-    public function mahasiswa()
-    {
-        return $this->hasMany(Mahasiswa::class, 'id_fakultas', 'id_fakultas');
-    }
 }
 

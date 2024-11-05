@@ -61,33 +61,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Relasi dengan dekan.
-     * Satu user bisa menjadi satu dekan.
-     */
-    public function dekan()
-    {
-        return $this->hasOne(Dekan::class, 'email', 'email');
-    }
-
-    /**
-     * Relasi dengan ketua program studi.
-     * Satu user bisa menjadi satu ketua program studi.
-     */
-    public function ketuaProgramStudi()
-    {
-        return $this->hasOne(KetuaProgramStudi::class, 'email', 'email');
-    }
-
-    /**
-     * Relasi dengan pembimbing akademik.
-     * Satu user bisa menjadi satu pembimbing akademik.
-     */
-    public function pembimbingAkademik()
-    {
-        return $this->hasOne(PembimbingAkademik::class, 'email', 'email');
-    }
-
-    /**
      * Relasi dengan bagian akademik.
      * Satu user bisa menjadi satu bagian akademik.
      */

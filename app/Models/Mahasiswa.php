@@ -24,7 +24,6 @@ class Mahasiswa extends Model
         'email',
         'nidn_pembimbingakademik', 
         'id_programstudi', 
-        'id_fakultas'
     ];
 
     /**
@@ -41,14 +40,6 @@ class Mahasiswa extends Model
     public function programStudi()
     {
         return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
-    }
-
-    /**
-     * Relasi belongs-to dengan Fakultas.
-     */
-    public function fakultas()
-    {
-        return $this->belongsTo(Fakultas::class, 'id_fakultas', 'id_fakultas');
     }
 
     public function pembimgbingakademik()

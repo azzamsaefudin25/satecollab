@@ -22,11 +22,6 @@ class Kelas extends Model
         'kode_mk',
     ];
 
-    // Relasi dengan IRS
-    public function irs()
-    {
-        return $this->hasMany(IRS::class, 'nama_kelas', 'nama_kelas');
-    }
     // Relasi dengan Jadwal Kuliah
     public function jadwalKuliah()
     {

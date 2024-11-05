@@ -11,7 +11,7 @@ class PengalokasianRuang extends Model
 
     // Tabel yang digunakan oleh model ini
     protected $table = 'pengalokasianruang';
-
+    protected $primaryKey = 'id';
     public $incrementing = true;
 
     // Atribut yang bisa diisi (fillable)
@@ -31,4 +31,9 @@ class PengalokasianRuang extends Model
         return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
     }
 
+    // Relasi dengan Jadwal Kuliah
+    public function jadwalKuliah()
+    {
+        return $this->hasMany(JadwalKuliah::class, 'kode_ruang', 'kode_ruang');
+    }
 }

@@ -23,18 +23,6 @@ class RuangPerkuliahan extends Model
         'kapasitas',
     ];
 
-    // Relasi dengan IRS
-    public function irs()
-    {
-        return $this->hasMany(IRS::class, 'kode_ruang', 'kode_ruang');
-    }
-
-    // Relasi dengan Jadwal Kuliah
-    public function jadwalKuliah()
-    {
-        return $this->hasMany(JadwalKuliah::class, 'kode_ruang', 'kode_ruang');
-    }
-
     public function pengalokasianruang()
     {
         return $this->hasMany(PengalokasianRuang::class, 'kode_ruang', 'kode_ruang');

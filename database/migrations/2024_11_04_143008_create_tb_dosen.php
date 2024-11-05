@@ -13,16 +13,14 @@ return new class extends Migration
     {
         Schema::create('dosen', function (Blueprint $table) {
             // Mengatur nidn_dosen sebagai primary key
-            $table->string('nidn',18)->primary(); // NIDN dosen sebagai primary key
+            $table->string('nidn_dosen',10)->primary(); // NIDN dosen sebagai primary key
             $table->string('nama_dosen', 50); // Nama dosen
             $table->string('email');
             $table->unsignedBigInteger('id_programstudi'); 
-            $table->unsignedBigInteger('id_fakultas'); 
-            $table->timestamps(); // Timestamps for created_at and updated_at
+            $table->timestamps(); 
 
             $table->foreign('email')->references('email')->on('tb_user')->onDelete('cascade');
-            $table->foreign('id_programstudi')->references('id_programstudi')->on('program_studi')->onDelete('cascade');
-            $table->foreign('id_fakultas')->references('id_fakultas')->on('fakultas')->onDelete('cascade');
+            $table->foreign('id_programstudi')->references('id_programstudi')->on('programstudi')->onDelete('cascade');
         });
     }
 

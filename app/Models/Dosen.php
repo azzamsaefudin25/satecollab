@@ -24,7 +24,6 @@ class Dosen extends Model
         'nama_dosen',
         'email',
         'id_programstudi',
-        'id_fakultas',
     ];
 
     // Relasi dengan model User (email adalah foreign key)
@@ -37,12 +36,6 @@ class Dosen extends Model
     public function programStudi()
     {
         return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
-    }
-
-    // Relasi dengan model Fakultas (id_fakultas adalah foreign key)
-    public function fakultas()
-    {
-        return $this->belongsTo(Fakultas::class, 'id_fakultas', 'id_fakultas');
     }
 
     public function dekan()
@@ -68,17 +61,4 @@ class Dosen extends Model
         return $this->hasOne(PembimbingAkademik::class, 'nidn_pembimbingakademik', 'nidn');
     }
 
-    /**
-     * Relasi dengan bagian akademik.
-     * Satu user bisa menjadi satu bagian akademik.
-     */
-    public function bagianAkademik()
-    {
-        return $this->hasOne(BagianAkademik::class, 'nidn_bagianakademik', 'nidn');
-
-    }
-    public function dosenPengampu()
-    {
-        return $this->hasMany(DosenPengampu::class, 'nidn_dosenpengampu', 'nidn');
-    }
 }

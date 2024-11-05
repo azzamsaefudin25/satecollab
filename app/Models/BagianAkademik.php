@@ -18,7 +18,7 @@ class BagianAkademik extends Model
     protected $keyType = 'string'; // Tipe primary key adalah string
 
     protected $fillable = [
-        'nidn_bagianakademik', 
+        'nip', 
         'nama_bagianakademik', 
         'email', 
         'id_fakultas'
@@ -40,8 +40,4 @@ class BagianAkademik extends Model
         return $this->belongsTo(Fakultas::class, 'id_fakultas', 'id_fakultas');
     }
 
-    public function dosen()
-    {
-        return $this->belongsTo(Dosen::class, 'nidn_bagianakademik', 'nidn');
-    }
 }

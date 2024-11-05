@@ -15,7 +15,6 @@ class MahasiswaController extends Controller
         $jadwal = JadwalKuliah::all();
         $user = Auth::user();
 
-
         // Pastikan user ditemukan
         if (!$user) {
             return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);

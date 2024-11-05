@@ -66,6 +66,10 @@ class ProgramStudi extends Model
     {
         return $this->hasMany(Mahasiswa::class, 'id_programstudi', 'id_programstudi');
     }
+    public function dosen()
+    {
+        return $this->hasMany(Dosen::class, 'id_programstudi', 'id_programstudi');
+    }
 
     public function pengalokasianruang()
     {

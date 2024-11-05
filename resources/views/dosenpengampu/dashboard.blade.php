@@ -162,6 +162,7 @@
         <div class="d-grid gap-4">
             <button type="button" class="btn btn-outline-success btn-lg">Lihat Jadwal</button>
             <button type="button" class="btn btn-outline-success btn-lg">Entry Nilai</button>
+            <button type="button" class="btn btn-outline-success btn-lg">Daftar Peserta</button>
         </div>
     </div>
 

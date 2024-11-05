@@ -13,29 +13,26 @@ class IRS extends Model
     
     public $incrementing = false;
 
-    protected $fillable = ['nim','kode_ruang', 'kode_mk', 'nama_kelas','status','status_approve'];
+    protected $fillable = [
+        'nim',
+        'kode_mk',
+        'nama_kelas',
+        'sks',
+        'kode_ruang',
+        'status',
+        'hari',
+        'jam_mulai',
+        'jam_selesai',
+        'nidn_dosen',
+        'nidn_pembimbingakademik',
+        'status_approve',
+    ];
 
       // Relasi dengan Mahasiswa
       public function mahasiswa()
       {
           return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
       }
-  
-      // Relasi dengan Ruang Perkuliahan
-      public function ruangPerkuliahan()
-      {
-          return $this->belongsTo(RuangPerkuliahan::class, 'kode_ruang', 'kode_ruang');
-      }
-  
-      // Relasi dengan Mata Kuliah
-      public function mataKuliah()
-      {
-          return $this->belongsTo(MataKuliah::class, 'kode_mk', 'kode_mk');
-      }
-  
-      // Relasi dengan Kelas
-      public function kelas()
-      {
-          return $this->belongsTo(Kelas::class, 'nama_kelas', 'nama_kelas');
-      }
+
+ 
 }

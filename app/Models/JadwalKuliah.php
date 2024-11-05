@@ -11,21 +11,21 @@ class JadwalKuliah extends Model
 
     protected $table = 'jadwalkuliah';
 
-    
+    protected $primaryKey = 'id';
     public $incrementing = true;
 
     protected $fillable = [
         'kode_mk',
         'kode_ruang',
+        'nama_kelas',
         'hari',
         'jam_mulai',
         'jam_selesai',
-        'nama_mk',
         'jenis',
         'semester',
         'sks',
-        'nama_kelas',
-        'nidn_dosenpengampu',
+        'semester_aktif',
+        'nidn_dosen',
         'status',
     ];
 
@@ -42,8 +42,13 @@ class JadwalKuliah extends Model
     }
 
     // Relasi dengan Ruang Perkuliahan
-    public function ruangPerkuliahan()
+    public function pengalokasianRuang()
     {
-        return $this->belongsTo(RuangPerkuliahan::class, 'kode_ruang', 'kode_ruang');
+        return $this->belongsTo(PengalokasianRuang::class, 'kode_ruang', 'kode_ruang');
+    }
+
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class, 'nidn_dekan', 'nidn');
     }
 }

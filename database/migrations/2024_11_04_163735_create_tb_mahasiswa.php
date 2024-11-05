@@ -15,13 +15,11 @@ return new class extends Migration
             $table->string('email'); // Foreign key untuk email
             $table->string('nidn_pembimbingakademik', 18);
             $table->unsignedBigInteger('id_programstudi'); 
-            $table->unsignedBigInteger('id_fakultas'); 
             $table->timestamps(); 
 
             $table->foreign('email')->references('email')->on('tb_user')->onDelete('cascade');
             $table->foreign('nidn_pembimbingakademik')->references('nidn_pembimbingakademik')->on('pembimbingakademik')->onDelete('cascade');
-            $table->foreign('id_programstudi')->references('id_programstudi')->on('program_studi')->onDelete('cascade');
-            $table->foreign('id_fakultas')->references('id_fakultas')->on('fakultas')->onDelete('cascade');
+            $table->foreign('id_programstudi')->references('id_programstudi')->on('programstudi')->onDelete('cascade');
         });
     }
 

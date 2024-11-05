@@ -24,34 +24,14 @@ class MataKuliah extends Model
         'nama_mk',
         'semester',
         'sks',
+        'semester_aktif',
         'jenis',
-        'nidn_dosenpengampu',
     ];
-
-    // Relasi dengan model KHS
-    public function khs()
-    {
-        return $this->hasMany(KHS::class, 'kode_mk', 'kode_mk');
-    }
-
-    public function irs()
-    {
-        return $this->hasMany(IRS::class, 'kode_mk', 'kode_mk');
-    }
-
-    // Relasi dengan model Dosen Pengampu
-    public function dosenPengampu()
-    {
-        return $this->belongsTo(DosenPengampu::class, 'nidn_dosenpengampu', 'nidn_dosenpengampu');
-    }
 
     // Relasi dengan Jadwal Kuliah
     public function jadwalKuliah()
     {
         return $this->hasMany(JadwalKuliah::class, 'kode_mk', 'kode_mk');
     }
-    public function kelas()
-    {
-        return $this->hasMany(Kelas::class, 'kode_mk', 'kode_mk');
-    }
+
 }
