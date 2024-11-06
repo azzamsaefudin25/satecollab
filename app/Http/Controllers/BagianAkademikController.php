@@ -85,7 +85,7 @@ class BagianAkademikController extends Controller
             $validatedData = $request->validate(
                 [
                     'kode_ruang' => 'required|string|exists:ruangperkuliahan,kode_ruang',
-                    'id_programstudi' => 'required|integer|exists:program_studi,id_programstudi',
+                    'id_programstudi' => 'required|integer|exists:programstudi,id_programstudi',
                 ],
                 [
                     'kode_ruang.required' => 'Kode ruang wajib diisi',
