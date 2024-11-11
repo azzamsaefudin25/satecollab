@@ -137,6 +137,32 @@
         .time-select select {
             width: 48%;
         }
+
+        #selected-dosen-list {
+    margin-top: 10px;
+}
+
+.selected-dosen-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    background-color: #e9ecef;
+}
+
+.selected-dosen-item span {
+    font-size: 14px;
+    color: #333;
+}
+
+.remove-dosen-btn {
+    color: red;
+    cursor: pointer;
+}
+
     </style>
 </head>
 
@@ -231,7 +257,20 @@
                     @endforeach
                 </select>
 
+                <label for="dosen">Pilih Dosen:</label>
+                <select id="dosen-select">
+                    <option value="">-- Pilih Dosen --</option>
+                    @foreach($dosen as $dosen)
+                        <option value="{{ $dosen->nidn_dosen }}">{{ $dosen->nama_dosen }}</option>
+                    @endforeach
+                </select>
+                
+                <div id="selected-dosen-list"></div>
+                    <!-- Daftar dosen yang dipilih akan muncul di sini -->
+                </div>
+                <input type="hidden" name="nidn_dosen[]" value="id_dosen_terpilih">
                 <div class="action-buttons">
+
                     <button type="submit" class="ajukan-btn">Ajukan</button>
                     <button type="button" class="lihat-btn"
                         onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
@@ -240,6 +279,7 @@
         </main>
     </div>
 
+                
     <button class="back-btn" onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">&larr;</button>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -291,6 +331,36 @@
                     }
                 });
             });
+
+              // Event saat dosen dipilih
+              $(document).ready(function() {
+                $('#dosen-select').on('change', function() {
+        var dosenId = $(this).val(); // Mendapatkan nidn_dosen yang valid
+        var dosenNama = $('#dosen-select option:selected').text(); // Mendapatkan nama dosen
+
+        // Pastikan hanya nidn_dosen yang valid yang ditambahkan
+        if (dosenId && dosenId !== "id_dosen_terpilih" && !$('#selected-dosen-list').find(`[data-dosen-id="${dosenId}"]`).length) {
+            $('#selected-dosen-list').append(`
+                <div class="selected-dosen-item" data-dosen-id="${dosenId}">
+                    <span>${dosenNama}</span>
+                    <span class="remove-dosen-btn" data-dosen-id="${dosenId}">&times;</span>
+                    <input type="hidden" name="nidn_dosen[]" value="${dosenId}">
+                </div>
+            `);
+        }
+    });
+
+    // Menghapus dosen yang dipilih
+    $(document).on('click', '.remove-dosen-btn', function() {
+        $(this).closest('.selected-dosen-item').remove();
+    });
+
+    // Sebelum mengirimkan form, hapus input hidden yang tidak valid
+    $('form').submit(function() {
+        $('input[type="hidden"][value="id_dosen_terpilih"]').remove();
+    });
+});
+
         });
     </script>
 </body>

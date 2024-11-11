@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreign('kode_ruang')->references('kode_ruang')->on('jadwalkuliah')->onDelete('cascade');
             $table->foreign('kode_mk')->references('kode_mk')->on('jadwalkuliah')->onDelete('cascade');
             $table->foreign('nama_kelas')->references('nama_kelas')->on('jadwalkuliah')->onDelete('cascade');
-            $table->foreign('nidn_dosen')->references('nidn_dosen')->on('jadwalkuliah')->onDelete('cascade');
+            $table->foreign('nidn_dosen')->references('nidn_dosen')->on('dosen')->onDelete('cascade');
             $table->foreign('nidn_pembimbingakademik')->references('nidn_pembimbingakademik')->on('pembimbingakademik')->onDelete('cascade');
         });
     }

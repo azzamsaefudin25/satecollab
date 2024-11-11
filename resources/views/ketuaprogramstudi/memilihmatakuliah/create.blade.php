@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="nama_mk">Nama Mata Kuliah</label>
                     <input id="nama_mk" type="text" class="form-control" name="nama_mk"
-                        placeholder="Masukkan nama mata kuliah" required>
+                        placeholder="Masukkan nama mata kuliah" req uired>
                 </div>
 
                 <div class="form-group">
@@ -36,21 +36,20 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="semester_aktif">Semester Aktif</label>
+                    <select class="form-control" id="semester_aktif" name="semester_aktif" required>
+                        <option value="">Pilih Semester Aktif</option>
+                        <option value="Ganjil">Ganjil</option>
+                        <option value="Genap">Genap</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="jenis">Jenis</label>
                     <select class="form-control" id="jenis" name="jenis" required>
                         <option value="">Pilih jenis Mata kuliah</option>
                         <option value="Wajib">Wajib</option>
                         <option value="Pilihan">Pilihan</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="nidn_dosenpengampu">Dosen Pengampu</label>
-                    <select id="nidn_dosenpengampu" class="form-control" name="nidn_dosenpengampu" required>
-                        <option value="">Pilih Nama Dosen Pengampu</option>
-                        @foreach ($dosenpengampu as $dosen)
-                            <option value="{{ $dosen->nidn_dosenpengampu }}">{{ $dosen->nama_dosenpengampu }}</option>
-                        @endforeach
                     </select>
                 </div>
 

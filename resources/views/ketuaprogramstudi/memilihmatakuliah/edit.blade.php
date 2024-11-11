@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mt-5">
         <div class="card shadow p-4" style="border-radius: 10px;">
-            <h2 class="text-center mb-4">PENYUSUNAN MATA KULIAH</h2>
+            <h2 class="text-center mb-4">Penyusunan Mata Kuliah</h2>
             <h4 class="mb-3">Edit Mata Kuliah</h4>
 
             <form action="{{ route('memilihmatakuliah.update', $matakuliah->kode_mk) }}" method="POST">
@@ -20,19 +20,27 @@
                 <div class="mb-3">
                     <label for="nama_mk" class="form-label">Nama Mata Kuliah</label>
                     <input id="nama_mk" type="text" class="form-control" name="nama_mk"
-                        value="{{ $matakuliah->nama_mk }}" required>
+                           value="{{ $matakuliah->nama_mk }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="semester" class="form-label">Semester</label>
                     <input id="semester" type="number" class="form-control" name="semester"
-                        value="{{ $matakuliah->semester }}" required>
+                           value="{{ $matakuliah->semester }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="sks" class="form-label">Jumlah SKS</label>
-                    <input id="sks" type="number" class="form-control" name="sks" value="{{ $matakuliah->sks }}"
-                        required>
+                    <input id="sks" type="number" class="form-control" name="sks"
+                           value="{{ $matakuliah->sks }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="semester_aktif" class="form-label">Semester Aktif</label>
+                    <select id="semester_aktif" class="form-control" name="semester_aktif" required>
+                        <option value="Ganjil" {{ $matakuliah->semester_aktif == 'Ganjil' ? 'selected' : '' }}>Ganjil</option>
+                        <option value="Genap" {{ $matakuliah->semester_aktif == 'Genap' ? 'selected' : '' }}>Genap</option>
+                    </select>
                 </div>
 
                 <div class="mb-3">
@@ -40,18 +48,6 @@
                     <select id="jenis" class="form-control" name="jenis" required>
                         <option value="Wajib" {{ $matakuliah->jenis == 'Wajib' ? 'selected' : '' }}>Wajib</option>
                         <option value="Pilihan" {{ $matakuliah->jenis == 'Pilihan' ? 'selected' : '' }}>Pilihan</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="nidn_dosenpengampu" class="form-label">Dosen Pengampu</label>
-                    <select id="nidn_dosenpengampu" class="form-control" name="nidn_dosenpengampu" required>
-                        @foreach ($dosenpengampu as $dosen)
-                            <option value="{{ $dosen->nidn_dosenpengampu }}"
-                                {{ $matakuliah->nidn_dosenpengampu == $dosen->nidn_dosenpengampu ? 'selected' : '' }}>
-                                {{ $dosen->nama_dosenpengampu }}
-                            </option>
-                        @endforeach
                     </select>
                 </div>
 

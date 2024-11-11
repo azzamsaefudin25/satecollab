@@ -61,4 +61,10 @@ class Dosen extends Model
         return $this->hasOne(PembimbingAkademik::class, 'nidn_pembimbingakademik', 'nidn_dosen');
     }
 
+    public function jadwalKuliah()
+    {
+        return $this->belongsToMany(JadwalKuliah::class, 'jadwal_dosen', 'nidn_dosen', 'id_jadwal');
+    }
+    
+
 }
