@@ -76,7 +76,6 @@ class UserController extends Controller
             if ($user->bagianAkademik) {
                 $roles[] = 'bagianakademik';
             }
-
             // Cek apakah user memiliki relasi dosen, dan periksa role terkait dosen jika ada
             if ($user->dosen) {
                 if ($user->dosen->pembimbingAkademik) {
@@ -91,6 +90,10 @@ class UserController extends Controller
                 // Role dosen pengampu
                 $roles[] = 'dosenpengampu';
             }
+            // if (count($roles) === 1) {
+            //     return redirect()->route('dashboard', ['role' => $roles[0]]);
+            // }
+
             if (count($roles) === 1) {
                 // Menyimpan role yang ditemukan
                 session(['role' => $roles[0]]);
@@ -105,6 +108,17 @@ class UserController extends Controller
             'password' => 'Wrong email or password',
         ]);
     }
+
+    // public function handleRoleSelection(Request $request)
+    // {
+    //     $request->validate([
+    //         'role' => 'required|string',
+    //     ]);
+
+    //     // Redirect ke dashboard berdasarkan role yang dipilih dengan query parameter
+    //     return redirect()->route('dashboard', ['role' => $request->role]);
+    // }
+
 
     public function handleRoleSelection(Request $request)
     {
@@ -133,6 +147,7 @@ class UserController extends Controller
                 return redirect()->route('home');
         }
     }
+
 
     public function index()
     {
@@ -188,7 +203,7 @@ class UserController extends Controller
         if ($bagianAkademik) {
             return view('bagianakademik.dashboard', [
                 'user' => $user,
-                'nidn' => $bagianAkademik->nidn_bagianakademik
+                'nip' => $bagianAkademik->nip,
             ]);
         }
         return redirect()->route('home');

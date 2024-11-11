@@ -149,7 +149,7 @@
             <div class="status-details">
                 <h3>Status Pegawai</h3>
                 <p><strong>Nama Pegawai: </strong>{{ $user->name ?? 'User tidak ditemukan' }}</p>
-                <p><strong>NIDN: </strong>{{ $nidn ?? 'NIDN tidak ditemukan' }}</p>
+                <p><strong>NIP: </strong>{{ $nip ?? 'NIP tidak ditemukan' }}</p>
 
 
                 <p><strong>Masa Jabatan:</strong> 2018 - 2038</p>
@@ -173,7 +173,7 @@
         <img src="profile.png" alt="Profile Image">
         <div class="profile-name">
             <p>Nama: {{ $user->name ?? 'User tidak ditemukan' }}</p>
-            <p>NIDN: {{ $nidn ?? 'NIDN tidak ditemukan' }}</p>
+            <p>NIP: {{ $nip ?? 'NIP tidak ditemukan' }}</p>
             <p>Informatika</p>
         </div>
         <div class="btn-container">

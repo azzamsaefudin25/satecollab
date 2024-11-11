@@ -45,6 +45,30 @@ Route::get('dashboard/pembimbingakademik', [UserController::class, 'index'])->na
 Route::get('dashboard/mahasiswa', [UserController::class, 'index'])->name('mahasiswa');
 Route::get('dashboard/dosenpengampu', [UserController::class, 'index'])->name('dosenpengampu');
 
+// Route::get('dashboard/mahasiswa', [UserController::class, 'index'])
+//     ->name('mahasiswa')
+//     ->middleware('role:mahasiswa');
+// Route::get('dashboard/bagianakademik', [UserController::class, 'index'])
+//     ->name('bagianakademik')
+//     ->middleware('role:bagianakademik');
+// Route::get('dashboard/dekan', [UserController::class, 'index'])
+//     ->name('dekan')
+//     ->middleware('role:dekan');
+// Route::get('dashboard/ketuaprogramstudi', [UserController::class, 'index'])
+//     ->name('ketuaprogramstudi')
+//     ->middleware('role:ketuaprogramstudi');
+// Route::get('dashboard/pembimbingakademik', [UserController::class, 'index'])
+//     ->name('pembimbingakademik')
+//     ->middleware('role:pembimbingakademik');
+// Route::get('dashboard/dosenpengampu', [UserController::class, 'index'])
+//     ->name('dosenpengampu')
+//     ->middleware('role:dosenpengampu');
+// Route::get('dashboard/{role}', [UserController::class, 'index'])
+//     ->name('dashboard')
+//     ->middleware('RoleMiddleware');
+
+Route::get('dashboard/{role}', [UserController::class, 'index'])->name('dashboard');
+
 // bagian akademik penyusunan ruang
 Route::get('bagianakademik/penyusunanruang', [BagianAkademikController::class, 'createPenyusunanRuang'])->name('penyusunanruang.create');
 Route::post('penyusunanruang', [BagianAkademikController::class, 'storePenyusunanRuang'])->name('penyusunanruang.store');

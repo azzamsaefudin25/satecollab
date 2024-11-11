@@ -84,12 +84,13 @@ class BagianAkademikController extends Controller
         try {
             $validatedData = $request->validate(
                 [
-                    'kode_ruang' => 'required|string|exists:ruangperkuliahan,kode_ruang',
                     'id_programstudi' => 'required|integer|exists:programstudi,id_programstudi',
+                    'kode_ruang' => 'required|string|exists:ruangperkuliahan,kode_ruang',
+                    'kode_ruang' => 'required|array', // Validates that 'kode_ruang' is an array
                 ],
                 [
-                    'kode_ruang.required' => 'Kode ruang wajib diisi',
                     'id_programstudi.required' => 'Program studi wajib diisi',
+                    'kode_ruang.required' => 'Kode ruang wajib diisi',
                 ]
             );
 
@@ -103,10 +104,12 @@ class BagianAkademikController extends Controller
                 return redirect()->back()->withErrors(['error' => 'Alokasi ruang sudah pernah diajukan dengan status ' . $existingPengajuan->status])->withInput();
             }
             // Menyimpan data ke tabel pengalokasianruang
-            PengalokasianRuang::create([
-                'kode_ruang' => $validatedData['kode_ruang'],
-                'id_programstudi' => $validatedData['id_programstudi'],
-            ]);
+            foreach ($validatedData['kode_ruang'] as $room) {
+                PengalokasianRuang::create([
+                    'kode_ruang' => $room, // Insert each room separately
+                    'id_programstudi' => $validatedData['id_programstudi'],
+                ]);
+            }
 
             return redirect()->route('pengalokasianruang.create')->with('success', 'Pengalokasian ruang telah diajukan ke dekan.');
         } catch (\Exception $e) {
@@ -149,6 +152,4 @@ class BagianAkademikController extends Controller
         RuangPerkuliahan::where('kode_ruang', $kode_ruang)->delete();
         return redirect()->route('penyusunanruang.index')->with('success', 'Data berhasil dihapus');
     }
-
-
 }
