@@ -11,7 +11,7 @@ class JadwalKuliah extends Model
 
     protected $table = 'jadwalkuliah';
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_jadwal';
     public $incrementing = true;
 
     protected $fillable = [
@@ -49,6 +49,7 @@ class JadwalKuliah extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'nidn_dosen', 'nidn_dosen');
+        return $this->belongsToMany(Dosen::class, 'jadwal_dosen', 'id_jadwal', 'nidn_dosen');
     }
+    
 }

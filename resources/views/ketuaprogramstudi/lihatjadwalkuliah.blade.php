@@ -123,23 +123,33 @@
                         <th>Nama Kelas</th>
                         <th>Nama Dosen Pengampu</th>
                         <th>Status</th>
-                    </tr>
+                    </tr> 
                 </thead>
                 <tbody>
                     @foreach ($jadwal as $index => $item)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $item['kode_mk'] }}</td> <!-- Perbaiki nama kolom -->
-                            <td>{{ $item['nama_mk'] }}</td> <!-- Perbaiki nama kolom -->
-                            <td>{{ $item['kode_ruang'] }}</td> <!-- Perbaiki nama kolom -->
-                            <td>{{ $item['hari'] }}</td> <!-- Sudah benar -->
-                            <td>{{ $item['jam_mulai'] }}</td> <!-- Perbaiki nama kolom -->
-                            <td>{{ $item['jam_selesai'] }}</td> <!-- Perbaiki nama kolom -->
-                            <td>{{ $item['nama_kelas'] }}</td> <!-- Perbaiki nama kolom -->
-                            <td> {{ $item->mataKuliah->dosenPengampu->nama_dosenpengampu ?? 'N/A' }}</td>
-                            <td>{{ $item['status'] }}</td> <!-- Sudah benar -->
-                        </tr>
-                    @endforeach
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $item['kode_mk'] }}</td>
+                        <td>{{ $item->matakuliah->nama_mk ?? 'N/A' }}</td> 
+                        <td>{{ $item['kode_ruang'] }}</td>
+                        <td>{{ $item['hari'] }}</td>
+                        <td>{{ $item['jam_mulai'] }}</td>
+                        <td>{{ $item['jam_selesai'] }}</td>
+                        <td>{{ $item['nama_kelas'] }}</td>
+                
+                        <!-- Menampilkan daftar dosen pengampu sebagai list bernomor -->
+                        <td>
+                            <ol>
+                                @foreach ($item->dosen as $dosen)
+                                    <li>{{ $dosen->nama_dosen }}</li>
+                                @endforeach
+                            </ol>
+                        </td>
+                
+                        <td>{{ $item['status'] }}</td>
+                    </tr>
+                @endforeach
+                
                 </tbody>
             </table>
         </div>
