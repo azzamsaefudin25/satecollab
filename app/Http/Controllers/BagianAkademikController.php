@@ -12,6 +12,26 @@ use Illuminate\Http\Request;
 
 class BagianAkademikController extends Controller
 {
+
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $bagianAkademik = $user->bagianAkademik;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nip = null;
+
+        if ($bagianAkademik) {
+            $nip = $user->bagianAkademik->nip;
+            return view('bagianakademik.dashboard', compact('nama', 'nip'));
+        }
+        // return redirect()->route('home');
+    }
+
     public function indexPenyusunanRuang()
     {
         $ruangPerkuliahan = RuangPerkuliahan::all(); // Mengambil semua data ruang perkuliahan

@@ -6,6 +6,8 @@ use App\Http\Controllers\KetuaProgramStudiController;
 use App\Http\Controllers\BagianAkademikController;
 use App\Http\Controllers\DekanController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\DosenPengampuController;
+use App\Http\Controllers\PembimbingAkademikController;
 use App\Http\Controllers\IRSController;
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,30 @@ Route::get('/', function () {
     return view('user.login', ['title' => 'Login']);
 })->name('login');
 
+// Route::get('mahasiswa', function () {
+//     return view('mahasiswa.dashboard', ['title' => 'Mahasiswa']);
+// })->name('mahasiswa');
+
+// Route::get('ketuaprogramstudi', function () {
+//     return view('ketuaprogramstudi.dashboard', ['title' => 'ketuaprogramstudi']);
+// })->name('ketuaprogramstudi');
+
+// Route::get('dekan', function () {
+//     return view('dekan.dashboard', ['title' => 'dekan']);
+// })->name('dekan');
+
+// Route::get('dosenpengampu', function () {
+//     return view('dosenpengampu.dashboard', ['title' => 'dosenpengampu']);
+// })->name('dosenpengampu');
+
+// Route::get('bagianakademik', function () {
+//     return view('bagianakademik.dashboard', ['title' => 'bagianakademik']);
+// })->name('bagianakademik');
+
+// Route::get('pembimbingakademik', function () {
+//     return view('pembimbingakademik.dashboard', ['title' => 'pembimbingakademik']);
+// })->name('pembimbingakademik');
+
 // login
 // Route::get('register', [UserController::class, 'register'])->name('register');
 // Route::post('register', [UserController::class, 'register_action'])->name('register.action');
@@ -38,36 +64,23 @@ Route::get('logout', [UserController::class, 'logout'])->name('logout');
 Route::post('pemilihanrole', [UserController::class, 'handleRoleSelection'])->name('handleRoleSelection');
 
 // input dashboard
-Route::get('dashboard/bagianakademik', [UserController::class, 'index'])->name('bagianakademik');
-Route::get('dashboard/dekan', [UserController::class, 'index'])->name('dekan');
-Route::get('dashboard/ketuaprogramstudi', [UserController::class, 'index'])->name('ketuaprogramstudi');
-Route::get('dashboard/pembimbingakademik', [UserController::class, 'index'])->name('pembimbingakademik');
-Route::get('dashboard/mahasiswa', [UserController::class, 'index'])->name('mahasiswa');
-Route::get('dashboard/dosenpengampu', [UserController::class, 'index'])->name('dosenpengampu');
+// Route::get('/bagianakademik/dashboard', [BagianAkademikController::class, 'dashboard'])->name('bagianakademik');
+// Route::get('/dekan/dashboard', [DekanController::class, 'dashboard'])->name('dekan');
+// Route::get('/ketuaprogramstudi/dashboard', [KetuaProgramStudiController::class, 'dashboard'])->name('ketuaprogramstudi');
+// Route::get('/pembimbingakademik/dashboard', [PembimbingAkademikController::class, 'dashboard'])->name('pembimbingakademik');
+// Route::get('/dosenpengampu/dashboard', [DosenPengampuController::class, 'dashboard'])->name('dosenpengampu');
+// Route::get('/mahasiswa/dashboard', [MahasiswaController::class, 'dashboard'])->name('mahasiswa');
 
-// Route::get('dashboard/mahasiswa', [UserController::class, 'index'])
-//     ->name('mahasiswa')
-//     ->middleware('role:mahasiswa');
-// Route::get('dashboard/bagianakademik', [UserController::class, 'index'])
-//     ->name('bagianakademik')
-//     ->middleware('role:bagianakademik');
-// Route::get('dashboard/dekan', [UserController::class, 'index'])
-//     ->name('dekan')
-//     ->middleware('role:dekan');
-// Route::get('dashboard/ketuaprogramstudi', [UserController::class, 'index'])
-//     ->name('ketuaprogramstudi')
-//     ->middleware('role:ketuaprogramstudi');
-// Route::get('dashboard/pembimbingakademik', [UserController::class, 'index'])
-//     ->name('pembimbingakademik')
-//     ->middleware('role:pembimbingakademik');
-// Route::get('dashboard/dosenpengampu', [UserController::class, 'index'])
-//     ->name('dosenpengampu')
-//     ->middleware('role:dosenpengampu');
-// Route::get('dashboard/{role}', [UserController::class, 'index'])
-//     ->name('dashboard')
-//     ->middleware('RoleMiddleware');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard/bagianakademik', [UserController::class, 'dashboard'])->name('bagianakademik');
+    Route::get('/dashboard/dekan', [UserController::class, 'dashboard'])->name('dekan');
+    Route::get('/dashboard/ketuaprogramstudi', [UserController::class, 'dashboard'])->name('ketuaprogramstudi');
+    Route::get('/dashboard/pembimbingakademik', [UserController::class, 'dashboard'])->name('pembimbingakademik');
+    Route::get('/dashboard/dosenpengampu', [UserController::class, 'dashboard'])->name('dosenpengampu');
+    Route::get('/dashboard/mahasiswa', [UserController::class, 'dashboard'])->name('mahasiswa');
+});
 
-Route::get('dashboard/{role}', [UserController::class, 'index'])->name('dashboard');
+// Route::get('dashboard/{role}', [UserController::class, 'index'])->name('dashboard');
 
 // bagian akademik penyusunan ruang
 Route::get('bagianakademik/penyusunanruang', [BagianAkademikController::class, 'createPenyusunanRuang'])->name('penyusunanruang.create');

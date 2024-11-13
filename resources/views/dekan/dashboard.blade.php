@@ -148,7 +148,7 @@
         <div class="status-section">
             <div class="status-details">
                 <h3>Status Dosen</h3>
-                <p><strong>Nama Pegawai: </strong>{{ $user->name ?? 'User tidak ditemukan' }}</p>
+                <p><strong>Nama Pegawai: </strong>{{ $nama ?? 'User tidak ditemukan' }}</p>
                 <p><strong>NIDN: </strong>{{ $nidn ?? 'NIDN tidak ditemukan' }}</p>
                 <p><strong>Masa Jabatan: </strong> 2020 - 2025</p>
                 <p><strong>Fakultas: </strong>Fakultas Sains dan Matematika</p>
@@ -169,7 +169,7 @@
     <div class="profile">
         <img src="profile.png" alt="Profile Image">
         <div class="profile-name">
-            <p>Nama: {{ $user->name ?? 'User tidak ditemukan' }}</p>
+            <p>Nama: {{ $nama ?? 'User tidak ditemukan' }}</p>
             <p>NIDN: {{ $nidn ?? 'NIDN tidak ditemukan' }}</p>
             <p>Informatika</p>
         </div>

@@ -5,9 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\PengalokasianRuang;
 use App\Models\JadwalKuliah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DekanController extends Controller
 {
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $dekan = $user->dosen ? $user->dosen->dekan : null;
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+        
+        $nama = $user->name;
+        $nidn = null;
+
+        if ($dekan) {
+            $nidn = $dekan->nidn_dekan;
+            return view('dekan.dashboard', compact('nama', 'nidn'));
+        }
+        // return redirect()->route('home');
+    }
+
     public function createPengajuanRuang()
     {
         // Ambil semua pengajuan dari tabel pengalokasianruang

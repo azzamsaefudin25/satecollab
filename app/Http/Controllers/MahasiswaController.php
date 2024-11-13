@@ -10,6 +10,25 @@ use Illuminate\Support\Facades\Auth;
 
 class MahasiswaController extends Controller
 {
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $mahasiswa = $user->mahasiswa;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nim = null;
+
+        if ($mahasiswa) {
+            $nim = $mahasiswa->nim;
+            return view('mahasiswa.dashboard', compact('nama', 'nim'));
+        }
+        return redirect()->route('home');
+    }
+
     public function createIRS()
     {
         $jadwal = JadwalKuliah::all();
@@ -35,7 +54,7 @@ class MahasiswaController extends Controller
         $jadwalKuliah = JadwalKuliah::all()->keyBy(function ($item) {
             return $item->kode_mk . '-' . $item->nama_kelas;
         });
-        return view('mahasiswa.IRS.create', compact('jadwal', 'irsData','jadwalKuliah'), [
+        return view('mahasiswa.IRS.create', compact('jadwal', 'irsData', 'jadwalKuliah'), [
             'user' => $user,
             'nim' => $mahasiswa->nim
         ]);

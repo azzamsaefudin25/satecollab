@@ -148,7 +148,7 @@
         <div class="status-section">
             <div class="status-details">
                 <h3>Status Pegawai</h3>
-                <p><strong>Nama Pegawai: </strong>{{ $user->name ?? 'User tidak ditemukan' }}</p>
+                <p><strong>Nama Pegawai: </strong>{{ $nama ?? 'User tidak ditemukan' }}</p>
                 <p><strong>NIP: </strong>{{ $nip ?? 'NIP tidak ditemukan' }}</p>
 
 
@@ -172,7 +172,7 @@
     <div class="profile">
         <img src="profile.png" alt="Profile Image">
         <div class="profile-name">
-            <p>Nama: {{ $user->name ?? 'User tidak ditemukan' }}</p>
+            <p>Nama: {{ $nama ?? 'User tidak ditemukan' }}</p>
             <p>NIP: {{ $nip ?? 'NIP tidak ditemukan' }}</p>
             <p>Informatika</p>
         </div>

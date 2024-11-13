@@ -11,10 +11,29 @@ use App\Models\JadwalKuliah;
 use App\Models\PengalokasianRuang;
 use App\Models\ProgramStudi;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Auth;
 
 class KetuaProgramStudiController extends Controller
 {
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $ketuaProgramStudi = $user->dosen ? $user->dosen->ketuaProgramStudi : null;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nidn = null;
+
+        if ($ketuaProgramStudi) {
+            $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
+            return view('ketuaprogramstudi.dashboard', compact('nama', 'nidn'));
+        }
+        return redirect()->route('home');
+    }
+
 
     public function getRuangan($id_programstudi)
     {
@@ -67,7 +86,7 @@ class KetuaProgramStudiController extends Controller
         $kelas = Kelas::all();
         $programstudi = ProgramStudi::all();
         $dosen = Dosen::all();
-        return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'programstudi','dosen'));
+        return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'programstudi', 'dosen'));
     }
 
 
@@ -149,95 +168,96 @@ class KetuaProgramStudiController extends Controller
         ]);
     }
     public function storeDosen(Request $request)
-{
-    $request->validate([
-        'id' => 'required|exists:jadwalkuliah,id',
-        'nidn_dosen' => 'required|array', // Pastikan ini adalah array
-        'nidn_dosen.*' => 'exists:dosen,nidn_dosen', // Pastikan setiap nidn_dosen ada di tabel dosen
-    ]);
+    {
+        $request->validate([
+            'id' => 'required|exists:jadwalkuliah,id',
+            'nidn_dosen' => 'required|array', // Pastikan ini adalah array
+            'nidn_dosen.*' => 'exists:dosen,nidn_dosen', // Pastikan setiap nidn_dosen ada di tabel dosen
+        ]);
 
-    $jadwal = Jadwal::findOrFail($request->id);
-    $jadwal->dosen()->sync($request->nidn_dosen); // Sinkronkan dosen
+        $jadwal = JadwalKuliah::findOrFail($request->id);
+        $jadwal->dosen()->sync($request->nidn_dosen); // Sinkronkan dosen
 
-    return redirect()->back()->with('success', 'Dosen berhasil ditambahkan ke jadwal.');
-}
-public function storeJadwalKuliah(Request $request)
-{
-    $request->validate([
-        'kode_mk' => 'required|exists:matakuliah,kode_mk',
-        'kode_ruang' => 'required|exists:ruangperkuliahan,kode_ruang',
-        'nama_kelas' => 'required|exists:kelas,nama_kelas',
-        'hari' => 'required|string|min:1|max:10',
-        'jam_mulai' => 'required|date_format:H:i',
-        'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
-        'nidn_dosen' => 'required|array',
-        'nidn_dosen.*' => 'exists:dosen,nidn_dosen',
-    ]);
-
-    // Ambil data MataKuliah berdasarkan kode_mk dari request
-    $mataKuliah = MataKuliah::where('kode_mk', $request->kode_mk)->first();
-    if (!$mataKuliah) {
-        return redirect()->back()->withErrors(['kode_mk' => 'Mata kuliah tidak ditemukan.']);
+        return redirect()->back()->with('success', 'Dosen berhasil ditambahkan ke jadwal.');
     }
 
-    // Validasi apakah kelas sudah terdaftar dengan mata kuliah yang sama
-    $duplicateMatakuliah = JadwalKuliah::where('nama_kelas', $request->nama_kelas)
-        ->where('kode_mk', $request->kode_mk)
-        ->exists();
+    public function storeJadwalKuliah(Request $request)
+    {
+        $request->validate([
+            'kode_mk' => 'required|exists:matakuliah,kode_mk',
+            'kode_ruang' => 'required|exists:ruangperkuliahan,kode_ruang',
+            'nama_kelas' => 'required|exists:kelas,nama_kelas',
+            'hari' => 'required|string|min:1|max:10',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+            'nidn_dosen' => 'required|array',
+            'nidn_dosen.*' => 'exists:dosen,nidn_dosen',
+        ]);
 
-    if ($duplicateMatakuliah) {
-        return redirect()->back()->withErrors(['nama_mk' => 'Kelas ini sudah terdaftar untuk mata kuliah tersebut di hari lain.']);
+        // Ambil data MataKuliah berdasarkan kode_mk dari request
+        $mataKuliah = MataKuliah::where('kode_mk', $request->kode_mk)->first();
+        if (!$mataKuliah) {
+            return redirect()->back()->withErrors(['kode_mk' => 'Mata kuliah tidak ditemukan.']);
+        }
+
+        // Validasi apakah kelas sudah terdaftar dengan mata kuliah yang sama
+        $duplicateMatakuliah = JadwalKuliah::where('nama_kelas', $request->nama_kelas)
+            ->where('kode_mk', $request->kode_mk)
+            ->exists();
+
+        if ($duplicateMatakuliah) {
+            return redirect()->back()->withErrors(['nama_mk' => 'Kelas ini sudah terdaftar untuk mata kuliah tersebut di hari lain.']);
+        }
+
+        // Validasi bentrok ruangan
+        $overlapRuangan = JadwalKuliah::where('kode_ruang', $request->kode_ruang)
+            ->where('hari', $request->hari)
+            ->where(function ($query) use ($request) {
+                $query->where('jam_mulai', '<', $request->jam_selesai)
+                    ->where('jam_selesai', '>', $request->jam_mulai);
+            })
+            ->first();
+
+        if ($overlapRuangan) {
+            return redirect()->back()->withErrors(['kode_ruang' => 'Ruangan telah digunakan pada hari dan jam yang dipilih.']);
+        }
+
+        // Validasi bentrok kelas
+        $overlapKelas = JadwalKuliah::where('nama_kelas', $request->nama_kelas)
+            ->where('hari', $request->hari)
+            ->where(function ($query) use ($request) {
+                $query->where('jam_mulai', '<', $request->jam_selesai)
+                    ->where('jam_selesai', '>', $request->jam_mulai);
+            })
+            ->first();
+
+        if ($overlapKelas) {
+            return redirect()->back()->withErrors(['nama_kelas' => 'Kelas sudah memiliki mata kuliah lain pada hari dan jam yang dipilih.']);
+        }
+
+        // Buat jadwal kuliah
+        $jadwalKuliah = JadwalKuliah::create([
+            'kode_mk' => $request->kode_mk,
+            'kode_ruang' => $request->kode_ruang,
+            'nama_kelas' => $request->nama_kelas,
+            'semester' => $mataKuliah->semester,
+            'sks' => $mataKuliah->sks,
+            'jenis' => $mataKuliah->jenis,
+            'semester_aktif' => $mataKuliah->semester_aktif,
+            'hari' => $request->hari,
+            'jam_mulai' => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
+        ]);
+
+        // Sinkronisasi relasi dosen dengan jadwal kuliah di tabel pivot
+        if ($request->has('nidn_dosen')) {
+            // Sinkronisasi `nidn_dosen` dengan jadwal kuliah
+            $jadwalKuliah->dosen()->sync($request->nidn_dosen);
+        }
+
+
+        return redirect()->route('jadwalkuliah.create')->with('success', 'Jadwal kuliah berhasil disimpan.');
     }
-
-    // Validasi bentrok ruangan
-    $overlapRuangan = JadwalKuliah::where('kode_ruang', $request->kode_ruang)
-        ->where('hari', $request->hari)
-        ->where(function ($query) use ($request) {
-            $query->where('jam_mulai', '<', $request->jam_selesai)
-                  ->where('jam_selesai', '>', $request->jam_mulai);
-        })
-        ->first();
-
-    if ($overlapRuangan) {
-        return redirect()->back()->withErrors(['kode_ruang' => 'Ruangan telah digunakan pada hari dan jam yang dipilih.']);
-    }
-
-    // Validasi bentrok kelas
-    $overlapKelas = JadwalKuliah::where('nama_kelas', $request->nama_kelas)
-        ->where('hari', $request->hari)
-        ->where(function ($query) use ($request) {
-            $query->where('jam_mulai', '<', $request->jam_selesai)
-                  ->where('jam_selesai', '>', $request->jam_mulai);
-        })
-        ->first();
-
-    if ($overlapKelas) {
-        return redirect()->back()->withErrors(['nama_kelas' => 'Kelas sudah memiliki mata kuliah lain pada hari dan jam yang dipilih.']);
-    }
-
-    // Buat jadwal kuliah
-    $jadwalKuliah = JadwalKuliah::create([
-        'kode_mk' => $request->kode_mk,
-        'kode_ruang' => $request->kode_ruang,
-        'nama_kelas' => $request->nama_kelas,
-        'semester' => $mataKuliah->semester,
-        'sks' => $mataKuliah->sks,
-        'jenis' => $mataKuliah->jenis,
-        'semester_aktif' => $mataKuliah->semester_aktif,
-        'hari' => $request->hari,
-        'jam_mulai' => $request->jam_mulai,
-        'jam_selesai' => $request->jam_selesai,
-    ]);
-
-    // Sinkronisasi relasi dosen dengan jadwal kuliah di tabel pivot
-    if ($request->has('nidn_dosen')) {
-        // Sinkronisasi `nidn_dosen` dengan jadwal kuliah
-        $jadwalKuliah->dosen()->sync($request->nidn_dosen);
-    }
-    
-
-    return redirect()->route('jadwalkuliah.create')->with('success', 'Jadwal kuliah berhasil disimpan.');
-}
 
 
     public function indexMemilihMataKuliah()

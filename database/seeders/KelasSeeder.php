@@ -13,8 +13,13 @@ class KelasSeeder extends Seeder
      */
     public function run(): void
     {
-        $kelas = new Kelas();
-        $kelas -> nama_Kelas = 'D';
-        $kelas -> save();
+        $kelas = ['A', 'B', 'C', 'D'];
+
+        // Looping untuk memasukkan setiap kelas
+        foreach ($kelas as $namaKelas) {
+            Kelas::create([
+                'nama_kelas' => $namaKelas,
+            ]);
+        }
     }
 }
