@@ -199,27 +199,26 @@
                     </div>
                 @endif
                 <!-- Dropdown untuk Program Studi -->
-                <select id="programstudi" name="programstudi" class="form-control">
-                    <option value="">-- Pilih Program Studi --</option>
-                    @foreach ($programstudi as $ps)
-                        <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
-                    @endforeach
-                </select>
+     <!-- Dropdown untuk Program Studi -->
+     <select id="programstudi" name="programstudi" class="form-control">
+        <option value="">-- Pilih Program Studi --</option>
+        @foreach ($programstudi as $ps)
+            <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
+        @endforeach
+    </select>
 
-                <select name="kode_ruang" id="ruangan">
-                    @foreach ($ruangperkuliahan as $ruang)
-                        <option value="{{ $ruang->kode_ruang }}">{{ $ruang->nama_ruangan }}</option>
-                    @endforeach
-                </select>
+    <select name="kode_ruang" id="ruangan">
+        @foreach ($ruangperkuliahan as $ruang)
+            <option value="{{ $ruang->kode_ruang }}">{{ $ruang->nama_ruangan }}</option>
+        @endforeach
+    </select>
 
+    <select name="kode_mk" id="kode_mk">
+        @foreach ($matakuliah as $mk)
+            <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
+        @endforeach
+    </select>
 
-                <!-- Mata Kuliah -->
-                <select id="kode_mk" name="kode_mk" required>
-                    <option value="">Pilih Nama Mata Kuliah</option>
-                    @foreach ($matakuliah as $mk)
-                        <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
-                    @endforeach
-                </select>
 
                 <!-- Pilih Hari -->
                 <select id="hari" name="hari" required>
@@ -284,7 +283,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+
+$(document).ready(function() {
             $('#programstudi').on('change', function() {
                 var id_programstudi = $(this).val();
                 if (id_programstudi) {
@@ -303,10 +303,30 @@
                             });
                         }
                     });
-                } else {
-                    $('#ruangan').empty().append('<option value="">-- Pilih Ruangan --</option>');
-                }
-            });
+
+                // Ambil mata kuliah
+                $.ajax({
+                    url: '/getMatakuliah/' + id_programstudi,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#kode_mk').empty();
+                        $('#kode_mk').append('<option value="">-- Pilih Mata Kuliah --</option>');
+                        $.each(data, function(key, value) {
+                            $('#kode_mk').append('<option value="' + value.kode_mk + '">' + value.nama_mk + '</option>');
+                        });
+                    }
+                });
+            } else {
+                // Kosongkan pilihan jika program studi tidak dipilih
+                $('#ruangan').empty().append('<option value="">-- Pilih Ruangan --</option>');
+                $('#kode_mk').empty().append('<option value="">-- Pilih Mata Kuliah --</option>');
+            }
+        });
+    });
+
+
+
 
             $('#jam_mulai').on('change', function() {
                 const jamMulai = $(this).val();
@@ -361,8 +381,9 @@
     });
 });
 
-        });
+        
     </script>
 </body>
 
 </html>
+  

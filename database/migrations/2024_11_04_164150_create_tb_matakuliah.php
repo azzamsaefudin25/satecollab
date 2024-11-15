@@ -15,6 +15,8 @@ return new class extends Migration
             $table->integer('sks'); // Jumlah SKS mata kuliah
             $table->string('semester_aktif',10); 
             $table->string('jenis', 10);
+            $table->unsignedBigInteger('id_programstudi'); // Referensi ke tabel fakultas
+            $table->foreign('id_programstudi')->references('id_programstudi')->on('programstudi')->onDelete('cascade');
             $table->timestamps(); // Untuk mencatat waktu pembuatan dan update
 
         });

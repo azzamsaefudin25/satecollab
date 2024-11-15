@@ -109,6 +109,7 @@ Route::post('JadwalKuliah', [KetuaProgramStudiController::class, 'storeJadwalKul
 Route::get('Ketuaprogramstudi/jadwalkuliah/lihatjadwalkuliah', [KetuaProgramStudiController::class, 'indexjadwalKuliah'])->name('lihatjadwalkuliah.lihat');
 Route::post('/hitung-jam-selesai', [KetuaProgramStudiController::class, 'hitungJamSelesai'])->name('jadwalkuliah.hitungJamSelesai');
 Route::get('/getRuangan/{id_programstudi}', [KetuaProgramStudiController::class, 'getRuangan']);
+Route::get('/getMatakuliah/{id_programstudi}', [KetuaProgramStudiController::class, 'getMatakuliah']);
 
 // dekan menyetujui ruangan
 Route::get('/dekan/approve-ruang', [DekanController::class, 'createPengajuanRuang'])->name('dekan.approveruang');

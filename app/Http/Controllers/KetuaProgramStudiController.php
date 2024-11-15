@@ -47,6 +47,12 @@ class KetuaProgramStudiController extends Controller
         // Kembalikan data sebagai JSON untuk AJAX
         return response()->json($ruangPerkuliahan);
     }
+    public function getMatakuliah($id_programstudi)
+    {
+        $matakuliah = MataKuliah::where('id_programstudi', $id_programstudi)->get();
+        return response()->json($matakuliah);
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -75,7 +81,8 @@ class KetuaProgramStudiController extends Controller
 
     public function createMemilihMataKuliah()
     {
-        return view('ketuaprogramstudi.memilihmatakuliah.create');
+        $programstudi = ProgramStudi::all();
+        return view('ketuaprogramstudi.memilihmatakuliah.create',compact('programstudi'));
     }
 
 
@@ -105,6 +112,7 @@ class KetuaProgramStudiController extends Controller
             'sks' => 'required|integer|min:1|max:6',
             'semester_aktif' => 'required|string|max:10',
             'jenis' => 'required|string|max:10',
+            'id_programstudi' => 'required|exists:programstudi,id_programstudi',
         ]);
 
         // Simpan data ke dalam tabel matakuliah
@@ -115,6 +123,8 @@ class KetuaProgramStudiController extends Controller
             'sks' => $request->sks,
             'semester_aktif' => $request->semester_aktif,
             'jenis' => $request->jenis,
+            'id_programstudi' => $request->id_programstudi,
+
         ]);
         // dd($dosenpengampu);
         // Redirect ke halaman daftar mata kuliah dengan pesan sukses
