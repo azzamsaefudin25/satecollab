@@ -26,6 +26,7 @@ class MataKuliah extends Model
         'sks',
         'semester_aktif',
         'jenis',
+        'id_programstudi',
     ];
 
     // Relasi dengan Jadwal Kuliah
@@ -33,5 +34,12 @@ class MataKuliah extends Model
     {
         return $this->hasMany(JadwalKuliah::class, 'kode_mk', 'kode_mk');
     }
+
+
+// App\Models\MataKuliah.php
+public function programStudi()
+{
+    return $this->hasMany(ProgramStudi::class, 'id_programstudi','id_programstudi');
+}
 
 }

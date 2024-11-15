@@ -129,29 +129,31 @@
                     @foreach ($jadwal as $index => $item)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $item['kode_mk'] }}</td>
-                        <td>{{ $item->matakuliah->nama_mk ?? 'N/A' }}</td> 
-                        <td>{{ $item['kode_ruang'] }}</td>
-                        <td>{{ $item['hari'] }}</td>
-                        <td>{{ $item['jam_mulai'] }}</td>
-                        <td>{{ $item['jam_selesai'] }}</td>
-                        <td>{{ $item['nama_kelas'] }}</td>
+                        <td>{{ $item->kode_mk }}</td>
+                        <td>{{ $item->mataKuliah->nama_mk ?? 'N/A' }}</td> 
+                        <td>{{ $item->kode_ruang }}</td>
+                        <td>{{ $item->hari }}</td>
+                        <td>{{ $item->jam_mulai }}</td>
+                        <td>{{ $item->jam_selesai }}</td>
+                        <td>{{ $item->nama_kelas }}</td>
                 
-                        <!-- Menampilkan daftar dosen pengampu sebagai list bernomor -->
+                        <!-- Menampilkan daftar dosen pengampu -->
                         <td>
                             <ol>
-                                @foreach ($item->dosen as $dosen)
-                                    <li>{{ $dosen->nama_dosen }}</li>
-                                @endforeach
+                                @if ($item->dosen1) <li>{{ $item->dosen1->nama_dosen }}</li> @endif
+                                @if ($item->dosen2) <li>{{ $item->dosen2->nama_dosen }}</li> @endif
+                                @if ($item->dosen3) <li>{{ $item->dosen3->nama_dosen }}</li> @endif
+                                @if ($item->dosen4) <li>{{ $item->dosen4->nama_dosen }}</li> @endif
+                                @if ($item->dosen5) <li>{{ $item->dosen5->nama_dosen }}</li> @endif
                             </ol>
                         </td>
                 
-                        <td>{{ $item['status'] }}</td>
+                        <td>{{ $item->status }}</td>
                     </tr>
-                @endforeach
-                
+                    @endforeach
                 </tbody>
             </table>
+            
         </div>
 
         <div class="btn-container">

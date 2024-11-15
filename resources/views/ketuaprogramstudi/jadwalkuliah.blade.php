@@ -199,27 +199,26 @@
                     </div>
                 @endif
                 <!-- Dropdown untuk Program Studi -->
-                <select id="programstudi" name="programstudi" class="form-control">
-                    <option value="">-- Pilih Program Studi --</option>
-                    @foreach ($programstudi as $ps)
-                        <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
-                    @endforeach
-                </select>
+     <!-- Dropdown untuk Program Studi -->
+     <select id="programstudi" name="programstudi" class="form-control">
+        <option value="">-- Pilih Program Studi --</option>
+        @foreach ($programstudi as $ps)
+            <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
+        @endforeach
+    </select>
 
-                <select name="kode_ruang" id="ruangan">
-                    @foreach ($ruangperkuliahan as $ruang)
-                        <option value="{{ $ruang->kode_ruang }}">{{ $ruang->nama_ruangan }}</option>
-                    @endforeach
-                </select>
+    <select name="kode_ruang" id="ruangan">
+        @foreach ($ruangperkuliahan as $ruang)
+            <option value="{{ $ruang->kode_ruang }}">{{ $ruang->nama_ruangan }}</option>
+        @endforeach
+    </select>
 
+    <select name="kode_mk" id="kode_mk">
+        @foreach ($matakuliah as $mk)
+            <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
+        @endforeach
+    </select>
 
-                <!-- Mata Kuliah -->
-                <select id="kode_mk" name="kode_mk" required>
-                    <option value="">Pilih Nama Mata Kuliah</option>
-                    @foreach ($matakuliah as $mk)
-                        <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
-                    @endforeach
-                </select>
 
                 <!-- Pilih Hari -->
                 <select id="hari" name="hari" required>
@@ -257,19 +256,42 @@
                     @endforeach
                 </select>
 
-                <label for="dosen">Pilih Dosen:</label>
-                <select id="dosen-select">
-                    <option value="">-- Pilih Dosen --</option>
-                    @foreach($dosen as $dosen)
-                        <option value="{{ $dosen->nidn_dosen }}">{{ $dosen->nama_dosen }}</option>
-                    @endforeach
-                </select>
-                
-                <div id="selected-dosen-list"></div>
-                    <!-- Daftar dosen yang dipilih akan muncul di sini -->
-                </div>
-                <input type="hidden" name="nidn_dosen[]" value="id_dosen_terpilih">
-                <div class="action-buttons">
+<!-- Dropdown untuk Dosen -->
+<select name="nidn_dosen1" id="nidn_dosen1" class="form-control">
+    <option value="">-- Pilih Dosen 1 --</option>
+    @foreach ($dosen as $ds)
+        <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
+    @endforeach
+</select>
+
+<select name="nidn_dosen2" id="nidn_dosen2" class="form-control" style="display: none;">
+    <option value="">-- Pilih Dosen 2 --</option>
+    @foreach ($dosen as $ds)
+    <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
+@endforeach
+</select>
+
+<select name="nidn_dosen3" id="nidn_dosen3" class="form-control" style="display: none;">
+    <option value="">-- Pilih Dosen 3 --</option>
+    @foreach ($dosen as $ds)
+    <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
+@endforeach
+</select>
+
+<select name="nidn_dosen4" id="nidn_dosen4" class="form-control" style="display: none;">
+    <option value="">-- Pilih Dosen 4 --</option>
+    @foreach ($dosen as $ds)
+    <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
+@endforeach
+</select>
+
+<select name="nidn_dosen5" id="nidn_dosen5" class="form-control" style="display: none;">
+    <option value="">-- Pilih Dosen 5 --</option>
+    @foreach ($dosen as $ds)
+    <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
+@endforeach
+</select>
+
 
                     <button type="submit" class="ajukan-btn">Ajukan</button>
                     <button type="button" class="lihat-btn"
@@ -284,7 +306,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+
+$(document).ready(function() {
             $('#programstudi').on('change', function() {
                 var id_programstudi = $(this).val();
                 if (id_programstudi) {
@@ -303,10 +326,30 @@
                             });
                         }
                     });
-                } else {
-                    $('#ruangan').empty().append('<option value="">-- Pilih Ruangan --</option>');
-                }
-            });
+
+                // Ambil mata kuliah
+                $.ajax({
+                    url: '/getMatakuliah/' + id_programstudi,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#kode_mk').empty();
+                        $('#kode_mk').append('<option value="">-- Pilih Mata Kuliah --</option>');
+                        $.each(data, function(key, value) {
+                            $('#kode_mk').append('<option value="' + value.kode_mk + '">' + value.nama_mk + '</option>');
+                        });
+                    }
+                });
+            } else {
+                // Kosongkan pilihan jika program studi tidak dipilih
+                $('#ruangan').empty().append('<option value="">-- Pilih Ruangan --</option>');
+                $('#kode_mk').empty().append('<option value="">-- Pilih Mata Kuliah --</option>');
+            }
+        });
+    });
+
+
+
 
             $('#jam_mulai').on('change', function() {
                 const jamMulai = $(this).val();
@@ -331,38 +374,39 @@
                     }
                 });
             });
-
-              // Event saat dosen dipilih
-              $(document).ready(function() {
-                $('#dosen-select').on('change', function() {
-        var dosenId = $(this).val(); // Mendapatkan nidn_dosen yang valid
-        var dosenNama = $('#dosen-select option:selected').text(); // Mendapatkan nama dosen
-
-        // Pastikan hanya nidn_dosen yang valid yang ditambahkan
-        if (dosenId && dosenId !== "id_dosen_terpilih" && !$('#selected-dosen-list').find(`[data-dosen-id="${dosenId}"]`).length) {
-            $('#selected-dosen-list').append(`
-                <div class="selected-dosen-item" data-dosen-id="${dosenId}">
-                    <span>${dosenNama}</span>
-                    <span class="remove-dosen-btn" data-dosen-id="${dosenId}">&times;</span>
-                    <input type="hidden" name="nidn_dosen[]" value="${dosenId}">
-                </div>
-            `);
+            $(document).ready(function () {
+    // Menangani perubahan di dropdown Dosen 1
+    $('#nidn_dosen1').on('change', function () {
+        if ($(this).val()) {
+            $('#nidn_dosen2').show();
         }
     });
 
-    // Menghapus dosen yang dipilih
-    $(document).on('click', '.remove-dosen-btn', function() {
-        $(this).closest('.selected-dosen-item').remove();
+    // Menangani perubahan di dropdown Dosen 2
+    $('#nidn_dosen2').on('change', function () {
+        if ($(this).val()) {
+            $('#nidn_dosen3').show();
+        }
     });
 
-    // Sebelum mengirimkan form, hapus input hidden yang tidak valid
-    $('form').submit(function() {
-        $('input[type="hidden"][value="id_dosen_terpilih"]').remove();
+    // Menangani perubahan di dropdown Dosen 3
+    $('#nidn_dosen3').on('change', function () {
+        if ($(this).val()) {
+            $('#nidn_dosen4').show();
+        }
+    });
+
+    // Menangani perubahan di dropdown Dosen 4
+    $('#nidn_dosen4').on('change', function () {
+        if ($(this).val()) {
+            $('#nidn_dosen5').show();
+        }
     });
 });
 
-        });
+        
     </script>
 </body>
 
 </html>
+  

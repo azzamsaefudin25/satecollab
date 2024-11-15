@@ -53,6 +53,13 @@
                     </select>
                 </div>
 
+                <select id="id_programstudi" name="id_programstudi" class="form-control">
+                    <option value="">-- Pilih Program Studi --</option>
+                    @foreach ($programstudi as $ps)
+                        <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
+                    @endforeach
+                </select>
+
                 <div class="btn-container">
                     <button type="button" class="btn btn-outline-secondary"
                         onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">←</button>

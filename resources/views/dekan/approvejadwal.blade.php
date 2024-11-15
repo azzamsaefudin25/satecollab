@@ -94,14 +94,24 @@
                             <td>{{ $pengajuan->jam_mulai }}</td>
                             <td>{{ $pengajuan->jam_selesai }}</td>
                             <td>{{ $pengajuan->nama_kelas }}</td>
-                            <td>{{ $pengajuan->mataKuliah->dosenPengampu->nama_dosenpengampu ?? 'dosen pengampu tidak ditemukan' }}</td>
+                                                   <!-- Menampilkan daftar dosen pengampu -->
+                        <td>
+                            <ol>
+                                @if ($pengajuan->dosen1) <li>{{ $pengajuan->dosen1->nama_dosen }}</li> @endif
+                                @if ($pengajuan->dosen2) <li>{{ $pengajuan->dosen2->nama_dosen }}</li> @endif
+                                @if ($pengajuan->dosen3) <li>{{ $pengajuan->dosen3->nama_dosen }}</li> @endif
+                                @if ($pengajuan->dosen4) <li>{{ $pengajuan->dosen4->nama_dosen }}</li> @endif
+                                @if ($pengajuan->dosen5) <li>{{ $pengajuan->dosen5->nama_dosen }}</li> @endif
+                            </ol>
+                        </td>
+                
                             <td>
                                 @if ($pengajuan->status === 'disetujui')
                                     <span class="text-success">Disetujui</span>
                                 @elseif ($pengajuan->status === 'ditolak')
                                     <span class="text-danger">Ditolak</span>
                                 @else
-                                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id) }}" method="POST"
+                                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="_method" value="PATCH">
@@ -109,7 +119,7 @@
                                         <input type="hidden" name="action" value="setuju">
                                         <button type="submit" class="btn btn-success btn-sm">Setuju</button>
                                     </form>
-                                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id) }}" method="POST"
+                                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="_method" value="PATCH">

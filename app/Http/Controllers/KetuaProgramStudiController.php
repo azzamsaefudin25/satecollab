@@ -47,6 +47,12 @@ class KetuaProgramStudiController extends Controller
         // Kembalikan data sebagai JSON untuk AJAX
         return response()->json($ruangPerkuliahan);
     }
+    public function getMatakuliah($id_programstudi)
+    {
+        $matakuliah = MataKuliah::where('id_programstudi', $id_programstudi)->get();
+        return response()->json($matakuliah);
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -58,24 +64,15 @@ class KetuaProgramStudiController extends Controller
 
     public function indexjadwalKuliah()
     {
-        $jadwal = JadwalKuliah::with('dosen')->get();
-        // dd($jadwal[0]->toArray());
-        // dd($jadwal->toArray());
-        // foreach ($jadwal as $item) {
-        //     echo '<pre>'; // Menambahkan <pre> agar output lebih rapi
-        //     echo 'Mata Kuliah: ';
-        //     print_r($item->mataKuliah ? $item->mataKuliah->toArray() : 'Mata Kuliah not available');
+        $jadwal = JadwalKuliah::with(['mataKuliah', 'dosen1', 'dosen2', 'dosen3', 'dosen4', 'dosen5'])->get();//dia itu manggil cuma dari hasil relasi nmodel nya
 
-        //     echo 'Dosen Pengampu: ';
-        //     print_r($item->mataKuliah && $item->mataKuliah->dosenPengampu ? $item->mataKuliah->dosenPengampu->toArray() : 'Dosen not available');
-        //     echo '</pre>';
-        // }
         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
     }
 
     public function createMemilihMataKuliah()
     {
-        return view('ketuaprogramstudi.memilihmatakuliah.create');
+        $programstudi = ProgramStudi::all();
+        return view('ketuaprogramstudi.memilihmatakuliah.create',compact('programstudi'));
     }
 
 
@@ -105,6 +102,7 @@ class KetuaProgramStudiController extends Controller
             'sks' => 'required|integer|min:1|max:6',
             'semester_aktif' => 'required|string|max:10',
             'jenis' => 'required|string|max:10',
+            'id_programstudi' => 'required|exists:programstudi,id_programstudi',
         ]);
 
         // Simpan data ke dalam tabel matakuliah
@@ -115,6 +113,8 @@ class KetuaProgramStudiController extends Controller
             'sks' => $request->sks,
             'semester_aktif' => $request->semester_aktif,
             'jenis' => $request->jenis,
+            'id_programstudi' => $request->id_programstudi,
+
         ]);
         // dd($dosenpengampu);
         // Redirect ke halaman daftar mata kuliah dengan pesan sukses
@@ -167,22 +167,30 @@ class KetuaProgramStudiController extends Controller
             'jam_selesai' => $jamSelesai->format('H:i')  // Pastikan ini sesuai dengan yang akan ditampilkan di view
         ]);
     }
-    public function storeDosen(Request $request)
-    {
-        $request->validate([
-            'id' => 'required|exists:jadwalkuliah,id',
-            'nidn_dosen' => 'required|array', // Pastikan ini adalah array
-            'nidn_dosen.*' => 'exists:dosen,nidn_dosen', // Pastikan setiap nidn_dosen ada di tabel dosen
-        ]);
+    // public function storeDosen(Request $request)
+    // {
+    //     $request->validate([
+    //         'id' => 'required|exists:jadwalkuliah,id',
+    //         'nidn_dosen' => 'required|array', // Pastikan ini adalah array
+    //         'nidn_dosen.*' => 'exists:dosen,nidn_dosen', // Pastikan setiap nidn_dosen ada di tabel dosen
+    //     ]);
 
-        $jadwal = JadwalKuliah::findOrFail($request->id);
-        $jadwal->dosen()->sync($request->nidn_dosen); // Sinkronkan dosen
+    //     $jadwal = JadwalKuliah::findOrFail($request->id);
+    //     $jadwal->dosen()->sync($request->nidn_dosen); // Sinkronkan dosen
 
-        return redirect()->back()->with('success', 'Dosen berhasil ditambahkan ke jadwal.');
-    }
+    //     return redirect()->back()->with('success', 'Dosen berhasil ditambahkan ke jadwal.');
+    // }
+    public function getDosenByMk($kode_mk)
+{
+    $dosen = Dosen::where('kode_mk', $kode_mk)->get();
+    return response()->json($dosen);
+}
+
 
     public function storeJadwalKuliah(Request $request)
     {
+        // dd($request->all()); // untuk melihat data yang dikirimkan
+
         $request->validate([
             'kode_mk' => 'required|exists:matakuliah,kode_mk',
             'kode_ruang' => 'required|exists:ruangperkuliahan,kode_ruang',
@@ -190,8 +198,12 @@ class KetuaProgramStudiController extends Controller
             'hari' => 'required|string|min:1|max:10',
             'jam_mulai' => 'required|date_format:H:i',
             'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
-            'nidn_dosen' => 'required|array',
-            'nidn_dosen.*' => 'exists:dosen,nidn_dosen',
+            // Memastikan dosen 1 sampai 5 ada
+            'nidn_dosen1' => 'required|exists:dosen,nidn_dosen',
+            'nidn_dosen2' => 'nullable|exists:dosen,nidn_dosen',
+            'nidn_dosen3' => 'nullable|exists:dosen,nidn_dosen',
+            'nidn_dosen4' => 'nullable|exists:dosen,nidn_dosen',
+            'nidn_dosen5' => 'nullable|exists:dosen,nidn_dosen',
         ]);
 
         // Ambil data MataKuliah berdasarkan kode_mk dari request
@@ -247,14 +259,12 @@ class KetuaProgramStudiController extends Controller
             'hari' => $request->hari,
             'jam_mulai' => $request->jam_mulai,
             'jam_selesai' => $request->jam_selesai,
+            'nidn_dosen1' => $request->nidn_dosen1,
+            'nidn_dosen2' => $request->nidn_dosen2,
+            'nidn_dosen3' => $request->nidn_dosen3,
+            'nidn_dosen4' => $request->nidn_dosen4,
+            'nidn_dosen5' => $request->nidn_dosen5,
         ]);
-
-        // Sinkronisasi relasi dosen dengan jadwal kuliah di tabel pivot
-        if ($request->has('nidn_dosen')) {
-            // Sinkronisasi `nidn_dosen` dengan jadwal kuliah
-            $jadwalKuliah->dosen()->sync($request->nidn_dosen);
-        }
-
 
         return redirect()->route('jadwalkuliah.create')->with('success', 'Jadwal kuliah berhasil disimpan.');
     }
