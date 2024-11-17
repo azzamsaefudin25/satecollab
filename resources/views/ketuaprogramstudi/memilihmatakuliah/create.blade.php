@@ -1,7 +1,6 @@
 @extends('layout.template')
 <!-- START FORM -->
 @section('content')
-
     <div class="container">
         <br>
         <h4>Penyusunan Mata Kuliah</h4>
@@ -52,14 +51,16 @@
                         <option value="Pilihan">Pilihan</option>
                     </select>
                 </div>
-
-                <select id="id_programstudi" name="id_programstudi" class="form-control">
-                    <option value="">-- Pilih Program Studi --</option>
-                    @foreach ($programstudi as $ps)
-                        <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
-                    @endforeach
-                </select>
-
+                
+                <div class="form-group">
+                    <label for="jenis">Program Studi</label>
+                    <select id="id_programstudi" name="id_programstudi" class="form-control">
+                        <option value="">-- Pilih Program Studi --</option>
+                        @foreach ($programstudi as $ps)
+                            <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="btn-container">
                     <button type="button" class="btn btn-outline-secondary"
                         onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">←</button>

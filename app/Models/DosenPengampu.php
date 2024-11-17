@@ -5,26 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JadwalDosen extends Model
+class DosenPengampu extends Model
 {
     use HasFactory;
 
     // Menentukan nama tabel jika berbeda dari penamaan model
-    protected $table = 'jadwal_dosen';
+    protected $table = 'dosenpengampu';
 
     protected $primaryKey = 'id';
     public $incrementing = true;
 
     // Menentukan kolom yang boleh diisi (mass assignment)
     protected $fillable = [
-        'id_jadwal',
+        'kode_mk',
         'nidn_dosen',
     ];
 
     // Relasi ke JadwalKuliah
-    public function jadwalKuliah()
+    public function mataKuliah()
     {
-        return $this->belongsTo(JadwalKuliah::class, 'id_jadwal');
+        return $this->belongsTo(JadwalKuliah::class, 'kode_mk');
     }
 
     // Relasi ke Dosen

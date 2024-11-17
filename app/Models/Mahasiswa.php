@@ -42,7 +42,7 @@ class Mahasiswa extends Model
         return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
     }
 
-    public function pembimgbingakademik()
+    public function pembimbingAkademik()
     {
         return $this->belongsTo(PembimbingAkademik::class, 'nidn_pembimbingakademik', 'nidn_pembimbingakademik');
     }

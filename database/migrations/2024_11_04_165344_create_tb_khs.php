@@ -9,19 +9,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('khs', function (Blueprint $table) {
+            $table->bigIncrements('id_khs');
             $table->string('nim', 14); // Foreign key untuk NIM
             $table->string('kode_mk', 8); // Foreign key untuk kode mata kuliah
             $table->string('status', 20);
             $table->integer('sks');
             $table->string('nilai', 2); 
             $table->integer('bobot'); 
-            $table->string('nidn_dosen', 10); 
             $table->timestamps(); 
 
             // Menambahkan foreign key constraints
             $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
             $table->foreign('kode_mk')->references('kode_mk')->on('irs')->onDelete('cascade');
-            $table->foreign('nidn_dosen')->references('nidn_dosen')->on('irs')->onDelete('cascade');
         });
     }
 

@@ -63,7 +63,8 @@
                             <th>Nama Mata Kuliah</th>
                             <th>Jenis</th>
                             <th>Semester</th>
-                            <th>SKS</th>
+                            <th>Sks</th>
+                            <th>Tahun Ajaran</th>
                             <th>Nama Kelas</th>
                             <th>Hari</th>
                             <th>Jam Mulai</th>
@@ -79,23 +80,35 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $irs->kode_mk }}</td>
-                                <td>{{ $irs->mataKuliah->nama_mk ?? 'N/A' }}</td>
-                                <td>{{ $irs->mataKuliah->jenis ?? 'N/A' }}</td>
-                                <td>{{ $irs->mataKuliah->semester ?? 'N/A' }}</td>
-                                <td>{{ $irs->mataKuliah->sks ?? 'N/A' }}</td>
+                                <td>{{ $irs->jadwalKuliah->mataKuliah->nama_mk ?? 'N/A' }}</td>
+                                <td>{{ $irs->jadwalKuliah->jenis ?? 'N/A' }}</td>
+                                <td>{{ $irs->jadwalKuliah->semester ?? 'N/A' }}</td>
+                                <td>{{ $irs->sks ?? 'N/A' }}</td>
+                                <td>{{ $irs->tahun_ajaran ?? 'N/A' }}</td>
                                 <td>{{ $irs->nama_kelas }}</td>
-                                @php
-                                    $key = $irs->kode_mk . '-' . $irs->nama_kelas;
-                                    $jadwal = $jadwalKuliah[$key] ?? null;
-                                @endphp
-
-                                <td>{{ $jadwal->hari ?? 'N/A' }}</td>
-                                <td>{{ $jadwal->jam_mulai ?? 'N/A' }}</td>
-                                <td>{{ $jadwal->jam_selesai ?? 'N/A' }}</td>
-                                <td>{{ $irs->kode_ruang }}</td>
-                                <td>{{ $irs->mataKuliah->dosenPengampu->nama_dosenpengampu ?? 'N/A' }}</td>
-                                <td>{{ $irs->status ?? 'N/A' }}</td>  
-                                <td>{{ $irs->status_approve ?? 'N/A' }}</td>  
+                                <td>{{ $irs->hari ?? 'N/A' }}</td>
+                                <td>{{ $irs->jam_mulai ?? 'N/A' }}</td>
+                                <td>{{ $irs->jam_selesai ?? 'N/A' }}</td>
+                                <td>{{ $irs->kode_ruang ?? 'N/A' }} </td>
+                                <td>
+                                    @if ($irs->jadwalKuliah->dosen1)
+                                        {{ $irs->jadwalKuliah->dosen1->dosen->nama_dosen }}<br>
+                                    @endif
+                                    @if ($irs->jadwalKuliah->dosen2)
+                                        {{ $irs->jadwalKuliah->dosen2->dosen->nama_dosen }}<br>
+                                    @endif
+                                    @if ($irs->jadwalKuliah->dosen3)
+                                        {{ $irs->jadwalKuliah->dosen3->dosen->nama_dosen }}<br>
+                                    @endif
+                                    @if ($irs->jadwalKuliah->dosen4)
+                                        {{ $irs->jadwalKuliah->dosen4->dosen->nama_dosen }}<br>
+                                    @endif
+                                    @if ($irs->jadwalKuliah->dosen5)
+                                        {{ $irs->jadwalKuliah->dosen5->dosen->nama_dosen }}
+                                    @endif
+                                </td>
+                                <td>{{ $irs->status ?? 'N/A' }}</td>
+                                <td>{{ $irs->status_approve ?? 'N/A' }}</td>
                             </tr>
                         @endforeach
                     </tbody>

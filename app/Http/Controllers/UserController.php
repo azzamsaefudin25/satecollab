@@ -154,7 +154,7 @@ class UserController extends Controller
             $nidn = $pembimbingAkademik->nidn_pembimbingakademik;
             $view = 'pembimbingakademik.dashboard';
         } elseif (session('role') == 'dosenpengampu' && $dosen) {
-            $nidn = $dosen->nidn;
+            $nidn = $dosen->nidn_dosen;
             $view = 'dosenpengampu.dashboard';
         } elseif (session('role') == 'mahasiswa' && $mahasiswa) {
             $nim = $mahasiswa->nim;

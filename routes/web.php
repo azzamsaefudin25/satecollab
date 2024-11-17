@@ -9,6 +9,8 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\DosenPengampuController;
 use App\Http\Controllers\PembimbingAkademikController;
 use App\Http\Controllers\IRSController;
+use App\Models\Ketuaprogramstudi;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -110,7 +112,7 @@ Route::get('Ketuaprogramstudi/jadwalkuliah/lihatjadwalkuliah', [KetuaProgramStud
 Route::post('/hitung-jam-selesai', [KetuaProgramStudiController::class, 'hitungJamSelesai'])->name('jadwalkuliah.hitungJamSelesai');
 Route::get('/getRuangan/{id_programstudi}', [KetuaProgramStudiController::class, 'getRuangan']);
 Route::get('/getMatakuliah/{id_programstudi}', [KetuaProgramStudiController::class, 'getMatakuliah']);
-Route::get('/get-dosen/{kode_mk}', [YourController::class, 'getDosenByMk']);
+Route::get('/get-dosen/{kode_mk}', [KetuaprogramstudiController::class, 'getDosenByMk']);
 
 // dekan menyetujui ruangan
 Route::get('/dekan/approve-ruang', [DekanController::class, 'createPengajuanRuang'])->name('dekan.approveruang');
@@ -125,5 +127,5 @@ Route::get('memilihmatakuliah/IRS', [MahasiswaController::class, 'createIRS'])->
 Route::get('/search-matakuliah', [MahasiswaController::class, 'searchMatakuliah'])->name('search.Mahasiswa');
 
 Route::get('/get-matkul-details', [MahasiswaController::class, 'getMatkulDetails'])->name('get.matkul.details');
-Route::post('/irs/store', [IRSController::class, 'store'])->name('irs.store');
-Route::get('/Lihat/IRS', [IRSController::class, 'index'])->name('IRS.index');
+Route::post('/irs/store', [MahasiswaController::class, 'store'])->name('irs.store');
+Route::get('/Lihat/IRS', [MahasiswaController::class, 'index'])->name('IRS.index');
