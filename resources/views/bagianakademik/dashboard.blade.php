@@ -102,7 +102,7 @@
         }
 
         .status-section .status-button {
-            background-color: #0014CB;
+            background-color: #09bece;
             color: black;
             padding: 10px;
             border-radius: 5px;
@@ -112,7 +112,7 @@
         .profile {
             position: fixed;
             bottom: 20px;
-            left: 70px;
+            left: 30px;
             text-align: center;
         }
 
@@ -124,7 +124,7 @@
 
         .profile-name {
             margin-top: 10px;
-            font-size: 14px;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -134,7 +134,7 @@
     <div class="header">
         <div>
             <img src="sate_logo.png" alt="SATE Logo">
-            <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
+            <h1><strong>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1></strong>
         </div>
     </div>
 
@@ -147,7 +147,7 @@
     <div class="main-content">
         <div class="status-section">
             <div class="status-details">
-                <h3>Status Pegawai</h3>
+                <h3> <strong>Status Jabatan</strong></h3>
                 <p><strong>Nama Pegawai: </strong>{{ $nama ?? 'User tidak ditemukan' }}</p>
                 <p><strong>NIP: </strong>{{ $nip ?? 'NIP tidak ditemukan' }}</p>
 
