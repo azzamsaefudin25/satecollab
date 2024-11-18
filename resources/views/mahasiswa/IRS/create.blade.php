@@ -205,7 +205,7 @@
                         },
                         success: function(matkul) {
                             if (matkul) {
-                                if (matkul.jumlah_pendaftar >= matkul.kapasitas) {
+                                if (matkul.terisi>= matkul.kapasitas) {
                                     alert(
                                         `Kuota untuk mata kuliah ${matkul.nama_mk} kelas ${matkul.nama_kelas} sudah penuh.`
                                     );

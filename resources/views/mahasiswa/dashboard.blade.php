@@ -182,8 +182,8 @@
         <div class="profile">
             <img src="profile.png" alt="Profile Image">
             <div class="profile-name">
-                <p>Nama: {{ $nama ?? 'User tidak ditemukan' }}</p>
-                <p>NIM: {{ $nim ?? 'NIM tidak ditemukan' }}</p>
+                <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                <p>{{ $nim ?? 'NIM tidak ditemukan' }}</p>
                 <p>Informatika</p>
             </div>
             <div class="btn-container">

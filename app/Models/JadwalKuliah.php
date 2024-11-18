@@ -26,7 +26,7 @@ class JadwalKuliah extends Model
         'hari',
         'jam_mulai',
         'jam_selesai',
-        'jumlah_pendaftar',
+        'terisi',
         'nidn_dosen1',
         'nidn_dosen2',
         'nidn_dosen3' ,

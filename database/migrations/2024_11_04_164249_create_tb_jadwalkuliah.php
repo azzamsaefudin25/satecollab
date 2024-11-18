@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('hari', 10); // Hari perkuliahan
             $table->time('jam_mulai'); // Jam perkuliahan
             $table->time('jam_selesai')->nullable();
-            $table->unsignedInteger('jumlah_pendaftar')->default(0);
+            $table->unsignedInteger('terisi')->default(0);
             // Kolom nidn_dosen untuk beberapa dosen, nullable
             $table->string('nidn_dosen1', 10)->nullable();
             $table->string('nidn_dosen2', 10)->nullable();

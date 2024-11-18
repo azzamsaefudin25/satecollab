@@ -142,7 +142,7 @@ class MahasiswaController extends Controller
             'jam_mulai' => $jadwal->jam_mulai,
             'jam_selesai' => $jadwal->jam_selesai,
             'kode_ruang' => $jadwal->kode_ruang,
-            'jumlah_pendaftar' => $jadwal->jumlah_pendaftar,
+            'terisi' => $jadwal->terisi,
             'kapasitas' => $jadwal->pengalokasianRuang->ruangperkuliahan->kapasitas ?? 0,
             'nama_dosen1' => $jadwal->dosen1->dosen->nama_dosen ?? '',
             'nama_dosen2' => $jadwal->dosen2->dosen->nama_dosen ?? '',
@@ -215,7 +215,7 @@ class MahasiswaController extends Controller
 
                 // Periksa kuota ruangan
                 $kapasitasRuangan = $jadwal->pengalokasianRuang->ruangperkuliahan->kapasitas ?? 0;
-                if ($jadwal->jumlah_pendaftar >= $kapasitasRuangan) {
+                if ($jadwal->terisi >= $kapasitasRuangan) {
                     $responseMessages[] = "Kuota ruangan untuk mata kuliah {$data['kode_mk']} kelas {$data['nama_kelas']} sudah penuh.";
                     continue;
                 }
@@ -241,7 +241,7 @@ class MahasiswaController extends Controller
                 ]);
 
                 // Perbarui jumlah pendaftar pada jadwal kuliah
-                $jadwal->increment('jumlah_pendaftar');
+                $jadwal->increment('terisi');
 
                 // Tambahkan pesan sukses
                 // $responseMessages[] = "IRS dengan kode mata kuliah {$data['kode_mk']} berhasil diajukan.";
@@ -290,7 +290,7 @@ class MahasiswaController extends Controller
 
                 if ($jadwal) {
                     // Kurangi jumlah pendaftar pada jadwal kuliah
-                    $jadwal->decrement('jumlah_pendaftar');
+                    $jadwal->decrement('terisi');
                 }
 
                 // Hapus IRS
