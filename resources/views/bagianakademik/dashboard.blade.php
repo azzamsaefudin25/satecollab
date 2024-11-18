@@ -32,12 +32,15 @@
         .header h1 {
             margin: 0;
             font-size: 30px;
-            margin-left: 120px;
+            margin-right: 100px;
         }
 
         .header img {
-            height: 60px;
-            margin-right: 20px;
+            height: 100px;
+            margin-right: 15px;
+            width: 100px;
+            float: left;
+            
         }
 
         .sidebar {
@@ -126,6 +129,7 @@
             margin-top: 10px;
             font-size: 13px;
         }
+        
     </style>
 </head>
 
@@ -133,8 +137,8 @@
 
     <div class="header">
         <div>
-            <img src="sate_logo.png" alt="SATE Logo">
-            <h1><strong>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1></strong>
+            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="">
+            <p> <h1><strong>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1></strong> </p>
         </div>
     </div>
 
