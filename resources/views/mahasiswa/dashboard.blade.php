@@ -214,6 +214,7 @@
     </div>
 </div>
 
+
 <footer class="footer">
     <h3>SATE</h3>
     <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
