@@ -207,7 +207,7 @@
 
         <div class="d-grid gap-4">
             <button type="button" class="btn btn-outline-success btn-lg">Registrasi</button>
-            <button type="button" class="btn btn-outline-success btn-lg">Pengisian IRS</button>
+            <button type="button" class="btn btn-outline-success btn-lg" onclick="window.location.href='{{route('irs.create')}}'">Pengisian IRS</button>
             <button type="button" class="btn btn-outline-success btn-lg">Jadwal Perkuliahan</button>
             <button type="button" class="btn btn-outline-success btn-lg">KHS</button>
         </div>

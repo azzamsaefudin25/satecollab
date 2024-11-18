@@ -123,9 +123,16 @@ Route::get('/dekan/approve-jadwal', [DekanController::class, 'createPengajuanJad
 Route::patch('/dekan/update-pengajuan/{id}', [DekanController::class, 'updatePengajuanJadwal'])->name('pengajuan.updatejadwal');
 
 // IRS
-Route::get('memilihmatakuliah/IRS', [MahasiswaController::class, 'createIRS'])->name('IRS.create');
+Route::get('memilihmatakuliah/IRS', [MahasiswaController::class, 'createIRS'])->name('irs.create');
 Route::get('/search-matakuliah', [MahasiswaController::class, 'searchMatakuliah'])->name('search.Mahasiswa');
 
 Route::get('/get-matkul-details', [MahasiswaController::class, 'getMatkulDetails'])->name('get.matkul.details');
 Route::post('/irs/store', [MahasiswaController::class, 'store'])->name('irs.store');
-Route::get('/Lihat/IRS', [MahasiswaController::class, 'index'])->name('IRS.index');
+Route::get('/Lihat/IRS', [MahasiswaController::class, 'index'])->name('irs.index');
+
+Route::get('verifikasiirs', function () {
+    return view('pembimbingakademik.verifikasiirs', ['title' => 'verfikasiirs']);
+})->name('verifikasiirs');
+
+Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.delete');
+// Route::post('/irs/delete', [MahasiswaController::class, 'destroy'])->name('irs.destroy');

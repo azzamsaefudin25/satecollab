@@ -116,7 +116,7 @@
 
                 <div class="text-center mt-4">
                     <button type="button" class="btn btn-outline-secondary"
-                        onclick="window.location.href='{{ route('IRS.create') }}'">←</button>
+                        onclick="window.location.href='{{ route('irs.create') }}'">←</button>
                 </div>
 
             </main>

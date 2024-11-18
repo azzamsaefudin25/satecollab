@@ -76,6 +76,7 @@
             <main class="col-9 col-md-10 p-4 bg-white">
                 <h2 class="text-center">IRS</h2>
                 <h3 class="text-center mt-5">Daftar Mata Kuliah</h3>
+                {{-- @include('komponen.pesan') --}}
                 <table class="table table-bordered mt-3 text-center" id="jadwalTable" border="1">
                     <thead class="table-light">
                         <tr>
@@ -84,8 +85,8 @@
                             <th>Nama Mata Kuliah</th>
                             <th>Jenis</th>
                             <th>Sks</th>
-                            <th>Tahun Ajaran</th>
                             <th>Semester</th>
+                            <th>Tahun Ajaran</th>
                             <th>Nama Kelas</th>
                             <th>Hari</th>
                             <th>Jam Mulai</th>
@@ -96,7 +97,8 @@
                     </thead>
                     <tbody>
                         @foreach ($irsData as $index => $irs)
-                            <tr>
+                            <tr data-kode-mk="{{ $irs->kode_mk }}" data-nama-kelas="{{ $irs->nama_kelas }}"
+                                data-status="{{ $irs->status_approve }}">
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $irs->kode_mk }}</td>
                                 <td>{{ $irs->jadwalKuliah->mataKuliah->nama_mk ?? 'N/A' }}</td>
@@ -126,6 +128,13 @@
                                         {{ $irs->jadwalKuliah->dosen5->dosen->nama_dosen }}
                                     @endif
                                 </td>
+                                <td>
+                                    @if ($irs->status_approve === 'menunggu konfirmasi')
+                                        <button class="btn btn-danger btn-hapus">Hapus</button>
+                                    @else
+                                        <button class="btn btn-danger" disabled>Sudah Dikonfirmasi</button>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -134,15 +143,14 @@
                 <div class="text-center mt-4">
                     <button type="button" class="btn btn-outline-secondary"
                         onclick="window.location.href='{{ route('mahasiswa') }}'">←</button>
-                    <button id="btnAjukan" class="btn btn-primary mx-2">Ajukan</button>
+                    {{-- <button id="btnAjukan" class="btn btn-primary mx-2">Ajukan</button> --}}
                     <button class="btn btn-success mx-2"
-                        onclick="window.location.href='{{ route('IRS.index') }}'">Lihat</button>
+                        onclick="window.location.href='{{ route('irs.index') }}'">Lihat</button>
                 </div>
 
             </main>
         </div>
     </div>
-
     <script>
         $(document).ready(function() {
             // Inisialisasi Select2
@@ -150,7 +158,7 @@
                 placeholder: 'Pilih Mata Kuliah',
                 allowClear: true,
                 ajax: {
-                    url: "{{ route('search.Mahasiswa') }}", // URL endpoint untuk mencari data matkul
+                    url: "{{ route('search.Mahasiswa') }}",
                     dataType: 'json',
                     delay: 250,
                     data: function(params) {
@@ -160,7 +168,7 @@
                     },
                     processResults: function(data) {
                         return {
-                            results: data.results // Data hasil dari backend
+                            results: data.results
                         };
                     },
                     cache: true
@@ -170,22 +178,26 @@
             // Event ketika mata kuliah dipilih
             $('#matkul').on('select2:select', function(e) {
                 const selectedMatkul = e.params.data;
-                const kodeMk = selectedMatkul.id; // Kode mata kuliah
-                const kelas = selectedMatkul.text.split('- kelas ')[1]?.trim(); // Ambil kelas dari teks
-                console.log("Data yang dipilih:", selectedMatkul);
+                const kodeMk = selectedMatkul.id;
+                const kelasMatch = selectedMatkul.text.match(/- kelas ([^-]+)/);
+                const kelas = kelasMatch ? kelasMatch[1].trim() : null;
+
                 if (!kelas) {
                     alert("Nama kelas tidak boleh kosong");
                     return;
                 }
-                // Cek apakah mata kuliah sudah ada di tabel berdasarkan kode_mk
+
                 const exists = $('#jadwalTable tbody tr').filter(function() {
-                    return $(this).find('td:eq(1)').text() === kodeMk; // Cek berdasarkan kode_mk
+                    return $(this).find('td:eq(1)').text() === kodeMk;
                 }).length;
 
                 if (exists === 0) {
-                    // Ambil detail mata kuliah dan cek kuota ruangan
+                    // Get NIM from the page
+                    const nimText = document.getElementById('nim').innerText;
+                    const nim = nimText.replace('NIM: ', '');
+
                     $.ajax({
-                        url: "{{ route('get.matkul.details') }}", // Endpoint untuk mendapatkan detail mata kuliah
+                        url: "{{ route('get.matkul.details') }}",
                         method: "GET",
                         data: {
                             kode_mk: kodeMk,
@@ -193,7 +205,6 @@
                         },
                         success: function(matkul) {
                             if (matkul) {
-                                // Cek apakah jumlah pendaftar sudah mencapai kapasitas
                                 if (matkul.jumlah_pendaftar >= matkul.kapasitas) {
                                     alert(
                                         `Kuota untuk mata kuliah ${matkul.nama_mk} kelas ${matkul.nama_kelas} sudah penuh.`
@@ -201,15 +212,15 @@
                                     return;
                                 }
 
-                                // Validasi konflik jadwal (hari dan jam)
+                                // Check for schedule conflicts
                                 const conflictExists = $('#jadwalTable tbody tr').filter(
                                     function() {
-                                        const existingHari = $(this).find('td:eq(7)')
-                                            .text(); // Kolom hari
-                                        const existingJamMulai = $(this).find('td:eq(8)')
-                                            .text(); // Kolom jam mulai
-                                        const existingJamSelesai = $(this).find('td:eq(9)')
-                                            .text(); // Kolom jam selesai
+                                        const existingHari = $(this).find('td:eq(8)').text()
+                                            .trim();
+                                        const existingJamMulai = $(this).find('td:eq(9)')
+                                            .text().trim();
+                                        const existingJamSelesai = $(this).find('td:eq(10)')
+                                            .text().trim();
 
                                         return (
                                             existingHari === matkul.hari &&
@@ -235,35 +246,71 @@
                                     return;
                                 }
 
-                                // Tambahkan data mata kuliah ke tabel
-                                const rowCount = $('#jadwalTable tbody tr').length + 1;
-                                $('#jadwalTable tbody').append(`
-                            <tr>
-                                <td>${rowCount}</td>
-                                <td>${matkul.kode_mk}</td>
-                                <td>${matkul.nama_mk}</td>
-                                <td>${matkul.jenis}</td>
-                                <td>${matkul.sks}</td>
-                                <td>${matkul.semester}</td>
-                                <td>${matkul.nama_kelas}</td>
-                                <td>${matkul.hari}</td>
-                                <td>${matkul.jam_mulai}</td>
-                                <td>${matkul.jam_selesai}</td>
-                                <td>${matkul.kode_ruang}</td>
-                                <td>
-                                    ${matkul.nama_dosen1 || ''}<br>
-                                    ${matkul.nama_dosen2 || ''}<br>
-                                    ${matkul.nama_dosen3 || ''}<br>
-                                    ${matkul.nama_dosen4 || ''}<br>
-                                    ${matkul.nama_dosen5 || ''}
-                                </td>
-                                <td>
-                                    <button class="btn btn-danger btn-hapus">Hapus</button>
-                                </td>
-                            </tr>
-                        `);
-                            } else {
-                                alert('Detail mata kuliah tidak ditemukan.');
+                                // Save to database immediately
+                                $.ajax({
+                                    url: "{{ route('irs.store') }}",
+                                    method: "POST",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        irsData: [{
+                                            nim: nim,
+                                            kode_mk: matkul.kode_mk,
+                                            nama_kelas: matkul.nama_kelas,
+                                            sks: matkul.sks,
+                                            kode_ruang: matkul.kode_ruang,
+                                            hari: matkul.hari,
+                                            jam_mulai: matkul.jam_mulai,
+                                            jam_selesai: matkul.jam_selesai,
+                                            tahun_ajaran: matkul.tahun_ajaran,
+                                            status: "baru",
+                                            status_approve: "menunggu konfirmasi"
+                                        }]
+                                    },
+                                    success: function(response) {
+                                        if (response.messages.every(msg => msg
+                                                .includes("berhasil"))) {
+                                            // Add to table only after successful database insertion
+                                            // Add to table only after successful database insertion
+                                            const rowCount = $(
+                                                    '#jadwalTable tbody tr')
+                                                .length + 1;
+                                            const newRow = `
+                                                <tr data-kode-mk="${matkul.kode_mk}" data-nama-kelas="${matkul.nama_kelas}" data-status="menunggu konfirmasi">
+                                                    <td>${rowCount}</td>
+                                                    <td>${matkul.kode_mk}</td>
+                                                    <td>${matkul.nama_mk}</td>
+                                                    <td>${matkul.jenis}</td>
+                                                    <td>${matkul.sks}</td>
+                                                    <td>${matkul.semester}</td>
+                                                    <td>${matkul.tahun_ajaran}</td>
+                                                    <td>${matkul.nama_kelas}</td>
+                                                    <td>${matkul.hari}</td>
+                                                    <td>${matkul.jam_mulai}</td>
+                                                    <td>${matkul.jam_selesai}</td>
+                                                    <td>${matkul.kode_ruang}</td>
+                                                    <td>
+                                                        ${matkul.nama_dosen1 || ''}<br>
+                                                        ${matkul.nama_dosen2 || ''}<br>
+                                                        ${matkul.nama_dosen3 || ''}<br>
+                                                        ${matkul.nama_dosen4 || ''}<br>
+                                                        ${matkul.nama_dosen5 || ''}
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-danger btn-hapus">Hapus</button>
+                                                    </td>
+                                                </tr>
+                                            `;
+                                            $('#jadwalTable tbody').append(newRow);
+
+                                        } else {
+                                            alert(response.messages.join("\n"));
+                                        }
+                                    },
+                                    error: function(xhr) {
+                                        alert("Terjadi kesalahan: " + xhr
+                                            .responseText);
+                                    }
+                                });
                             }
                         },
                         error: function(xhr) {
@@ -272,69 +319,85 @@
                         }
                     });
                 } else {
-                    alert('Mata kuliah ini sudah ditambahkan ke tabel.');
+                    alert('Mata kuliah yang sama sudah dipilih.');
                 }
             });
 
-
-
-            // Event untuk menghapus baris mata kuliah dari tabel
-            $(document).on('click', '.btn-hapus', function() {
-                $(this).closest('tr').remove();
-            });
-
-            // Event untuk mengajukan IRS
-            $('#btnAjukan').click(function(e) {
-                e.preventDefault();
-
-                // Ambil NIM dari elemen <p id="nim">
-                const nimText = document.getElementById('nim').innerText;
-                const nim = nimText.replace('NIM: ',
-                    ''); // Hapus teks "NIM: " untuk mendapatkan hanya nilai NIM
-
-                // Ambil data dari tabel
-                const irsData = [];
-                $('#jadwalTable tbody tr').each(function() {
-                    const row = $(this).find('td');
-                    irsData.push({
-                        nim: nim, // Gunakan NIM yang sudah diambil dari elemen <p>
-                        kode_mk: row.eq(1).text(),
-                        nama_kelas: row.eq(3).text(),
-                        sks: row.eq(4).text(),
-                        kode_ruang: row.eq(5).text(),
-                        hari: row.eq(6).text(),
-                        jam_mulai: row.eq(7).text(),
-                        jam_selesai: row.eq(8).text(),
-                        tahun_ajaran: row.eq(9).text(),
-                        nidn_pembimbingakademik: row.eq(10).text(),
-                        status: "baru",
-                        status_approve: "menunggu konfirmasi"
-                    });
-                });
-
-                // Kirim data ke server menggunakan AJAX
-                $.ajax({
-                    url: "{{ route('irs.store') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        irsData: irsData
-                    },
-                    success: function(response) {
-                        let message = "";
-                        response.messages.forEach(function(msg) {
-                            message += msg + "\n";
-                        });
-                        alert(message); // Menampilkan pesan error atau sukses
-
-                        if (response.messages.every(msg => msg.includes("berhasil"))) {
-                            $('#jadwalTable tbody')
-                                .empty(); // Hapus semua data dari tabel jika berhasil
-                        }
-                    },
-                    error: function(xhr) {
-                        alert("Terjadi kesalahan: " + xhr.responseText);
+            // Modified delete handler
+            $(document).ready(function() {
+                $(document).on('click', '.btn-hapus', function() {
+                    const row = $(this).closest('tr');
+                    const kodeMk = row.data('kode-mk');
+                    const namaKelas = row.data('nama-kelas');
+                    const nimText = document.getElementById('nim').innerText;
+                    const nim = nimText.replace('NIM: ', '').trim();
+                    const status = row.data('status');
+                    console.log('Status:', status);
+                    // Cek status approve
+                    if (status !== 'menunggu konfirmasi') {
+                        alert('Mata kuliah yang sudah dikonfirmasi tidak dapat dihapus');
+                        return;
                     }
+
+                    // Debug log
+                    console.log('Data yang akan dihapus:', {
+                        nim: nim,
+                        kode_mk: kodeMk,
+                        nama_kelas: namaKelas,
+                        status: status
+                    });
+
+                    // Konfirmasi penghapusan
+                    if (!confirm(
+                            `Apakah Anda yakin ingin menghapus mata kuliah ini?\n\nKode MK: ${kodeMk}\nKelas: ${namaKelas}`
+                        )) {
+                        return;
+                    }
+
+                    // Disable button dan tampilkan loading
+                    const button = $(this);
+                    button.prop('disabled', true);
+                    button.html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Menghapus...'
+                    );
+
+                    $.ajax({
+                        url: "{{ route('irs.delete') }}",
+                        method: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            nim: nim,
+                            kode_mk: kodeMk,
+                            nama_kelas: namaKelas
+                        },
+                        success: function(response) {
+                            console.log('Response:', response);
+                            if (response.success) {
+                                row.fadeOut(400, function() {
+                                    row.remove();
+                                    // Update nomor urut
+                                    $('#jadwalTable tbody tr').each(function(
+                                        index) {
+                                        $(this).find('td:first').text(
+                                            index + 1);
+                                    });
+                                });
+                                alert("Mata kuliah berhasil dihapus dari IRS.");
+                            } else {
+                                alert(response.message);
+                                button.prop('disabled', false);
+                                button.html('Hapus');
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Error Response:', xhr.responseJSON);
+                            const response = xhr.responseJSON;
+                            alert(response?.message ||
+                                "Terjadi kesalahan saat menghapus mata kuliah");
+                            button.prop('disabled', false);
+                            button.html('Hapus');
+                        }
+                    });
                 });
             });
         });

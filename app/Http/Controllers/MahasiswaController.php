@@ -82,7 +82,7 @@ class MahasiswaController extends Controller
             ->where('matakuliah.nama_mk', 'LIKE', "%{$query}%") // Filter berdasarkan nama mata kuliah
             ->where('matakuliah.id_programstudi', $idProgramStudi)
             ->orderBy('matakuliah.nama_mk', 'asc') // Urutkan berdasarkan nama mata kuliah
-            ->limit(10) 
+            ->limit(10)
             ->get([
                 'jadwalkuliah.kode_mk',
                 'matakuliah.nama_mk',
@@ -98,8 +98,8 @@ class MahasiswaController extends Controller
         $result = $mataKuliah->map(function ($mk) {
             return [
                 'id' => $mk->kode_mk,
-                'text' => "{$mk->nama_mk} - {$mk->jenis} - Semester {$mk->semester} - {$mk->hari}, {$mk->jam_mulai}-{$mk->jam_selesai} - kelas {$mk->nama_kelas}"
-                // 'text' => "{$mk->nama_mk} - {$mk->jenis} - Semester {$mk->semester} - kelas {$mk->nama_kelas} - {$mk->hari}, {$mk->jam_mulai}-{$mk->jam_selesai}"
+                // 'text' => "{$mk->nama_mk} - {$mk->jenis} - Semester {$mk->semester} - {$mk->hari}, {$mk->jam_mulai}-{$mk->jam_selesai} - kelas {$mk->nama_kelas}"
+                'text' => "{$mk->nama_mk} - {$mk->jenis} - Semester {$mk->semester} - kelas {$mk->nama_kelas} - {$mk->hari}, {$mk->jam_mulai}-{$mk->jam_selesai}"
             ];
         });
 
@@ -134,9 +134,10 @@ class MahasiswaController extends Controller
             'kode_mk' => $jadwal->kode_mk,
             'nama_mk' => $jadwal->mataKuliah->nama_mk ?? 'N/A',
             'nama_kelas' => $jadwal->nama_kelas,
+            'jenis' => $jadwal->jenis,
             'sks' => $jadwal->sks,
             'semester' => $jadwal->semester,
-            'jenis' => $jadwal->jenis,
+            'tahun_ajaran' => $jadwal->tahun_ajaran,
             'hari' => $jadwal->hari,
             'jam_mulai' => $jadwal->jam_mulai,
             'jam_selesai' => $jadwal->jam_selesai,
@@ -152,17 +153,33 @@ class MahasiswaController extends Controller
     }
 
 
-
-
     public function index()
     {
-        $irsIndex = IRS::with(['jadwalKuliah'])->get();
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $mahasiswa = $user->mahasiswa;
+        $nim = $mahasiswa->nim;
+        // Debug query
+        $irsIndex = IRS::with(['mahasiswa','jadwalKuliah'])
+            ->where('nim', $nim)
+            ->get();
+
+        if ($irsIndex->isEmpty()) {
+            dd('Tidak ada data untuk NIM: ' . $nim);
+        }
+
         $jadwalKuliah = JadwalKuliah::all()->keyBy(function ($item) {
             return $item->kode_mk . '-' . $item->nama_kelas;
         });
 
         return view('mahasiswa.IRS.index', compact('irsIndex', 'jadwalKuliah'));
     }
+
+
 
     public function store(Request $request)
     {
@@ -227,7 +244,8 @@ class MahasiswaController extends Controller
                 $jadwal->increment('jumlah_pendaftar');
 
                 // Tambahkan pesan sukses
-                $responseMessages[] = "IRS dengan kode mata kuliah {$data['kode_mk']} berhasil diajukan.";
+                // $responseMessages[] = "IRS dengan kode mata kuliah {$data['kode_mk']} berhasil diajukan.";
+                session()->flash('success', "IRS dengan kode mata kuliah {$data['kode_mk']} berhasil diajukan.");
 
                 // Commit transaksi
                 DB::commit();
@@ -242,5 +260,63 @@ class MahasiswaController extends Controller
         return response()->json([
             'messages' => $responseMessages
         ]);
+    }
+
+    public function delete(Request $request)
+    {
+        try {
+            // Log request data
+            // \Log::info('Delete IRS Request:', $request->all());
+
+            // Validasi input
+            $request->validate([
+                'nim' => 'required',
+                'kode_mk' => 'required',
+                'nama_kelas' => 'required'
+            ]);
+
+            // Cari IRS berdasarkan kombinasi nim, kode_mk, dan nama_kelas
+            $irs = IRS::where('nim', $request->nim)
+                ->where('kode_mk', $request->kode_mk)
+                ->where('nama_kelas', $request->nama_kelas)
+                ->where('status_approve', 'menunggu konfirmasi') // Hanya hapus yang belum dikonfirmasi
+                ->first();
+
+            // \Log::info('Query Result:', ['irs' => $irs]);
+
+            if ($irs) {
+                // Ambil jadwal kuliah terkait
+                $jadwal = $irs->jadwalKuliah;
+
+                if ($jadwal) {
+                    // Kurangi jumlah pendaftar pada jadwal kuliah
+                    $jadwal->decrement('jumlah_pendaftar');
+                }
+
+                // Hapus IRS
+                $irs->delete();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Mata kuliah berhasil dihapus dari IRS'
+                ]);
+            }
+            if (!$irs) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'IRS tidak ditemukan atau sudah dikonfirmasi'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            // \Log::error('Error deleting IRS:', [
+            //     'error' => $e->getMessage(),
+            //     'trace' => $e->getTraceAsString()
+            // ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
