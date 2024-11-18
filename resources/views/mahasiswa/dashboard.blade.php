@@ -182,8 +182,8 @@
         <div class="profile">
             <img src="profile.png" alt="Profile Image">
             <div class="profile-name">
-                <p>Nama: {{ $nama ?? 'User tidak ditemukan' }}</p>
-                <p>NIM: {{ $nim ?? 'NIM tidak ditemukan' }}</p>
+                <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                <p>{{ $nim ?? 'NIM tidak ditemukan' }}</p>
                 <p>Informatika</p>
             </div>
             <div class="btn-container">
@@ -207,7 +207,7 @@
 
         <div class="d-grid gap-4">
             <button type="button" class="btn btn-outline-success btn-lg">Registrasi</button>
-            <button type="button" class="btn btn-outline-success btn-lg">Pengisian IRS</button>
+            <button type="button" class="btn btn-outline-success btn-lg" onclick="window.location.href='{{route('irs.create')}}'">Pengisian IRS</button>
             <button type="button" class="btn btn-outline-success btn-lg">Jadwal Perkuliahan</button>
             <button type="button" class="btn btn-outline-success btn-lg">KHS</button>
         </div>

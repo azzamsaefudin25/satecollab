@@ -21,7 +21,7 @@ class PengalokasianRuang extends Model
         'status',
     ];
 
-    public function ruangperkuliahan()
+    public function ruangPerkuliahan()
     {
         return $this->belongsTo(RuangPerkuliahan::class, 'kode_ruang', 'kode_ruang');
     }

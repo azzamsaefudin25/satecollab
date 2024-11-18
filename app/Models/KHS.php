@@ -12,7 +12,8 @@ class KHS extends Model
     protected $table = 'khs';
 
 
-    public $incrementing = false;
+    protected $primaryKey = 'id_khs';
+    public $incrementing = true;
 
     protected $keyType = 'string'; // Tipe primary key adalah string
 
@@ -24,6 +25,5 @@ class KHS extends Model
         'sks',
         'nilai',
         'bobot',
-        'nidn_dosen',
     ];
 }

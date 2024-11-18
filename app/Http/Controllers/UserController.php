@@ -139,7 +139,7 @@ class UserController extends Controller
         $ketuaProgramStudi = $user->dosen ? $user->dosen->ketuaProgramStudi : null;
         $mahasiswa = $user->mahasiswa;
         $dosen = $user->dosen;
-
+        $prodi = $user->mahasiswa ? $user->mahasiswa->programStudi : null;
         // Tentukan NIP dan tampilan berdasarkan role yang dipilih
         if (session('role') == 'bagianakademik' && $bagianAkademik) {
             $nip = $user->bagianAkademik->nip;
@@ -154,10 +154,11 @@ class UserController extends Controller
             $nidn = $pembimbingAkademik->nidn_pembimbingakademik;
             $view = 'pembimbingakademik.dashboard';
         } elseif (session('role') == 'dosenpengampu' && $dosen) {
-            $nidn = $dosen->nidn;
+            $nidn = $dosen->nidn_dosen;
             $view = 'dosenpengampu.dashboard';
         } elseif (session('role') == 'mahasiswa' && $mahasiswa) {
             $nim = $mahasiswa->nim;
+            $jurusan = $prodi->nama_programstudi;
             $view = 'mahasiswa.dashboard';
         } else {
             return redirect()->route('home')->withErrors(['message' => 'Role tidak dikenali atau tidak ada data terkait.']);

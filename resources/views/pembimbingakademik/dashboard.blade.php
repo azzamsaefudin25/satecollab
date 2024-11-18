@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pembimbing Akademik</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+    <title>Dashboard PembimbingAkademik</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fff;
+
         }
 
         .header {
@@ -32,7 +34,7 @@
             margin: 0;
             font-size: 30px;
             margin-left: 120px;
-            /* Tambahkan margin-left untuk menggeser teks */
+            font-weight: bold;
         }
 
         .header img {
@@ -41,7 +43,7 @@
         }
 
         .sidebar {
-            width: 230px;
+            width: 270px;
             background-color: #fff;
             height: 100vh;
             position: fixed;
@@ -50,9 +52,10 @@
             color: black;
             padding: 20px;
             border-right: 2px solid green;
-            height: 589px;
+            height: 1;
             position: absolute;
             right: 10%;
+
         }
 
         .sidebar h2,
@@ -107,20 +110,11 @@
             text-decoration: none;
         }
 
-        .empty-section {
-            background-color: #658345;
-            color: black;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
         .profile {
             position: fixed;
             bottom: 20px;
-            left: 70px;
-            text-align: center;
+            left: 30px;
+            text-align: left;
         }
 
         .profile img {
@@ -147,24 +141,27 @@
 
     <div class="sidebar">
         <h2>Dashboard</h2>
-        <a href="#">Profile</a> <!-- Profile disamakan -->
-        <a href="#">Notifikasi</a> <!-- Notifikasi disamakan -->
+        <a href="#">Profile</a>
+        <a href="#">Notifikasi</a>
     </div>
 
     <div class="main-content">
         <div class="status-section">
             <div class="status-details">
-                <h3>Status Pegawai</h3>
+                <h3> <strong>Status Jabatan</strong></h3>
+                <h4>Ketua Program Studi</h4>
                 <p><strong>Nama Pegawai: </strong>{{ $nama ?? 'User tidak ditemukan' }}</p>
                 <p><strong>NIDN: </strong>{{ $nidn ?? 'NIDN tidak ditemukan' }}</p>
-                <p><strong>Masa Jabatan:</strong> 2018 - 2038</p>
-                <p><strong>Fakultas:</strong> Fakultas Sains Matematika</p>
+                <p><strong>Masa Jabatan: </strong> 2020 - 2025</p>
+                <p><strong>Fakultas: </strong>Fakultas Sains dan Matematika</p>
+                <p><strong>Status Akademik </strong><button type="button" class="btn btn-info btn-sm">AKTIF</button>
+                </p>
             </div>
-            <a href="#" class="status-button">AKTIF</a>
         </div>
 
-        <div class="empty-section">
-            VERIFIKASI IRS
+        <div class="d-grid gap-4">
+            <button type="button" class="btn btn-outline-success btn-lg"
+                onclick="window.location.href='{{ route('verifikasiirs') }}'">VERIFIKASI IRS</button>
         </div>
     </div>
 

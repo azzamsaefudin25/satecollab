@@ -162,9 +162,9 @@
         <div class="d-grid gap-4">
             <button type="button" class="btn btn-outline-success btn-lg">Monitoring IRS</button>
             <button type="button" class="btn btn-outline-success btn-lg"
-                onclick="window.location.href='{{ route('jadwalkuliah.create') }}'">Penyusunan Jadwal Kuliah</button>
-            <button type="button" class="btn btn-outline-success btn-lg"
                 onclick="window.location.href='{{ route('memilihmatakuliah.create') }}'">Penyusunan Matakuliah</button>
+            <button type="button" class="btn btn-outline-success btn-lg"
+                onclick="window.location.href='{{ route('jadwalkuliah.create') }}'">Penyusunan Jadwal Kuliah</button>
             <button type="button" class="btn btn-outline-success btn-lg">Daftar Alokasi Ruang Perkuliahan</button>
         </div>
     </div>

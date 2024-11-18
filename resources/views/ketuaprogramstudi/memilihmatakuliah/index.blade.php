@@ -13,6 +13,7 @@
                     <th>SKS</th>
                     <th>Semester Aktif</th>
                     <th>Jenis</th>
+                    <th>Program Studi</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -25,6 +26,7 @@
                         <td>{{ $mk->sks }}</td>
                         <td>{{ $mk->semester_aktif }}</td>
                         <td>{{ $mk->jenis }}</td>
+                        <td>{{ $mk->programStudi->nama_programstudi ?? 'NA' }}</td>
                         <td>
                             <a href="{{ route('memilihmatakuliah.edit', $mk->kode_mk) }}" class="btn btn-warning btn-sm">Edit</a>
                             

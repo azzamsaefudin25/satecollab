@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -139,30 +141,30 @@
         }
 
         #selected-dosen-list {
-    margin-top: 10px;
-}
+            margin-top: 10px;
+        }
 
-.selected-dosen-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    background-color: #e9ecef;
-}
+        .selected-dosen-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            background-color: #e9ecef;
+        }
 
-.selected-dosen-item span {
-    font-size: 14px;
-    color: #333;
-}
+        .selected-dosen-item span {
+            font-size: 14px;
+            color: #333;
+        }
 
-.remove-dosen-btn {
-    color: red;
-    cursor: pointer;
-}
-
+        .remove-dosen-btn {
+            color: red;
+            cursor: pointer;
+        }
+        
     </style>
 </head>
 
@@ -199,45 +201,42 @@
                     </div>
                 @endif
                 <!-- Dropdown untuk Program Studi -->
-     <!-- Dropdown untuk Program Studi -->
-     <select id="programstudi" name="programstudi" class="form-control">
-        <option value="">-- Pilih Program Studi --</option>
-        @foreach ($programstudi as $ps)
-            <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
-        @endforeach
-    </select>
+                <select id="programstudi" name="programstudi" class="form-control">
+                    <option value="">-- Pilih Program Studi --</option>
+                    @foreach ($programstudi as $ps)
+                        <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
+                    @endforeach
+                </select>
 
-    <select name="kode_ruang" id="ruangan">
-        @foreach ($ruangperkuliahan as $ruang)
-            <option value="{{ $ruang->kode_ruang }}">{{ $ruang->nama_ruangan }}</option>
-        @endforeach
-    </select>
+                <select name="kode_ruang" id="ruangan">
+                    @foreach ($ruangperkuliahan as $ruang)
+                        <option value="{{ $ruang->kode_ruang }}">{{ $ruang->nama_ruangan }}</option>
+                    @endforeach
+                </select>
 
-    <select name="kode_mk" id="kode_mk">
-        @foreach ($matakuliah as $mk)
-            <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
-        @endforeach
-    </select>
+                <select name="kode_mk" id="kode_mk">
+                    @foreach ($matakuliah as $mk)
+                        <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
+                    @endforeach
+                </select>
 
 
                 <!-- Pilih Hari -->
                 <select id="hari" name="hari" required>
                     <option value="">Pilih Hari</option>
-                    <option value="senin">Senin</option>
-                    <option value="selasa">Selasa</option>
-                    <option value="rabu">Rabu</option>
-                    <option value="kamis">Kamis</option>
-                    <option value="jumat">Jumat</option>
+                    <option value="Senin">Senin</option>
+                    <option value="Selasa">Selasa</option>
+                    <option value="Rabu">Rabu</option>
+                    <option value="Kamis">Kamis</option>
+                    <option value="Jumat">Jumat</option>
                 </select>
 
                 <!-- Jam Mulai dan Berakhir -->
                 <div class="time-select">
-                    <select id="jam_mulai" name="jam" required>
+                    <select id="jam_mulai" name="jam_mulai" required>
                         <option value="">Pilih Jam Mulai</option>
-                        <option value="07:00">07:00</option>
-                        <option value="09:00">09:00</option>
-                        <option value="13:00">13:00</option>
                     </select>
+                    
 
                     <select name="jam_selesai_displayphp" id="jam_selesai_display" required>
                         <option value="">Jam Berakhir (otomatis)</option>
@@ -256,58 +255,25 @@
                     @endforeach
                 </select>
 
-<!-- Dropdown untuk Dosen -->
-<select name="nidn_dosen1" id="nidn_dosen1" class="form-control">
-    <option value="">-- Pilih Dosen 1 --</option>
-    @foreach ($dosen as $ds)
-        <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
-    @endforeach
-</select>
-
-<select name="nidn_dosen2" id="nidn_dosen2" class="form-control" style="display: none;">
-    <option value="">-- Pilih Dosen 2 --</option>
-    @foreach ($dosen as $ds)
-    <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
-@endforeach
-</select>
-
-<select name="nidn_dosen3" id="nidn_dosen3" class="form-control" style="display: none;">
-    <option value="">-- Pilih Dosen 3 --</option>
-    @foreach ($dosen as $ds)
-    <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
-@endforeach
-</select>
-
-<select name="nidn_dosen4" id="nidn_dosen4" class="form-control" style="display: none;">
-    <option value="">-- Pilih Dosen 4 --</option>
-    @foreach ($dosen as $ds)
-    <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
-@endforeach
-</select>
-
-<select name="nidn_dosen5" id="nidn_dosen5" class="form-control" style="display: none;">
-    <option value="">-- Pilih Dosen 5 --</option>
-    @foreach ($dosen as $ds)
-    <option value="{{ $ds->nidn_dosen }}">{{ $ds->nama_dosen }}</option>
-@endforeach
-</select>
-
-
-                    <button type="submit" class="ajukan-btn">Ajukan</button>
-                    <button type="button" class="lihat-btn"
-                        onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
+                <div class="form-group">
+                    <label for="tahun_ajaran">Tahun Ajaran</label>
+                    <input type="text" id="tahun_ajaran" name="tahun_ajaran" class="form-control" readonly>
                 </div>
-            </form>
-        </main>
+
+                <button type="submit" class="ajukan-btn">Ajukan</button>
+                <button type="button" class="lihat-btn"
+                    onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
+    </div>
+    </form>
+    </main>
     </div>
 
-                
+
     <button class="back-btn" onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">&larr;</button>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-
-$(document).ready(function() {
+        $(document).ready(function() {
             $('#programstudi').on('change', function() {
                 var id_programstudi = $(this).val();
                 if (id_programstudi) {
@@ -327,30 +293,53 @@ $(document).ready(function() {
                         }
                     });
 
-                // Ambil mata kuliah
-                $.ajax({
-                    url: '/getMatakuliah/' + id_programstudi,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#kode_mk').empty();
-                        $('#kode_mk').append('<option value="">-- Pilih Mata Kuliah --</option>');
-                        $.each(data, function(key, value) {
-                            $('#kode_mk').append('<option value="' + value.kode_mk + '">' + value.nama_mk + '</option>');
-                        });
-                    }
-                });
-            } else {
-                // Kosongkan pilihan jika program studi tidak dipilih
-                $('#ruangan').empty().append('<option value="">-- Pilih Ruangan --</option>');
-                $('#kode_mk').empty().append('<option value="">-- Pilih Mata Kuliah --</option>');
-            }
+                    // Ambil mata kuliah
+                    $.ajax({
+                        url: '/getMatakuliah/' + id_programstudi,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#kode_mk').empty();
+                            $('#kode_mk').append(
+                                '<option value="">-- Pilih Mata Kuliah --</option>');
+                            $.each(data, function(key, value) {
+                                $('#kode_mk').append('<option value="' + value.kode_mk +
+                                    '">' + value.nama_mk + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    // Kosongkan pilihan jika program studi tidak dipilih
+                    $('#ruangan').empty().append('<option value="">-- Pilih Ruangan --</option>');
+                    $('#kode_mk').empty().append('<option value="">-- Pilih Mata Kuliah --</option>');
+                }
+            });
         });
-    });
 
 
+        // Fungsi untuk menghasilkan array waktu dengan interval 15 menit
+        function generateTimeOptions() {
+            const times = [];
+            for (let hour = 0; hour < 24; hour++) {
+                for (let minute = 0; minute < 60; minute += 15) {
+                    const formattedHour = hour.toString().padStart(2, '0');
+                    const formattedMinute = minute.toString().padStart(2, '0');
+                    times.push(`${formattedHour}:${formattedMinute}`);
+                }
+            }
+            return times;
+        }
 
+        $(document).ready(function() {
+            const jamMulaiOptions = generateTimeOptions();
+            const jamMulaiDropdown = $('#jam_mulai');
 
+            // Tambahkan opsi waktu ke dropdown jam_mulai
+            jamMulaiOptions.forEach(time => {
+                jamMulaiDropdown.append(`<option value="${time}">${time}</option>`);
+            });
+
+            // Perbarui logika saat jam_mulai berubah
             $('#jam_mulai').on('change', function() {
                 const jamMulai = $(this).val();
                 const kodeMk = $('#kode_mk').val();
@@ -374,39 +363,24 @@ $(document).ready(function() {
                     }
                 });
             });
-            $(document).ready(function () {
-    // Menangani perubahan di dropdown Dosen 1
-    $('#nidn_dosen1').on('change', function () {
-        if ($(this).val()) {
-            $('#nidn_dosen2').show();
-        }
-    });
+        });
+        $(document).ready(function() {
+            // Mendapatkan bulan saat ini (0 = Januari, 1 = Februari, ..., 9 = Oktober, ...)
+            const currentMonth = new Date().getMonth() + 1; // `getMonth()` mengembalikan 0-11, jadi tambahkan 1
+            let tahunAjaran;
 
-    // Menangani perubahan di dropdown Dosen 2
-    $('#nidn_dosen2').on('change', function () {
-        if ($(this).val()) {
-            $('#nidn_dosen3').show();
-        }
-    });
+            if (currentMonth >= 8) {
+                // Jika bulan Oktober hingga Desember, tahun ajaran adalah tahun ini dan tahun depan
+                tahunAjaran = `${new Date().getFullYear()}/${new Date().getFullYear() + 1}`;
+            } else {
+                // Jika bulan Januari hingga September, tahun ajaran adalah tahun sebelumnya dan tahun ini
+                tahunAjaran = `${new Date().getFullYear() - 1}/${new Date().getFullYear()}`;
+            }
 
-    // Menangani perubahan di dropdown Dosen 3
-    $('#nidn_dosen3').on('change', function () {
-        if ($(this).val()) {
-            $('#nidn_dosen4').show();
-        }
-    });
-
-    // Menangani perubahan di dropdown Dosen 4
-    $('#nidn_dosen4').on('change', function () {
-        if ($(this).val()) {
-            $('#nidn_dosen5').show();
-        }
-    });
-});
-
-        
+            // Menetapkan nilai otomatis pada input dengan jQuery
+            $('#tahun_ajaran').val(tahunAjaran);
+        });
     </script>
 </body>
 
 </html>
-  
