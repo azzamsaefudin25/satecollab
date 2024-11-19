@@ -1,3 +1,6 @@
+//Verifikasi IRS
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,37 +11,45 @@
     <title>Monitoring IRS Kaprodi</title>
 
     <style>
-        body {
+         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fff;
-            
         }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-        }
+
         .header {
             background-color: #658345;
-            color: black;
-            padding: 30px;
-            text-align: left;
+            padding: 15px 30px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
-        .header h1 {
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            width: 50px;
+            height: auto;
+        }
+
+        .logo-text {
+            color: black;
+            line-height: 1.2;
+        }
+
+        .logo-text h1 {
             margin: 0;
-            font-size: 30px;
-            margin-left: 120px;  
+            font-size: 24px;
+            font-weight: bold;
         }
-        .header img {
-            height: 60px;
-            margin-right: 20px;
+
+        .logo-text p {
+            margin: 0;
+            font-size: 14px;
         }
         .statistik {
             display: flex;
@@ -146,13 +157,16 @@
     </style>
 </head>
 <body>
-
-<div class="header">
-    <div>
-        <img src="sate_logo.png" alt="SATE Logo">
-        <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
+    <div class="header">
+        <div class="logo-container">
+            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            <div class="logo-text">
+                <h1>SATE</h1>
+                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
+            </div>
+        </div>
     </div>
-</div>
+
 
 <div class="container">
     <div class="content">

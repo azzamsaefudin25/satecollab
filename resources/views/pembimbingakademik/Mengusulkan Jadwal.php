@@ -1,3 +1,9 @@
+mengusulkan//jadwal
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,31 +14,45 @@
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
 
     <style>
-        body {
+         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fff;
-            
         }
+
         .header {
             background-color: #658345;
-            color: black;
-            padding: 30px;
-            text-align: left;
+            padding: 15px 30px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
-        .header h1 {
-            margin: 0;
-            font-size: 30px;
-            margin-left: 120px; 
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            width: 50px;
+            height: auto;
+        }
+
+        .logo-text {
             color: black;
+            line-height: 1.2;
         }
-        .header img {
-            height: 60px;
-            margin-right: 20px;
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-text p {
+            margin: 0;
+            font-size: 14px;
         }
         .search-container {
             display: flex;
@@ -111,13 +131,15 @@
     </style>
 </head>
 <body>
-
-<div class="header">
-    <div>
-        <img src="sate_logo.png" alt="SATE Logo">
-        <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
+    <div class="header">
+        <div class="logo-container">
+            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            <div class="logo-text">
+                <h1>SATE</h1>
+                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
+            </div>
+        </div>
     </div>
-</div>
 
 
     <div class="search-container">
@@ -161,13 +183,7 @@
             </tr>
         </table>
 
-        <div class="actions">
-            <a href="#" class="blue-btn">USULKAN JADWAL</a>
-            <a href="#" class="green-btn">LIHAT RUANG PERKULIAHAN</a>
-            
-        </div>
-    </div>
-
+        
     <footer>
        <!-- Back Button -->
 <a href="#" class="btn btn-dark back-button">
