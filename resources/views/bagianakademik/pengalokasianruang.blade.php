@@ -13,16 +13,20 @@
             <form action="{{ route('pengalokasianruang.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="id_programstudi">Program Studi</label>
-                    <select name="id_programstudi" class="form-control" id="id_programstudi">
+                    <label for="id_programstudi">Kode Ruangan</label>
+                    <select name="id_programstudi" class="form-control dropdown" id="id_programstudi">
                         <option value="">Pilih Program Studi</option>
                         @foreach ($programStudi as $prodi)
                             <option value="{{ $prodi->id_programstudi }}"
                                 {{ old('id_programstudi', Session::get('id_programstudi')) == $prodi->id_programstudi ? 'selected' : '' }}>
                                 {{ $prodi->nama_programstudi }}</option>
+                            
                         @endforeach
                     </select>
                 </div>
+            </form>
+        </div>
+        
                 <div class="form-group">
                     <label for="kode_ruang">Kode Ruang</label>
                     <div id="kode_ruang">
@@ -55,3 +59,4 @@
         </div>
     </div>
 @endsection
+
