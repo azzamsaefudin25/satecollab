@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <title>Dashboard Dekan</title>
-    
+    <title>Dashboard Bagian Akademik</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,78 +48,130 @@
         }
 
         .sidebar {
-            width: 270px;
+            width: 200px;
             background-color: #fff;
             height: 100vh;
             position: fixed;
-            top: 10;
             left: 0;
-            color: black;
+            top: 85 px;
             padding: 20px;
-            border-right: 2px solid green;
-            height: 1;
-            position: absolute;
-            right: 10%;
-            
+            border-right: 1px solid #ddd;
         }
-        .sidebar h2, .sidebar a {
-            font-size: 18px; /* Ukuran font yang sama */
-            font-weight: bold; /* Ketebalan font yang sama */
-            margin-bottom: 20px; /* Jarak yang sama antar elemen */
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
             color: black;
             text-decoration: none;
+            font-size: 16px;
         }
-        .sidebar a {
-            display: block;
+
+        .menu-item.active {
+            background-color: #658345;
+            color: white;
+            border-radius: 5px;
         }
+
         .main-content {
-            margin-left: 270px;
-            padding: 30px;
+            margin-left: 200px;
+            padding: 20px;
         }
-        .status-section {
+
+        .status-card {
             background-color: #658345;
             padding: 20px;
             border-radius: 8px;
+            color: black;
             margin-bottom: 20px;
+        }
+
+        .status-card h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .status-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
         }
-        .status-section h3 {
-            margin: 0 0 15px 0;
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 15px;
         }
-        .status-details {
-            display: flex;
-            flex-direction: column;
+
+        .status-item {
+            text-align: center;
         }
-        .status-details p {
-            margin: 5px 0;
+
+        .status-item h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
         }
-        .status-section .status-button {
-            background-color: #0014CB;
-            color: black;
-            padding: 10px;
-            border-radius: 5px;
+
+        .status-item p {
+            margin: 0;
+        }
+
+        .status-badge {
+            background-color: blue;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .action-button {
+            background-color: #658345;
+            color: white;
+            padding: 15px;
+            text-align: center;
             text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
         }
+
+        .action-button:hover {
+            background-color: #4f6434;
+            color: white;
+        }
+
         .profile {
             position: fixed;
             bottom: 20px;
-            left: 30px;
-            text-align: left;
-        }
-        .profile img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-        }
-        .profile-name {
-            margin-top: 10px;
-            font-size: 14px;
+            left: 20px;
+            width: 160px;
+            text-align: center;
         }
 
+        .profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-info {
+            font-size: 14px;
+            line-height: 1.4;
+        }
     </style>
 </head>
+
 <body>
     <div class="header">
         <div class="logo-container">
@@ -148,25 +198,38 @@
         </a>
     </div>
 
-<div class="main-content">
-    <div class="status-section">
-        <div class="status-details">
-            <h3> <strong>Status Jabatan</strong></h3>
-            <h4>Ketua Program Studi</h4>
-            <p><strong>Nama </strong> Sandy Kurniawan, S.Kom., M.Kom</p>
-            <p><strong>NIP: </strong> 199603032024061003</p>
-            <p><strong>Masa Jabatan: </strong> 2020 - 2025</p>
-            <p><strong>Fakultas: </strong>Fakultas Sains dan Matematika</p>
-            <p><strong>Status Akademik </strong><button type="button" class="btn btn-info btn-sm">AKTIF</button></p>
+    <div class="main-content">
+        <div class="status-card">
+            <h2>Status Pegawai</h2>
+            <div class="status-content">
+                <div class="status-info">
+                    <p>Nama: {{ $nama ?? 'Nama si Pegawai nya' }}</p>
+                    <p>NIP: {{ $nip ?? 'NIP si Pegawai nya' }}</p>
+                    
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <h3>Masa Jabatan</h3>
+                            <p>2018-2038</p>
+                        </div>
+                        <div class="status-item">
+                            <h3>Fakultas</h3>
+                            <p>Fakultas Sains Matematika</p>
+                        </div>
+                        <div class="status-item">
+                            <h3>Status Pegawai</h3>
+                            <span class="status-badge">AKTIF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
     
     <div class="action-buttons">
     <a href="{{ route('penyusunanruang.create') }}" class="action-button">
-        Penyusunan Ruang Perkuliahan
+       Mengusulkan jadwal
     </a>
-    <a href="{{ route('pengalokasianruang.create') }}" class="action-button">
-        Pengalokasian Ruang Perkuliahan
+    <a href="{{ route('verifikasiirs') }}" class="action-button">
+        Verifikasi irs
     </a>
 </div>
 
@@ -174,7 +237,7 @@
     <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Photo">
     <div class="profile-name">
         <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
-        <p>{{ $nip ?? 'NIM tidak ditemukan' }}</p>
+        <p>{{ $nip ?? 'NIP tidak ditemukan' }}</p>
         <p>Informatika</p>
     </div>
     <div class="btn-container">

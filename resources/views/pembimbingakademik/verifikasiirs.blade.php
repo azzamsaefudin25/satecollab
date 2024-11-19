@@ -106,18 +106,26 @@
         th {
             background-color: #BFCAB7;
         }
-        .approved {
-            background-color: #14F400;
-            color: black;
-            padding: 5px 10px;
+        
+        .batalkan-btn {
+            background-color: #0000FF;
+            color: white;
+            padding: 8px 20px;
+            border: none;
             border-radius: 25px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
         }
-        .not-approved {
-            background-color: #F4000F;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 25px;
+
+        .batalkan-btn:hover {
+            background-color: #0000DD;
         }
+
+        
         .back-button {
             padding: 10px 20px;
             background-color: black;
@@ -152,8 +160,11 @@
             border-radius: 25px;
             }
             .button1 {background-color: #14F400;} /* Green */
-            .button2 {background-color: #0014CB;} /* Blue */
-            .button3 {background-color: #218838;} /* Red */
+            .button2 {
+                background-color: #2c3ee1;
+                color :#f1f1f1;
+            } /* Blue */
+            .button3 {background-color: #F4000F;} /* Red */
     </style>
 </head>
 <body>
@@ -207,7 +218,7 @@
             <td>2022</td>
             <td>2024/2025 Gasal/5</td>
             <td><span class="approved">Sudah Mengisi</span></td>
-            <td><button class="button button1">Lihat</button></div></td>
+            <td><button class="button button2">Batalkan Persetujuan</button></td>
             <td><button class="button button1">Lihat</button></td>
         </tr>
         <tr>
@@ -217,7 +228,7 @@
             <td>2022</td>
             <td>2024/2025 Gasal/5</td>
             <td><span class="approved">Sudah Mengisi</span></td>
-            <td><button class="button button1">Lihat</button></div></td>
+            <td><button class="button button2">Batalkan Persetujuan</button></td>
             <td><button class="button button1">Lihat</button></td>
         </tr>
         <tr>
@@ -227,7 +238,7 @@
             <td>2021</td>
             <td>2024/2025 Gasal/7</td>
             <td><span class="not-approved">Belum Mengisi</span></td>
-            <td><button class="button button1">Lihat</button></div></td>
+            <td><button class="button button1">Setuju</button> <button class="button button3">Tolak</button></div></td>
             <td><button class="button button1">Lihat</button></td>
         </tr>
         <tr>
@@ -237,17 +248,18 @@
             <td>2023</td>
             <td>2024/2025 Gasal/3</td>
             <td><span class="approved">Sudah Mengisi</span></td>
-            <td><button class="button button1">Lihat</button></div></td>
+            <td><button class="button button3">Ditolak</button></div></td>
             <td><button class="button button1">Lihat</button></td>
         </tr>
     </table>
 
     <!-- Back Button -->
-<a href="#" class="btn btn-dark back-button">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
-    </svg>
-    Back
+    <div class="btn-container">
+        <button type="button" class="btn btn-outline-secondary"
+            onclick="window.location.href='{{ route('pembimbingakademik') }}'">←</button>
+    </div>
+</div>
+
   </a>
 </div>
 
