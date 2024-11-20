@@ -9,23 +9,46 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
+         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
         }
 
         .header {
-            background-color: #7A9447;
-            padding: 20px;
-            color: white;
+            background-color: #658345;
+            padding: 15px 30px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
 
-        .header h1 {
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            width: 50px;
+            height: auto;
+        }
+
+        .logo-text {
+            color: black;
+            line-height: 1.2;
+        }
+
+        .logo-text h1 {
             margin: 0;
+            font-size: 24px;
+            font-weight: bold;
         }
 
+        .logo-text p {
+            margin: 0;
+            font-size: 14px;
+        }
         .search-box {
             background-color: white;
             padding: 20px;
@@ -74,18 +97,60 @@
             display: inline-block;
             text-align: center;
         }
+
+        .footer {
+            background-color: #658345;
+            color: white;
+            text-align: center;
+            padding: 6px 0;
+            margin-top: auto;
+        }
+        .footer h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .footer p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .footer-icons a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #658345;
+            background-color: white;
+        }
+
     </style>
 </head>
 
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="d-flex align-items-center">
-            <img src="logo.png" alt="SATE Logo" style="height: 50px; margin-right: 15px;">
-            <h1>SATE</h1>
+        <div class="logo-container">
+            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            <div class="logo-text">
+                <h1>SATE</h1>
+                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
+            </div>
         </div>
-        <h4>Sistem Akademik Terpadu dan Efisien</h4>
     </div>
+
 
     <!-- Container -->
     <div class="container mt-4">
@@ -160,6 +225,19 @@
                 onclick="window.location.href='{{ route('pengalokasianruang.create') }}'">←</button>
         </div>
     </div>
+
+    <footer class="footer">
+        <h3>SATE</h3>
+        <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
+        <div class="footer-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-google"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+    </footer>
+    
 
     <!-- Bootstrap JS & Icons -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

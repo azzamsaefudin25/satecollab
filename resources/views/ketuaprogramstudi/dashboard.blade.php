@@ -18,30 +18,41 @@
             margin: 0;
             padding: 0;
             background-color: #fff;
-
         }
 
         .header {
             background-color: #658345;
-            color: black;
-            padding: 30px;
-            text-align: left;
+            padding: 15px 30px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
 
-        .header h1 {
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            width: 50px;
+            height: auto;
+        }
+
+        .logo-text {
+            color: black;
+            line-height: 1.2;
+        }
+
+        .logo-text h1 {
             margin: 0;
-            font-size: 30px;
-            margin-left: 120px;
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        .header img {
-            height: 60px;
-            margin-right: 20px;
+        .logo-text p {
+            margin: 0;
+            font-size: 14px;
         }
-
         .sidebar {
             width: 270px;
             background-color: #fff;
@@ -127,22 +138,55 @@
             margin-top: 10px;
             font-size: 14px;
         }
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .action-button {
+            background-color: #658345;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .action-button:hover {
+            background-color: #4f6434;
+            color: white;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="header">
-        <div>
-            <img src="sate_logo.png" alt="SATE Logo">
-            <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
+        <div class="logo-container">
+            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            <div class="logo-text">
+                <h1>SATE</h1>
+                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
+            </div>
         </div>
     </div>
 
     <div class="sidebar">
-        <h2>Dashboard</h2>
-        <a href="#">Profile</a>
-        <a href="#">Notifikasi</a>
+        <a href="#" class="menu-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
+            Dashboard
+        </a>
+        <a href="#" class="menu-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+        </a>
+        <a href="#" class="menu-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notifikasi
+        </a>
     </div>
 
     <div class="main-content">
@@ -162,18 +206,18 @@
         <div class="d-grid gap-4">
             <button type="button" class="btn btn-outline-success btn-lg">Monitoring IRS</button>
             <button type="button" class="btn btn-outline-success btn-lg"
-                onclick="window.location.href='{{ route('memilihmatakuliah.create') }}'">Penyusunan Matakuliah</button>
-            <button type="button" class="btn btn-outline-success btn-lg"
                 onclick="window.location.href='{{ route('jadwalkuliah.create') }}'">Penyusunan Jadwal Kuliah</button>
+            <button type="button" class="btn btn-outline-success btn-lg"
+                onclick="window.location.href='{{ route('memilihmatakuliah.create') }}'">Penyusunan Matakuliah</button>
             <button type="button" class="btn btn-outline-success btn-lg">Daftar Alokasi Ruang Perkuliahan</button>
         </div>
     </div>
 
     <div class="profile">
-        <img src="profile.png" alt="Profile Image">
+        <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Photo">
         <div class="profile-name">
-            <p>Nama: {{ $nama ?? 'User tidak ditemukan' }}</p>
-            <p>NIDN: {{ $nidn ?? 'NIDN tidak ditemukan' }}</p>
+            <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+            <p>{{ $nidn ?? 'NIM tidak ditemukan' }}</p>
             <p>Informatika</p>
         </div>
         <div class="btn-container">

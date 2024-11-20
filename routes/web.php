@@ -135,4 +135,8 @@ Route::get('verifikasiirs', function () {
 })->name('verifikasiirs');
 
 Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.delete');
+<<<<<<< HEAD
 // Route::post('/irs/delete', [MahasiswaController::class, 'destroy'])->name('irs.destroy');
+=======
+// Route::post('/irs/delete', [MahasiswaController::class, 'destroy'])->name('irs.destroy');
+>>>>>>> main

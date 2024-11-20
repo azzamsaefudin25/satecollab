@@ -10,39 +10,45 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #fff;
         }
 
-        header {
-            background-color: #5c6f3d;
-            /* Header color */
-            padding: 15px;
+        .header {
+            background-color: #658345;
+            padding: 15px 30px;
             display: flex;
             align-items: center;
         }
 
-        header img {
-            height: 50px;
-            margin-right: 10px;
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        header h1 {
+        .logo-container img {
+            width: 50px;
+            height: auto;
+        }
+
+        .logo-text {
+            color: black;
+            line-height: 1.2;
+        }
+
+        .logo-text h1 {
+            margin: 0;
             font-size: 24px;
-            color: white;
-            margin: 0;
-            font-weight: 600;
+            font-weight: bold;
         }
 
-        header h2 {
+        .logo-text p {
+            margin: 0;
             font-size: 14px;
-            color: white;
-            margin: 0;
-            font-weight: 400;
         }
-
         .container {
             width: 100%;
             max-width: 700px;
@@ -169,13 +175,15 @@
 </head>
 
 <body>
-    <header>
-        <img src="logo.png" alt="Logo SATE">
-        <div>
-            <h1>SATE</h1>
-            <h2>SISTEM AKADEMIK TERPADU DAN EFISIEN</h2>
+    <div class="header">
+        <div class="logo-container">
+            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            <div class="logo-text">
+                <h1>SATE</h1>
+                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
+            </div>
         </div>
-    </header>
+    </div>
 
     <div class="container">
         <main>

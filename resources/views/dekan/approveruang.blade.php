@@ -11,15 +11,45 @@
 </head>
 <style>
     body {
-        background-color: #F0F0F0;
-    }
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
 
-    .header {
-        background-color: #4CAF50;
-        padding: 15px;
-        color: white;
-        text-align: left;
-    }
+        .header {
+            background-color: #658345;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            width: 50px;
+            height: auto;
+        }
+
+        .logo-text {
+            color: black;
+            line-height: 1.2;
+        }
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-text p {
+            margin: 0;
+            font-size: 14px;
+        }
 
     .search-box {
         margin-top: 20px;
@@ -43,7 +73,13 @@
 
 <body>
     <div class="header">
-        <h4>SATE - Sistem Akademik Terpadu dan Efisien</h4>
+        <div class="logo-container">
+            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            <div class="logo-text">
+                <h1>SATE</h1>
+                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
+            </div>
+        </div>
     </div>
 
     <div class="container mt-4">
