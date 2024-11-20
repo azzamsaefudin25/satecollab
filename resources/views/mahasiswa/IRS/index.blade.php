@@ -7,23 +7,53 @@
     <title>Sistem Akademik Terpadu Efisien</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        header {
-            font-size: 1.2rem;
+        .header {
+            background-color: #658345;
+            color: black;
+            padding: 30px 0;
+            width: 100%;
+            margin: 0;
+        }   
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
         }
 
-        aside .form-select,
-        aside .btn {
-            font-size: 0.9rem;
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+            margin-left: 20px; 
         }
 
-        aside .user-info img {
-            width: 80px;
-            border-radius: 50%;
+        .header img {
+            height: 60px;
+        }
+
+        .main-container {
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         main h2 {
@@ -34,27 +64,73 @@
         .table-secondary {
             background-color: #D3D3D3 !important;
         }
+
+        .footer {
+            background-color: #658345;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .footer-icons a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .footer-icons a:hover {
+            color: #658345;
+            background-color: white;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
     </style>
 </head>
 
-<!-- Tambahkan link ke Select2 CSS dan JS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="{{ asset('backend/img/logoSate.png') }}" alt="SATE Logo">
+            <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
+        </div>
+    </header>
 
-<body class="bg-dark">
-    <div class="container-fluid vh-100 d-flex flex-column">
-        <!-- Header -->
-        <header class="bg-success text-white text-center py-3">
-            <h1 class="mb-0">SATE</h1>
-            <p class="mb-0">SISTEM AKADEMIK TERPADU EFISIEN</p>
-        </header>
-
-        <div class="row flex-grow-1">
-            <!-- Main Content -->
-            <main class="col-0 col-md-0 p-4 bg-white">
-                <h2 class="text-center">IRS</h2>
-                <h3 class="text-center mt-5">Daftar Mata Kuliah</h3>
+    <!-- Main Content -->
+    <div class="main-container">
+        <main>
+            <h2 class="text-center">IRS</h2>
+            <h3 class="text-center mt-5">Daftar Mata Kuliah</h3>
+            <div class="table-responsive">
                 <table class="table table-bordered mt-3 text-center" id="jadwalTable" border="1">
                     <thead class="table-light">
                         <tr>
@@ -113,15 +189,27 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
 
-                <div class="text-center mt-4">
-                    <button type="button" class="btn btn-outline-secondary"
-                        onclick="window.location.href='{{ route('irs.create') }}'">←</button>
-                </div>
-
-            </main>
-        </div>
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-outline-secondary"
+                    onclick="window.location.href='{{ route('irs.create') }}'">←</button>
+            </div>
+        </main>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3>SATE</h3>
+        <p>Sistem Terpadu Akademik. Contact for more Questions below</p>
+        <div class="footer-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-google"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+    </footer>
 </body>
 
 </html>

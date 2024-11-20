@@ -24,20 +24,23 @@
         .header {
             background-color: #658345;
             color: black;
-            padding: 30px;
-            text-align: left;
+            padding: 30px 0;
+            width: 100%;
+            margin: 0;
+        }   
+
+        .header-content {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-        }   
+            padding: 0 40px;
+        }  
         .header h1 {
             margin: 0;
             font-size: 30px;
-            margin-left: 120px; 
+            margin-left: 20px; 
         }
         .header img {
             height: 60px;
-            margin-right: 20px;
         }
         .footer {
             background-color: #658345;
@@ -80,12 +83,13 @@
 </head>
 
 <body class="bg-dark">
-    <div class="header">
-        <div>
-            <img src="{{ asset('backend/img/logoSate.png') }}" alt="">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="{{ asset('backend/img/logoSate.png') }}" alt="SATE Logo">
             <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
         </div>
-    </div>
+    </header>
 
     <div class="container-fluid vh-100 d-flex flex-column">
         <div class="row flex-grow-1">
