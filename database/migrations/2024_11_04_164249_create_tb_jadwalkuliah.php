@@ -16,10 +16,11 @@ return new class extends Migration
             $table->integer('sks'); // Jumlah SKS mata kuliah
             $table->string('jenis', 10);
             $table->string('semester_aktif',10);
+            $table->string('tahun_ajaran', 9);
             $table->string('hari', 10); // Hari perkuliahan
             $table->time('jam_mulai'); // Jam perkuliahan
             $table->time('jam_selesai')->nullable();
-            
+            $table->unsignedInteger('terisi')->default(0);
             // Kolom nidn_dosen untuk beberapa dosen, nullable
             $table->string('nidn_dosen1', 10)->nullable();
             $table->string('nidn_dosen2', 10)->nullable();
@@ -36,11 +37,11 @@ return new class extends Migration
             $table->foreign('nama_kelas')->references('nama_kelas')->on('kelas')->onDelete('cascade');
             
             // Foreign key untuk nidn_dosen
-            $table->foreign('nidn_dosen1')->references('nidn_dosen')->on('dosen')->onDelete('set null');
-            $table->foreign('nidn_dosen2')->references('nidn_dosen')->on('dosen')->onDelete('set null');
-            $table->foreign('nidn_dosen3')->references('nidn_dosen')->on('dosen')->onDelete('set null');
-            $table->foreign('nidn_dosen4')->references('nidn_dosen')->on('dosen')->onDelete('set null');
-            $table->foreign('nidn_dosen5')->references('nidn_dosen')->on('dosen')->onDelete('set null');
+            $table->foreign('nidn_dosen1')->references('nidn_dosen')->on('dosenpengampu')->onDelete('set null');
+            $table->foreign('nidn_dosen2')->references('nidn_dosen')->on('dosenpengampu')->onDelete('set null');
+            $table->foreign('nidn_dosen3')->references('nidn_dosen')->on('dosenpengampu')->onDelete('set null');
+            $table->foreign('nidn_dosen4')->references('nidn_dosen')->on('dosenpengampu')->onDelete('set null');
+            $table->foreign('nidn_dosen5')->references('nidn_dosen')->on('dosenpengampu')->onDelete('set null');
         });
     }
 

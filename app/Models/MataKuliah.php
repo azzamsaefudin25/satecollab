@@ -36,10 +36,13 @@ class MataKuliah extends Model
     }
 
 
-// App\Models\MataKuliah.php
-public function programStudi()
-{
-    return $this->hasMany(ProgramStudi::class, 'id_programstudi','id_programstudi');
-}
+    public function programStudi()
+    {
+        return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
+    }
 
+    public function dosenPengampu()
+    {
+        return $this->belongsToMany(Dosen::class, 'dosenpengampu', 'kode_mk', 'nidn_dosen');
+    }
 }

@@ -203,19 +203,13 @@
             </div>
         </div>
 
-        <div class="action-buttons">
-            <a href="{{ route('jadwalkuliah.create') }}" class="action-button">
-                Monitoring IRS
-            </a>
-            <a href="{{ route('jadwalkuliah.create') }}" class="action-button">
-                Penyusunan Jadwal Kuliah
-            </a>
-            <a href="{{ route('memilihmatakuliah.create') }}" class="action-button">
-                Penyusunan Matakuliah
-            </a>
-            <a href="{{ route('jadwalkuliah.create') }}" class="action-button">
-                Daftar Alokasi Ruang Perkuliahan
-            </a>
+        <div class="d-grid gap-4">
+            <button type="button" class="btn btn-outline-success btn-lg">Monitoring IRS</button>
+            <button type="button" class="btn btn-outline-success btn-lg"
+                onclick="window.location.href='{{ route('jadwalkuliah.create') }}'">Penyusunan Jadwal Kuliah</button>
+            <button type="button" class="btn btn-outline-success btn-lg"
+                onclick="window.location.href='{{ route('memilihmatakuliah.create') }}'">Penyusunan Matakuliah</button>
+            <button type="button" class="btn btn-outline-success btn-lg">Daftar Alokasi Ruang Perkuliahan</button>
         </div>
     </div>
 

@@ -110,14 +110,16 @@
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
                     <tr>
+                        <th>No</th>
                         <th>Kode Ruang</th>
                         <th>Nama Program Studi</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($pengajuans_ruang as $pengajuanruang)
+                    @foreach ($pengajuans_ruang as $index => $pengajuanruang)
                         <tr>
+                            <td>{{ $index + 1 }}</td>
                             <td>{{ $pengajuanruang->kode_ruang }}</td>
                             <td>{{ $pengajuanruang->programStudi->nama_programstudi ?? 'Program studi tidak ditemukan' }}
                             </td>

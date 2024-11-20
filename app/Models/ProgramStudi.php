@@ -75,5 +75,10 @@ class ProgramStudi extends Model
     {
         return $this->hasMany(PengalokasianRuang::class, 'id_programstudi', 'id_programstudi');
     }
+
+    public function mataKuliah()
+    {
+        return $this->hasMany(MataKuliah::class, 'id_programstudi', 'id_programstudi');
+    }
 }
 

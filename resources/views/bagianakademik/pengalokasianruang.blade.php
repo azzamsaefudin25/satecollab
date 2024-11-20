@@ -7,7 +7,6 @@
 
         <h5>Pengisian Data Alokasi Ruangan: </h5>
         <br>
-        @include('komponen.pesan')
 
         <div class="form">
             <form action="{{ route('pengalokasianruang.store') }}" method="POST">
@@ -34,8 +33,8 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="kode_ruang[]"
                                     value="{{ $ruang->kode_ruang }}" id="kode_ruang_{{ $ruang->kode_ruang }}"
-                                    {{ in_array($ruang->kode_ruang, old('kode_ruang', Session::get('kode_ruang', []))) ? 'checked' : '' }}>
-                                <label class="form-check-label"
+                                    {{ in_array($ruang->kode_ruang, old('kode_ruang', Session::get('kode_ruang', [])) ?? []) ? 'checked' : '' }}
+                                    <label class="form-check-label"
                                     for="kode_ruang_{{ $ruang->kode_ruang }}">{{ $ruang->kode_ruang }}</label>
                             </div>
                         @endforeach

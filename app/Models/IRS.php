@@ -11,9 +11,11 @@ class IRS extends Model
 
     protected $table = 'irs';
     
-    public $incrementing = false;
+    protected $primaryKey = 'id_irs';
+    public $incrementing = true;
 
     protected $fillable = [
+        'id_jadwal',
         'nim',
         'kode_mk',
         'nama_kelas',
@@ -23,7 +25,7 @@ class IRS extends Model
         'hari',
         'jam_mulai',
         'jam_selesai',
-        'nidn_dosen',
+        'tahun_ajaran',
         'nidn_pembimbingakademik',
         'status_approve',
     ];
@@ -33,6 +35,8 @@ class IRS extends Model
       {
           return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
       }
-
- 
+      public function jadwalKuliah()
+      {
+          return $this->belongsTo(JadwalKuliah::class, 'id_jadwal', 'id_jadwal');
+      }
 }
