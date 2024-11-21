@@ -128,42 +128,52 @@
                         <th>Jam Selesai</th>
                         <th>Nama Dosen Pengampu</th>
                         <th>Status</th>
-                    </tr> 
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($jadwal as $index => $item)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $item->kode_mk }}</td>
-                        <td>{{ $item->mataKuliah->nama_mk ?? 'N/A' }}</td> 
-                        <td>{{ $item->kode_ruang }}</td>
-                        <td>{{ $item->nama_kelas }}</td>
-                        <td>{{ $item->mataKuliah->semester ?? 'N/A'}}</td>
-                        <td>{{ $item->mataKuliah->sks?? 'N/A' }}</td>
-                        <td>{{ $item->mataKuliah->jenis ?? 'N/A'}}</td>
-                        <td>{{ $item->mataKuliah->semester_aktif ?? 'N/A'}}</td>
-                        <td>{{ $item->tahun_ajaran }}</td>
-                        <td>{{ $item->hari }}</td>
-                        <td>{{ $item->jam_mulai }}</td>
-                        <td>{{ $item->jam_selesai }}</td>
-                
-                        <!-- Menampilkan daftar dosen pengampu -->
-                        <td>
-                            <ol>
-                                @if ($item->dosen1) <li>{{ $item->dosen1->dosen->nama_dosen }}</li> @endif
-                                @if ($item->dosen2) <li>{{ $item->dosen2->dosen->nama_dosen }}</li> @endif
-                                @if ($item->dosen3) <li>{{ $item->dosen3->dosen->nama_dosen }}</li> @endif
-                                @if ($item->dosen4) <li>{{ $item->dosen4->dosen->nama_dosen }}</li> @endif
-                                @if ($item->dosen5) <li>{{ $item->dosen5->dosen->nama_dosen }}</li> @endif
-                            </ol>
-                        </td>
-                
-                        <td>{{ $item->status }}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $item->kode_mk }}</td>
+                            <td>{{ $item->mataKuliah->nama_mk ?? 'N/A' }}</td>
+                            <td>{{ $item->kode_ruang }}</td>
+                            <td>{{ $item->nama_kelas }}</td>
+                            <td>{{ $item->mataKuliah->semester ?? 'N/A' }}</td>
+                            <td>{{ $item->mataKuliah->sks ?? 'N/A' }}</td>
+                            <td>{{ $item->mataKuliah->jenis ?? 'N/A' }}</td>
+                            <td>{{ $item->mataKuliah->semester_aktif ?? 'N/A' }}</td>
+                            <td>{{ $item->tahun_ajaran }}</td>
+                            <td>{{ $item->hari }}</td>
+                            <td>{{ $item->jam_mulai }}</td>
+                            <td>{{ $item->jam_selesai }}</td>
+
+                            <!-- Menampilkan daftar dosen pengampu -->
+                            <td>
+                                <ol>
+                                    @if ($item->dosen1)
+                                        <li>{{ $item->dosen1->dosen->nama_dosen }}</li>
+                                    @endif
+                                    @if ($item->dosen2)
+                                        <li>{{ $item->dosen2->dosen->nama_dosen }}</li>
+                                    @endif
+                                    @if ($item->dosen3)
+                                        <li>{{ $item->dosen3->dosen->nama_dosen }}</li>
+                                    @endif
+                                    @if ($item->dosen4)
+                                        <li>{{ $item->dosen4->dosen->nama_dosen }}</li>
+                                    @endif
+                                    @if ($item->dosen5)
+                                        <li>{{ $item->dosen5->dosen->nama_dosen }}</li>
+                                    @endif
+                                </ol>
+                            </td>
+
+                            <td>{{ $item->status }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
-            
+
         </div>
 
         <div class="btn-container">

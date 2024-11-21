@@ -133,10 +133,11 @@ Route::get('/Lihat/IRS', [MahasiswaController::class, 'index'])->name('irs.index
 Route::get('verifikasiirs', function () {
     return view('pembimbingakademik.verifikasiirs', ['title' => 'verfikasiirs']);
 })->name('verifikasiirs');
+Route::get('lihatirs', function () {
+    return view('pembimbingakademik.lihatirs', ['title' => 'lihatirs']);
+})->name('lihatirs');
 
 Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.delete');
-<<<<<<< HEAD
+
 // Route::post('/irs/delete', [MahasiswaController::class, 'destroy'])->name('irs.destroy');
-=======
-// Route::post('/irs/delete', [MahasiswaController::class, 'destroy'])->name('irs.destroy');
->>>>>>> main
+

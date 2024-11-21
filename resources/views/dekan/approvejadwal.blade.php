@@ -11,45 +11,45 @@
 </head>
 <style>
     body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-        }
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+    }
 
-        .header {
-            background-color: #658345;
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-        }
+    .header {
+        background-color: #658345;
+        padding: 15px 30px;
+        display: flex;
+        align-items: center;
+    }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-        .logo-container img {
-            width: 50px;
-            height: auto;
-        }
+    .logo-container img {
+        width: 50px;
+        height: auto;
+    }
 
-        .logo-text {
-            color: black;
-            line-height: 1.2;
-        }
+    .logo-text {
+        color: black;
+        line-height: 1.2;
+    }
 
-        .logo-text h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
+    .logo-text h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-        .logo-text p {
-            margin: 0;
-            font-size: 14px;
-        }
+    .logo-text p {
+        margin: 0;
+        font-size: 14px;
+    }
 
     .search-box {
         margin-top: 20px;
@@ -128,7 +128,7 @@
                 </thead>
                 <tbody>
                     @foreach ($pengajuans as $index => $pengajuan)
-                    <tr>
+                        <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $pengajuan->kode_mk }}</td>
                             <td>{{ $pengajuan->mataKuliah->nama_mk ?? 'mata kuliah tidak ditemukan' }}</td>
@@ -146,19 +146,19 @@
                             <td>
                                 <ol>
                                     @if ($pengajuan->dosen1)
-                                        <li>{{ $pengajuan->dosen1->nama_dosen }}</li>
+                                        <li>{{ $pengajuan->dosen1->dosen->nama_dosen }}</li>
                                     @endif
                                     @if ($pengajuan->dosen2)
-                                        <li>{{ $pengajuan->dosen2->nama_dosen }}</li>
+                                        <li>{{ $pengajuan->dosen2->dosen->nama_dosen }}</li>
                                     @endif
                                     @if ($pengajuan->dosen3)
-                                        <li>{{ $pengajuan->dosen3->nama_dosen }}</li>
+                                        <li>{{ $pengajuan->dosen3->dosen->nama_dosen }}</li>
                                     @endif
                                     @if ($pengajuan->dosen4)
-                                        <li>{{ $pengajuan->dosen4->nama_dosen }}</li>
+                                        <li>{{ $pengajuan->dosen4->dosen->nama_dosen }}</li>
                                     @endif
                                     @if ($pengajuan->dosen5)
-                                        <li>{{ $pengajuan->dosen5->nama_dosen }}</li>
+                                        <li>{{ $pengajuan->dosen5->dosen->nama_dosen }}</li>
                                     @endif
                                 </ol>
                             </td>
