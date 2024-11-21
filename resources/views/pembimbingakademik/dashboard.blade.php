@@ -204,7 +204,7 @@
             <div class="status-content">
                 <div class="status-info">
                     <p>Nama: {{ $nama ?? 'Nama si Pegawai nya' }}</p>
-                    <p>NIP: {{ $nip ?? 'NIP si Pegawai nya' }}</p>
+                    <p>NIDN: {{ $nidn ?? 'N/A' }}</p>
                     
                     <div class="status-grid">
                         <div class="status-item">
@@ -237,7 +237,7 @@
     <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Photo">
     <div class="profile-name">
         <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
-        <p>{{ $nip ?? 'NIP tidak ditemukan' }}</p>
+        <p>{{ $nidn ?? 'N/A' }}</p>
         <p>Informatika</p>
     </div>
     <div class="btn-container">
