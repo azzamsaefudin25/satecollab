@@ -46,8 +46,9 @@ class MahasiswaController extends Controller
 
         // Pastikan mahasiswa ditemukan
         if (!$mahasiswa) {
-            return redirect()->route('home')->withErrors(['message' => 'Data mahasiswa tidak ditemukan.']);
+            return redirect('/')->withErrors(['message' => 'Data mahasiswa tidak ditemukan.']);
         }
+    
         $nim = $mahasiswa->nim;
         $irsData = IRS::with(['mahasiswa', 'jadwalKuliah'])
             ->where('nim', $nim)

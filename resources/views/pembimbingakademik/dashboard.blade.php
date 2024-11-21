@@ -161,7 +161,8 @@
 
         <div class="d-grid gap-4">
             <button type="button" class="btn btn-outline-success btn-lg"
-                onclick="window.location.href='{{ route('verifikasiirs') }}'">VERIFIKASI IRS</button>
+            
+                onclick="window.location.href='{{ route('pembimbingakademik.verifikasiirs') }}'">VERIFIKASI IRS</button>
         </div>
     </div>
 

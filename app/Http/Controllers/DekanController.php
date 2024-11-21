@@ -50,6 +50,7 @@ class DekanController extends Controller
     {
         $pengajuanruang = PengalokasianRuang::findOrFail($id);
 
+
         if ($request->input('action') === 'setuju') {
             // Update status menjadi 'disetujui'
             $pengajuanruang->status = 'disetujui';
