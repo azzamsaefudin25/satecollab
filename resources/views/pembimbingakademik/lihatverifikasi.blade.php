@@ -17,7 +17,6 @@
             margin: 0;
             padding: 0;
             background-color: #fff;
-
         }
 
         .container {
@@ -55,7 +54,6 @@
             padding: 20px;
             background-color: #658345;
             margin-bottom: 20px;
-
         }
 
         .statistik div {
@@ -129,12 +127,6 @@
             padding: 5px 10px;
             border-radius: 25px;
         }
-        .waiting-approved {
-            background-color:#BFCAB7;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 25px;
-        }
 
         .back-button {
             padding: 10px 20px;
@@ -191,83 +183,106 @@
 </head>
 
 <body>
-
     <div class="header">
         <div>
-            <img src="sate_logo.png" alt="SATE Logo">
+            <img src="{{ asset('sate_logo.png') }}" alt="SATE Logo">
             <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
         </div>
     </div>
 
     <div class="container">
-        <div class="content">
-            <h2>VERIFIKASI IRS</h2>
-
-            <div class="statistik">
-                <section>
-                    <span>
-                        <h5><b>Statistik Mahasiswa</b><br></h5>Informasi selengkapnya mengenai statistik mahasiswa
-                        seperti mahasiswa aktif, mahasiswa yang telah mengisi IRS, dan mahasiswa yang menunggu
-                        verifikasi.
-                    </span>
-                </section>
-                <div>Mahasiswa Aktif<br><b>4</b></div>
-                <div>Mahasiswa Yang Sudah Diverifikasi<br><b>2</b></div>
-                <div>Mahasiswa Yang Sudah Mengisi IRS<br><b>3</b></div>
+        {{-- Tampilkan pesan status --}}
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
+        @endif
 
-            <div class="search-container">
-                <input type="text" placeholder="CARI MAHASISWA">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path
-                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z" />
-                    </svg>
-                </button>
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
             </div>
-            <table id="mahasiswaTable">
-                <thead>
+        @endif
+
+        <h2>Detail IRS Mahasiswa: {{ $mahasiswa->nama_mahasiswa ?? 'N/A' }}</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Kode Mata Kuliah</th>
+                    <th>Nama Mata Kuliah</th>
+                    <th>Kode Ruang</th>
+                    <th>Nama Kelas</th>
+                    <th>Semester</th>
+                    <th>Sks</th>
+                    <th>Jenis</th>
+                    <th>Semester Aktif</th>
+                    <th>Tahun Ajaran</th>
+                    <th>Hari</th>
+                    <th>Jam Mulai</th>
+                    <th>Jam Selesai</th>
+                    <th>Status</th>
+                    <th>Status Approve</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($irs as $item)
                     <tr>
-                        <th>No</th>
-                        <th>NIM</th>
-                        <th>Nama</th>
-                        <th>Semester</th>
-                        <th>Status IRS</th>
-                        <th>Aksi</th>
+                        <td>{{ $item->kode_mk ?? '-' }}</td>
+                        <td>{{ $item->jadwalkuliah->mataKuliah->nama_mk ?? '-' }}</td>
+                        <td>{{ $item->kode_ruang ?? '-' }}</td>
+                        <td>{{ $item->nama_kelas ?? '-' }}</td>
+                        <td>{{ $item->jadwalKuliah->semester ?? '-' }}</td>
+                        <td>{{ $item->sks ?? '-' }}</td>
+                        <td>{{ $item->jadwalKuliah->jenis ?? '-' }}</td>
+                        <td>{{ $item->jadwalKuliah->semester_aktif ?? '-' }}</td>
+                        <td>{{ $item->jadwalKuliah->tahun_ajaran ?? '-' }}</td>
+                        <td>{{ $item->hari ?? '-' }}</td>
+                        <td>{{ $item->jam_mulai ?? '-' }}</td>
+                        <td>{{ $item->jam_selesai ?? '-' }}</td>
+                        <td>{{ $item->status ?? '-' }}</td>
+                        <td>
+                            @if ($item->status_approve == 'disetujui')
+                                <span class="approved">{{ $item->status_approve }}</span>
+                            @elseif ($item->status_approve == 'menunggu konfirmasi')
+                                <span class="not-approved">{{ $item->status_approve }}</span>
+                            @else
+                                {{ $item->status_approve ?? '-' }}
+                            @endif
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @forelse ($mahasiswa as $index => $mhs)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $mhs->nim }}</td>
-                            <td>{{ $mhs->nama_mahasiswa }}</td>
-                            <td>{{ $mhs->semester }}</td>
-                            <td>
-                                @if ($mhs->irs && $mhs->irs->status_approve === 'disetujui')
-                                    <span class="approved">Disetujui</span>
-                                @elseif($mhs->irs)
-                                    <span class="waiting-approved">Menunggu</span>
-                                @else
-                                    <span class="not-approved">Belum Ada IRS</span>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('pembimbingakademik.lihatverifikasi', ['nim' => $mhs->nim]) }}"
-                                    class="btn btn-outline-info">Lihat</a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center">Tidak ada mahasiswa yang ditemukan</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">Data IRS tidak tersedia</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
+        <div id="approval-buttons">
+            {{-- Tombol "Setuju" jika ada IRS yang menunggu konfirmasi --}}
+            @if ($irs->contains('status_approve', 'menunggu konfirmasi'))
+                <form method="POST" action="{{ route('pembimbingakademik.persetujuanirs') }}" class="mb-2">
+                    @csrf
+                    <input type="hidden" name="nim" value="{{ $mahasiswa->nim }}">
+                    <button type="submit" name="action" value="setuju"
+                        class="btn btn-outline-success btn-lg">Setuju</button>
+                </form>
+            @endif
 
+            {{-- Tombol "Ubah Persetujuan IRS" jika sudah disetujui --}}
+            @if ($irs->contains('status_approve', 'disetujui'))
+                <form method="POST" action="{{ route('pembimbingakademik.persetujuanirs') }}">
+                    @csrf
+                    <input type="hidden" name="nim" value="{{ $mahasiswa->nim }}">
+                    <button type="submit" name="action" value="ubah" class="btn btn-outline-warning btn-lg">Ubah
+                        Persetujuan IRS</button>
+                </form>
+            @endif
+        </div>
+        <footer>
             <!-- Back Button -->
-            <a onclick="window.location.href='{{ route('pembimbingakademik') }}'" class="btn btn-dark back-button">
+            <a onclick="window.location.href='{{ route('pembimbingakademik.verifikasiirs') }}'"
+                class="btn btn-dark back-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -275,8 +290,11 @@
                 </svg>
                 Back
             </a>
-        </div>
+        </footer>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 
 </html>

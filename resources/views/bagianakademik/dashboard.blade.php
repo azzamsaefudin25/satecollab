@@ -225,7 +225,7 @@
         </div>
 
         <div class="action-buttons">
-            <a href="{{ route('penyusunanruang.create') }}" class="action-button">
+            <a href="{{ route('penyusunanruang.index') }}" class="action-button">
                 Penyusunan Ruang Perkuliahan
             </a>
             <a href="{{ route('pengalokasianruang.create') }}" class="action-button">

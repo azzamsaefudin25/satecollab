@@ -140,4 +140,6 @@ Route::get('lihatirs', function () {
 Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.delete');
 
 // Route::post('/irs/delete', [MahasiswaController::class, 'destroy'])->name('irs.destroy');
-
+Route::get('/masuk/IRS', [PembimbingAkademikController::class, 'approveIRS'])->name('pembimbingakademik.verifikasiirs');
+Route::get('/masuk/IRS/verifikasi/{nim}', [PembimbingAkademikController::class, 'approveIRS2'])->name('pembimbingakademik.lihatverifikasi');
+Route::post('/pembimbing-akademik/persetujuan-irs', [PembimbingAkademikController::class, 'persetujuanIRS'])->name('pembimbingakademik.persetujuanirs');

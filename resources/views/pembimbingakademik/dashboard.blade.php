@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -185,15 +186,28 @@
 
     <div class="sidebar">
         <a href="#" class="menu-item active">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M9 3v18" />
+                <path d="M3 9h18" />
+            </svg>
             Dashboard
         </a>
         <a href="#" class="menu-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
             Profile
         </a>
         <a href="#" class="menu-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
             Notifikasi
         </a>
     </div>
@@ -205,7 +219,7 @@
                 <div class="status-info">
                     <p>Nama: {{ $nama ?? 'Nama si Pegawai nya' }}</p>
                     <p>NIDN: {{ $nidn ?? 'N/A' }}</p>
-                    
+
                     <div class="status-grid">
                         <div class="status-item">
                             <h3>Masa Jabatan</h3>
@@ -223,28 +237,28 @@
                 </div>
             </div>
         </div>
-    
-    <div class="action-buttons">
-    {{-- <a href="{{ route('penyusunanruang.create') }}" class="action-button">
-       Mengusulkan jadwal
-    </a> --}}
-    <a href="{{ route('verifikasiirs') }}" class="action-button">
-        Verifikasi irs
-    </a>
-</div>
 
-<div class="profile">
-    <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Photo">
-    <div class="profile-name">
-        <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
-        <p>{{ $nidn ?? 'N/A' }}</p>
-        <p>Informatika</p>
-    </div>
-    <div class="btn-container">
-        <button type="button" class="btn btn-outline-secondary"
-            onclick="window.location.href='{{ route('logout') }}'">Logout</button>
-    </div>
-</div>
+        <div class="action-buttons">
+            <button type="button" class="btn btn-outline-success btn-lg"
+                onclick="window.location.href='{{ route('pembimbingakademik.verifikasiirs') }}'">VERIFIKASI IRS</button>
+            {{-- <a href="{{ route('verifikasiirs') }}" class="action-button">
+                Verifikasi irs
+            </a> --}}
+        </div>
+
+        <div class="profile">
+            <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Photo">
+            <div class="profile-name">
+                <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                <p>{{ $nidn ?? 'N/A' }}</p>
+                <p>Informatika</p>
+            </div>
+            <div class="btn-container">
+                <button type="button" class="btn btn-outline-secondary"
+                    onclick="window.location.href='{{ route('logout') }}'">Logout</button>
+            </div>
+        </div>
 
 </body>
+
 </html>

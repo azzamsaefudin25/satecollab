@@ -19,13 +19,9 @@
                             <option value="{{ $prodi->id_programstudi }}"
                                 {{ old('id_programstudi', Session::get('id_programstudi')) == $prodi->id_programstudi ? 'selected' : '' }}>
                                 {{ $prodi->nama_programstudi }}</option>
-                            
                         @endforeach
                     </select>
                 </div>
-            </form>
-        </div>
-        
                 <div class="form-group">
                     <label for="kode_ruang">Kode Ruang</label>
                     <div id="kode_ruang">
@@ -40,7 +36,6 @@
                         @endforeach
                     </div>
                 </div>
-                <!-- Menggunakan div container untuk tombol -->
                 <div class="btn-container">
                     <!-- Tombol back di sebelah kiri -->
                     <button type="button" class="btn btn-outline-secondary"
@@ -56,6 +51,9 @@
                 </div>
             </form>
         </div>
+
+        <!-- Menggunakan div container untuk tombol -->
+        
+    </div>
     </div>
 @endsection
-
