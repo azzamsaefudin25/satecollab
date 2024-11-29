@@ -1,5 +1,4 @@
 @extends('layout.template')
-<!-- START FORM -->
 @section('content')
     <div class="container">
         <br>
@@ -24,20 +23,23 @@
                 </div>
                 <div class="form-group">
                     <label for="kode_ruang">Kode Ruang</label>
-                    <div id="kode_ruang">
+                    <div class="row"> 
                         @foreach ($ruangPerkuliahan as $ruang)
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="kode_ruang[]"
-                                    value="{{ $ruang->kode_ruang }}" id="kode_ruang_{{ $ruang->kode_ruang }}"
-                                    {{ in_array($ruang->kode_ruang, old('kode_ruang', Session::get('kode_ruang', [])) ?? []) ? 'checked' : '' }}
-                                    <label class="form-check-label"
-                                    for="kode_ruang_{{ $ruang->kode_ruang }}">{{ $ruang->kode_ruang }}</label>
+                        {{-- /* Bagi menjadi 2 kolom */ --}}
+                            <div class="col-md-6"> 
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="kode_ruang[]"
+                                        value="{{ $ruang->kode_ruang }}" id="kode_ruang_{{ $ruang->kode_ruang }}"
+                                        {{ in_array($ruang->kode_ruang, old('kode_ruang', Session::get('kode_ruang', [])) ?? []) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="kode_ruang_{{ $ruang->kode_ruang }}">
+                                        {{ $ruang->kode_ruang }}
+                                    </label>
+                                </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
                 <div class="btn-container">
-                    <!-- Tombol back di sebelah kiri -->
                     <button type="button" class="btn btn-dark back-button"
                         onclick="window.location.href='{{ route('pengalokasianruang.index') }}'">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -48,7 +50,6 @@
                         BACK
                     </button>
 
-                    <!-- Tombol simpan dan lihat di sebelah kanan -->
                     <div class="btn-right">
                         <button type="submit" class="btn btn-custom">AJUKAN</button>
                     </div>
@@ -56,8 +57,6 @@
             </form>
         </div>
 
-        <!-- Menggunakan div container untuk tombol -->
-
-    </div>
+        </div>
     </div>
 @endsection

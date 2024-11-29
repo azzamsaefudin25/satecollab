@@ -131,7 +131,7 @@ class BagianAkademikController extends Controller
                 ]);
             }
 
-            return redirect()->route('pengalokasianruang.create')->with('success', 'Pengalokasian ruang telah diajukan ke dekan.');
+            return redirect()->route('pengalokasianruang.index')->with('success', 'Pengalokasian ruang telah diajukan ke dekan.');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
