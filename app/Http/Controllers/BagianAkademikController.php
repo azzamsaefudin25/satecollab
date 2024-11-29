@@ -9,6 +9,9 @@ use App\Models\PengalokasianRuang;
 use App\Models\ProgramStudi;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\QueryException;
 
 class BagianAkademikController extends Controller
 {
@@ -69,19 +72,17 @@ class BagianAkademikController extends Controller
 
         try {
             // Validasi input
-            $validatedData = $request->validate(
-                [
-                    'kode_ruang' => 'required|string|max:25|unique:ruangperkuliahan,kode_ruang',
-                    'gedung' => 'required|string|max:50',
-                    'kapasitas' => 'required|integer',
-                ],
-                [
-                    'kode_ruang.required' => 'Kode ruang wajib diisi',
-                    'kode_ruang.unique' => 'Kode ruang sudah ada di database',
-                    'gedung.required' => 'Gedung wajib diisi',
-                    'kapasitas.required' => 'Kapasitas wajib diisi',
-                ]
-            );
+            $validatedData = $request->validate([
+                'kode_ruang' => 'required|string|max:25|unique:ruangperkuliahan,kode_ruang',
+                'gedung' => 'required|string|max:50',
+                'kapasitas' => 'required|integer',
+            ], [
+                'kode_ruang.required' => 'Kode ruang wajib diisi',
+                'kode_ruang.unique' => 'Kode ruang sudah ada di database',
+                'gedung.required' => 'Gedung wajib diisi',
+                'kapasitas.required' => 'Kapasitas wajib diisi',
+            ]);
+
             // Simpan data ke tabel ruangperkuliahan
             RuangPerkuliahan::create([
                 'kode_ruang' => $validatedData['kode_ruang'],
@@ -91,7 +92,16 @@ class BagianAkademikController extends Controller
 
             // Redirect setelah sukses
             return redirect()->route('penyusunanruang.index')->with('success', 'Data berhasil disimpan!');
+        } catch (ValidationException $e) {
+            // Tangani error validasi
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (QueryException $e) {
+            // Tangani error database
+            Log::error($e->getMessage()); // Log error
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi nanti.'])->withInput();
         } catch (\Exception $e) {
+            // Tangani error lainnya
+            Log::error($e->getMessage()); // Log error
             return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
     }
