@@ -122,8 +122,11 @@ class BagianAkademikController extends Controller
                 ->first();
 
             if ($existingPengajuan) {
+                // Ambil nama program studi dari tabel programstudi berdasarkan id_programstudi
+                $programStudi = ProgramStudi::find($existingPengajuan->id_programstudi)->nama_programstudi;
+                $kodeRuangString = implode(', ', $validatedData['kode_ruang']);
                 // Jika sudah ada pengajuan, berikan pesan error
-                return redirect()->back()->withErrors(['error' => 'Alokasi ruang sudah pernah diajukan dengan status ' . $existingPengajuan->status])->withInput();
+                return redirect()->back()->withErrors(['error' => "{$kodeRuangString} sudah diajukan untuk program studi {$programStudi} dengan status " . $existingPengajuan->status])->withInput();
             }
             // Menyimpan data ke tabel pengalokasianruang
             foreach ($validatedData['kode_ruang'] as $room) {
