@@ -52,7 +52,8 @@ class BagianAkademikController extends Controller
     public function createPengalokasianRuang()
     {
         // Mengambil data dari tabel ruangperkuliahan dan program_studi
-        $ruangPerkuliahan = RuangPerkuliahan::all();
+        // $ruangPerkuliahan = RuangPerkuliahan::all();
+        $ruangPerkuliahan = RuangPerkuliahan::orderBy('kode_ruang', 'asc')->get();
         $programStudi = ProgramStudi::all();
 
         return view('bagianakademik.pengalokasianruang.create', compact('ruangPerkuliahan', 'programStudi'));

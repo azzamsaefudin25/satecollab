@@ -26,7 +26,7 @@
                     <div class="row"> 
                         @foreach ($ruangPerkuliahan as $ruang)
                         {{-- /* Bagi menjadi 2 kolom */ --}}
-                            <div class="col-md-6"> 
+                            <div class="col-md-4"> 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="kode_ruang[]"
                                         value="{{ $ruang->kode_ruang }}" id="kode_ruang_{{ $ruang->kode_ruang }}"
