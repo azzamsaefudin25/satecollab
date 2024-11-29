@@ -217,7 +217,7 @@
         <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Photo">
         <div class="profile-name">
             <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
-            <p>{{ $nip ?? 'NIP tidak ditemukan' }}</p>
+            <p>{{ $nidn ?? 'N/A' }}</p>
             <p>Informatika</p>
         </div>
         <div class="btn-container">

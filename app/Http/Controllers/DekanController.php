@@ -30,7 +30,7 @@ class DekanController extends Controller
     public function createPengajuanRuang()
     {
         // Ambil semua pengajuan dari tabel pengalokasianruang
-        $pengajuans_ruang = PengalokasianRuang::all();
+        $pengajuans_ruang = PengalokasianRuang::orderBy('id', 'desc')->paginate(5);;
 
         // Kirim data ke view
         return view('dekan.approveruang', compact('pengajuans_ruang'));
@@ -39,7 +39,7 @@ class DekanController extends Controller
     public function createPengajuanJadwal()
     {
         // Ambil semua jadwal kuliah yang diajukan dari tabel JadwalKuliah
-        $pengajuans = JadwalKuliah::all();
+        $pengajuans = JadwalKuliah::orderBy('id_jadwal', 'desc')->paginate(5);;
 
         // Kirim data ke view
         return view('dekan.approvejadwal', compact('pengajuans'));

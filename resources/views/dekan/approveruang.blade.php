@@ -11,45 +11,45 @@
 </head>
 <style>
     body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-        }
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+    }
 
-        .header {
-            background-color: #658345;
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-        }
+    .header {
+        background-color: #658345;
+        padding: 15px 30px;
+        display: flex;
+        align-items: center;
+    }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-        .logo-container img {
-            width: 50px;
-            height: auto;
-        }
+    .logo-container img {
+        width: 50px;
+        height: auto;
+    }
 
-        .logo-text {
-            color: black;
-            line-height: 1.2;
-        }
+    .logo-text {
+        color: black;
+        line-height: 1.2;
+    }
 
-        .logo-text h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
+    .logo-text h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-        .logo-text p {
-            margin: 0;
-            font-size: 14px;
-        }
+    .logo-text p {
+        margin: 0;
+        font-size: 14px;
+    }
 
     .search-box {
         margin-top: 20px;
@@ -117,9 +117,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($pengajuans_ruang as $index => $pengajuanruang)
+                    <?php $i = $pengajuans_ruang->firstItem(); ?>
+                    @foreach ($pengajuans_ruang as $pengajuanruang)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $i }}</td>
                             <td>{{ $pengajuanruang->kode_ruang }}</td>
                             <td>{{ $pengajuanruang->programStudi->nama_programstudi ?? 'Program studi tidak ditemukan' }}
                             </td>
@@ -146,6 +147,7 @@
                                 @endif
                             </td>
                         </tr>
+                        <?php $i++; ?>
                     @endforeach
                     @if ($pengajuans_ruang->isEmpty())
                         <tr>
@@ -154,10 +156,17 @@
                     @endif
                 </tbody>
             </table>
-
+            {{ $pengajuans_ruang->withQueryString()->links() }}
             <div class="btn-container">
-                <button type="button" class="btn btn-outline-secondary"
-                    onclick="window.location.href='{{ route('dekan') }}'">←</button>
+                <button type="button" class="btn btn-dark back-button"
+                    onclick="window.location.href='{{ route('dekan') }}'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                    </svg>
+                    BACK
+                </button>
             </div>
         </div>
 
