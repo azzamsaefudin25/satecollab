@@ -37,13 +37,13 @@ class BagianAkademikController extends Controller
 
     public function indexPenyusunanRuang()
     {
-        // Mengambil semua data ruang perkuliahan
         $ruangPerkuliahan = RuangPerkuliahan::orderBy('kode_ruang', 'desc')->paginate(5);
         return view('bagianakademik.penyusunanruang.index', compact('ruangPerkuliahan'));
     }
     public function indexPengalokasianRuang()
     {
-        $alokasiRuang = PengalokasianRuang::orderBy('kode_ruang', 'desc')->paginate(5);
+        // $alokasiRuang = PengalokasianRuang::orderBy('kode_ruang', 'desc')->paginate(5);
+        $alokasiRuang = PengalokasianRuang::orderBy('id','desc')->paginate(5);
         return view('bagianakademik.pengalokasianruang.index', compact('alokasiRuang'));
     }
     public function createPenyusunanRuang()
