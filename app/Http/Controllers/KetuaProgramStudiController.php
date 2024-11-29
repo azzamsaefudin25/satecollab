@@ -93,34 +93,36 @@ class KetuaProgramStudiController extends Controller
      */
     public function storeMemilihMataKuliah(Request $request)
     {
-        // dd($request->all());
-
         // Validasi input
         $request->validate([
             'kode_mk' => 'required|string|max:8|unique:matakuliah,kode_mk',
             'nama_mk' => 'required|string|max:50',
-            'semester' => 'required|integer|min:1|max:8',
-            'sks' => 'required|integer|min:1|max:6',
-            'semester_aktif' => 'required|string|max:10',
-            'jenis' => 'required|string|max:10',
+            'semester' => 'required|integer|min:1|max:9', // Validasi semester 1-9
+            'sks' => 'required|integer|min:1|max:9', // Validasi SKS 1-9
+            'jenis' => 'required|string|in:Wajib,Pilihan',
             'id_programstudi' => 'required|exists:programstudi,id_programstudi',
         ]);
-
+    
+        // Tentukan semester aktif berdasarkan input semester
+        $semester = $request->input('semester');
+        $semesterAktif = $semester % 2 === 0 ? 'Genap' : 'Ganjil';
+    
         // Simpan data ke dalam tabel matakuliah
         MataKuliah::create([
-            'kode_mk' => $request->kode_mk,
-            'nama_mk' => $request->nama_mk,
-            'semester' => $request->semester,
-            'sks' => $request->sks,
-            'semester_aktif' => $request->semester_aktif,
-            'jenis' => $request->jenis,
-            'id_programstudi' => $request->id_programstudi,
-
+            'kode_mk' => $request->input('kode_mk'),
+            'nama_mk' => $request->input('nama_mk'),
+            'semester' => $semester,
+            'sks' => $request->input('sks'),
+            'semester_aktif' => $semesterAktif,
+            'jenis' => $request->input('jenis'),
+            'id_programstudi' => $request->input('id_programstudi'),
         ]);
-        // dd($dosenpengampu);
+    
         // Redirect ke halaman daftar mata kuliah dengan pesan sukses
-        return redirect()->route('memilihmatakuliah.create')->with('success', 'Mata kuliah berhasil ditambahkan.');
+        return redirect()->route('memilihmatakuliah.create')
+            ->with('success', 'Mata kuliah berhasil ditambahkan.');
     }
+    
 
     public function hitungJamSelesai(Request $request)
     {
@@ -292,7 +294,6 @@ class KetuaProgramStudiController extends Controller
             'nama_mk' => 'required|string|max:50',
             'semester' => 'required|integer|min:1|max:8',
             'sks' => 'required|integer|min:1|max:6',
-            'semester_aktif' => 'required|string|max:10',
             'jenis' => 'required|string|max:10',
         ]);
 
