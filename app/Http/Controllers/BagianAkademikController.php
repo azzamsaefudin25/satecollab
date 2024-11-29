@@ -34,14 +34,14 @@ class BagianAkademikController extends Controller
 
     public function indexPenyusunanRuang()
     {
-        $ruangPerkuliahan = RuangPerkuliahan::all(); // Mengambil semua data ruang perkuliahan
+        // Mengambil semua data ruang perkuliahan
+        $ruangPerkuliahan = RuangPerkuliahan::orderBy('kode_ruang', 'asc')->paginate(5);
         return view('bagianakademik.penyusunanruang.index', compact('ruangPerkuliahan'));
     }
     public function indexPengalokasianRuang()
     {
-        $alokasiRuang = PengalokasianRuang::all();
-
-        return view('bagianakademik.lihatpengalokasianruang', compact('alokasiRuang'));
+        $alokasiRuang = PengalokasianRuang::orderBy('kode_ruang', 'asc')->paginate(5);
+        return view('bagianakademik.pengalokasianruang.index', compact('alokasiRuang'));
     }
     public function createPenyusunanRuang()
     {
@@ -55,7 +55,7 @@ class BagianAkademikController extends Controller
         $ruangPerkuliahan = RuangPerkuliahan::all();
         $programStudi = ProgramStudi::all();
 
-        return view('bagianakademik.pengalokasianruang', compact('ruangPerkuliahan', 'programStudi'));
+        return view('bagianakademik.pengalokasianruang.create', compact('ruangPerkuliahan', 'programStudi'));
     }
     // Method untuk menyimpan data
     public function storePenyusunanRuang(Request $request)
@@ -88,7 +88,7 @@ class BagianAkademikController extends Controller
             ]);
 
             // Redirect setelah sukses
-            return redirect()->route('penyusunanruang.create')->with('success', 'Data berhasil disimpan!');
+            return redirect()->route('penyusunanruang.index')->with('success', 'Data berhasil disimpan!');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
         }

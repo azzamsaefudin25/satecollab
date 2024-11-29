@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
 // Route::get('dashboard/{role}', [UserController::class, 'index'])->name('dashboard');
 
 // bagian akademik penyusunan ruang
-Route::get('bagianakademik/penyusunanruang', [BagianAkademikController::class, 'createPenyusunanRuang'])->name('penyusunanruang.create');
+Route::get('bagianakademik/penyusunanruang/create', [BagianAkademikController::class, 'createPenyusunanRuang'])->name('penyusunanruang.create');
 Route::post('penyusunanruang', [BagianAkademikController::class, 'storePenyusunanRuang'])->name('penyusunanruang.store');
 Route::get('penyusunanruang/index', [BagianAkademikController::class, 'indexPenyusunanRuang'])->name('penyusunanruang.index');
 Route::get('penyusunanruang/{kode_ruang}/edit', [BagianAkademikController::class, 'editPenyusunanRuang'])->name('penyusunanruang.edit');
@@ -93,9 +93,9 @@ Route::put('penyusunanruang/{kode_ruang}', [BagianAkademikController::class, 'up
 Route::delete('penyusunanruang/{kode_ruang}', [BagianAkademikController::class, 'destroyPenyusunanRuang'])->name('penyusunanruang.destroy');
 
 // bagian akademik pengalokasian ruang
-Route::get('bagianakademik/pengalokasianruang', [BagianAkademikController::class, 'createPengalokasianRuang'])->name('pengalokasianruang.create');
+Route::get('bagianakademik/pengalokasianruang/create', [BagianAkademikController::class, 'createPengalokasianRuang'])->name('pengalokasianruang.create');
 Route::post('pengalokasianruang', [BagianAkademikController::class, 'storePengalokasianRuang'])->name('pengalokasianruang.store');
-Route::get('bagianakademik/pengalokasianruang/lihat', [BagianAkademikController::class, 'indexPengalokasianRuang'])->name('pengalokasianruang.lihat');
+Route::get('bagianakademik/pengalokasianruang/index', [BagianAkademikController::class, 'indexPengalokasianRuang'])->name('pengalokasianruang.index');
 
 //kaprodi menyusun matakuliah
 Route::get('memilihmatakuliah/create', [KetuaProgramStudiController::class, 'createMemilihMataKuliah'])->name('memilihmatakuliah.create');

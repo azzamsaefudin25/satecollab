@@ -228,7 +228,7 @@
             <a href="{{ route('penyusunanruang.index') }}" class="action-button">
                 Penyusunan Ruang Perkuliahan
             </a>
-            <a href="{{ route('pengalokasianruang.create') }}" class="action-button">
+            <a href="{{ route('pengalokasianruang.index') }}" class="action-button">
                 Pengalokasian Ruang Perkuliahan
             </a>
         </div>

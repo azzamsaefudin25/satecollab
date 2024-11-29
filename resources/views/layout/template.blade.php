@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-         body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -157,7 +157,17 @@
         .btn-right {
             display: flex;
         }
-        
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
         .footer {
             background-color: #658345;
             color: white;
@@ -165,19 +175,23 @@
             padding: 6px 0;
             margin-top: auto;
         }
+
         .footer h3 {
             font-size: 24px;
             margin-bottom: 10px;
         }
+
         .footer p {
             font-size: 14px;
             margin-bottom: 20px;
         }
+
         .footer-icons {
             display: flex;
             justify-content: center;
             gap: 15px;
         }
+
         .footer-icons a {
             color: white;
             text-decoration: none;
@@ -191,6 +205,7 @@
             border-radius: 50%;
             transition: 0.3s;
         }
+
         .footer-icons a:hover {
             color: #658345;
             background-color: white;
@@ -225,7 +240,7 @@
             <a href="#"><i class="bi bi-linkedin"></i></a>
         </div>
     </footer>
-    
+
 
     <!-- Bootstrap JS & Icons -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
