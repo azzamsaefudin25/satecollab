@@ -8,7 +8,7 @@
         <h5>Pengisian Data Mata Kuliah: </h5>
         <br>
         <div class="form">
-            <form action="{{ route('memilihmatakuliah.store') }}" method="POST">
+            <form id="matkulForm" action="{{ route('memilihmatakuliah.store') }}" method="POST">
                 @csrf <!-- Token CSRF untuk keamanan -->
                 <div class="form-group">
                     <label for="kode_mk">Kode Mata Kuliah</label>
@@ -19,29 +19,24 @@
                 <div class="form-group">
                     <label for="nama_mk">Nama Mata Kuliah</label>
                     <input id="nama_mk" type="text" class="form-control" name="nama_mk"
-                        placeholder="Masukkan nama mata kuliah" req uired>
+                        placeholder="Masukkan nama mata kuliah" required>
                 </div>
 
                 <div class="form-group">
                     <label for="semester">Semester</label>
                     <input id="semester" type="number" class="form-control" name="semester"
-                        placeholder="Masukkan semester" required>
+                        placeholder="Masukkan semester (1-9)" required>
+                    <small id="semesterError" class="text-danger" style="display:none;">Semester harus di antara 1-9.</small>
                 </div>
 
                 <div class="form-group">
                     <label for="sks">Jumlah SKS</label>
                     <input id="sks" type="number" name="sks" class="form-control"
-                        placeholder="Masukkan jumlah SKS" required>
+                        placeholder="Masukkan jumlah SKS (1-9)" required>
+                    <small id="sksError" class="text-danger" style="display:none;">SKS harus di antara 1-9.</small>
                 </div>
 
-                <div class="form-group">
-                    <label for="semester_aktif">Semester Aktif</label>
-                    <select class="form-control" id="semester_aktif" name="semester_aktif" required>
-                        <option value="">Pilih Semester Aktif</option>
-                        <option value="Ganjil">Ganjil</option>
-                        <option value="Genap">Genap</option>
-                    </select>
-                </div>
+                <input type="hidden" id="semester_aktif" name="semester_aktif" value="">
 
                 <div class="form-group">
                     <label for="jenis">Jenis</label>
@@ -73,4 +68,47 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        const form = document.getElementById('matkulForm');
+        const semesterInput = document.getElementById('semester');
+        const sksInput = document.getElementById('sks');
+        const semesterError = document.getElementById('semesterError');
+        const sksError = document.getElementById('sksError');
+        const semesterAktif = document.getElementById('semester_aktif');
+
+        function validateInput(input, errorElement) {
+            const value = parseInt(input.value);
+            if (value >= 1 && value <= 9) {
+                errorElement.style.display = 'none';
+                return true;
+            } else {
+                errorElement.style.display = 'block';
+                return false;
+            }
+        }
+
+        semesterInput.addEventListener('input', function () {
+            if (validateInput(semesterInput, semesterError)) {
+                semesterAktif.value = semesterInput.value % 2 === 0 ? 'Genap' : 'Ganjil';
+            } else {
+                semesterAktif.value = '';
+            }
+        });
+
+        sksInput.addEventListener('input', function () {
+            validateInput(sksInput, sksError);
+        });
+
+        form.addEventListener('submit', function (event) {
+            const isSemesterValid = validateInput(semesterInput, semesterError);
+            const isSksValid = validateInput(sksInput, sksError);
+
+            if (!isSemesterValid || !isSksValid) {
+                event.preventDefault(); // Mencegah form submit jika ada error
+            }
+        });
+    </script>
 @endsection

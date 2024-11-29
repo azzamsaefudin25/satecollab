@@ -34,10 +34,16 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin?')">Hapus</button>
+
                             </form>
                         </td>
                     </tr>
                 @endforeach
+                <div class="btn-right">
+                    <button type="button" class="btn btn-custom-secondary"
+                        onclick="window.location.href='{{ route('memilihmatakuliah.create') }}'">Tambahkan Mata kuliah</button>
+                </div>
+
             </tbody>
         </table>
 
