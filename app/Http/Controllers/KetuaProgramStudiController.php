@@ -13,6 +13,8 @@ use App\Models\PengalokasianRuang;
 use App\Models\ProgramStudi;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class KetuaProgramStudiController extends Controller
 {
@@ -65,8 +67,15 @@ class KetuaProgramStudiController extends Controller
 
     public function indexjadwalKuliah()
     {
-        $jadwal = JadwalKuliah::with(['mataKuliah', 'dosen1', 'dosen2', 'dosen3', 'dosen4', 'dosen5'])->get(); //dia itu manggil cuma dari hasil relasi nmodel nya
-
+        $jadwal = JadwalKuliah::with([
+            'mataKuliah', 
+            'dosen1.dosen', 
+            'dosen2.dosen', 
+            'dosen3.dosen', 
+            'dosen4.dosen', 
+            'dosen5.dosen'
+        ])->paginate(5); // Add pagination, 10 items per page
+    
         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
     }
 
@@ -270,11 +279,40 @@ class KetuaProgramStudiController extends Controller
     }
 
 
-    public function indexMemilihMataKuliah()
-    {
-        $matakuliah = MataKuliah::with('programStudi')->get();
-        return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah'));
+    public function indexMemilihMataKuliah(Request $request)
+{
+    $query = MataKuliah::query()
+    ->where('sks', '>=', 1)
+    ->where('sks', '<=', 9)
+    ->where('semester', '>=', 1)
+    ->where('semester', '<=', 9)
+    ->whereNotNull('kode_mk')
+    ->whereNotNull('nama_mk')
+    ->whereHas('programStudi')
+    ->orderBy('kode_mk', 'desc');
+
+    // Add search functionality
+    if ($request->has('search')) {
+        $searchTerm = $request->input('search');
+        $query->where(function($q) use ($searchTerm) {
+            $q->where('kode_mk', 'like', '%' . $searchTerm . '%')
+              ->orWhere('nama_mk', 'like', '%' . $searchTerm . '%')
+              ->orWhere('semester', 'like', '%' . $searchTerm . '%');
+        });
     }
+
+    $matakuliah = $query->paginate(5)->withQueryString();
+
+    // Tambahkan pengecekan jika tidak ada data
+    if ($matakuliah->isEmpty()) {
+        return view('ketuaprogramstudi.memilihmatakuliah.index', [
+            'matakuliah' => $matakuliah,
+            'message' => 'Tidak ada mata kuliah yang memenuhi kriteria.'
+        ]);
+    }
+
+    return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah'));
+}
 
     public function editMemilihMataKuliah($kode_mk)
     {
