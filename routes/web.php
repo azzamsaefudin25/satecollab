@@ -10,6 +10,7 @@ use App\Http\Controllers\DosenPengampuController;
 use App\Http\Controllers\PembimbingAkademikController;
 use App\Http\Controllers\IRSController;
 use App\Models\Ketuaprogramstudi;
+use App\Models\Mahasiswa;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,3 +144,11 @@ Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.de
 Route::get('/masuk/IRS', [PembimbingAkademikController::class, 'approveIRS'])->name('pembimbingakademik.verifikasiirs');
 Route::get('/masuk/IRS/verifikasi/{nim}', [PembimbingAkademikController::class, 'approveIRS2'])->name('pembimbingakademik.lihatverifikasi');
 Route::post('/pembimbing-akademik/persetujuan-irs', [PembimbingAkademikController::class, 'persetujuanIRS'])->name('pembimbingakademik.persetujuanirs');
+
+// profile
+// Route::get('profile', function () {
+//     return view('mahasiswa.profile', ['title' => 'profile']);
+// })->name('mahasiswa.profile');
+
+Route::get('/dashboard/profile/mahasiswa', [MahasiswaController::class, 'profile'])->name('mahasiswa.profile');
+

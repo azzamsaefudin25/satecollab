@@ -12,24 +12,24 @@ use Illuminate\Support\Facades\DB;
 
 class MahasiswaController extends Controller
 {
-    // public function dashboard()
-    // {
-    //     $user = Auth::user();
-    //     $mahasiswa = $user->mahasiswa;
+    public function profile()
+    {
+        $user = Auth::user();
+        $mahasiswa = $user->mahasiswa;
 
-    //     if (!$user) {
-    //         return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
-    //     }
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
 
-    //     $nama = $user->name;
-    //     $nim = null;
+        $nama = $user->name;
+        $nim = null;
 
-    //     if ($mahasiswa) {
-    //         $nim = $mahasiswa->nim;
-    //         return view('mahasiswa.dashboard', compact('nama', 'nim'));
-    //     }
-    //     return redirect()->route('home');
-    // }
+        if ($mahasiswa) {
+            $nim = $mahasiswa->nim;
+            return view('mahasiswa.profile', compact('nama', 'nim'));
+        }
+        return redirect()->route('home');
+    }
 
     public function createIRS()
     {
