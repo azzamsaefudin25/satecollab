@@ -64,6 +64,34 @@
             font-size: 24px;
             color: #5e2d91;
         }
+        /* Mengubah tampilan tombol */
+.btn-custom-secondary {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Efek hover */
+.btn-custom-secondary:hover {
+    background: linear-gradient(135deg, #495057, #343a40);
+    color: #f8f9fa;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Fokus (ketika tombol diklik atau diakses dengan keyboard) */
+.btn-custom-secondary:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(108, 117, 125, 0.5);
+}
+
     </style>
 </head>
 
@@ -171,15 +199,23 @@
                             <td>{{ $item->status }}</td>
                         </tr>
                     @endforeach
+
+                    <div class="btn-right">
+                        <button type="button" class="btn btn-custom-secondary"
+                            onclick="window.location.href='{{ route('jadwalkuliah.create') }}'">
+                            Tambahkan Jadwal Kuliah
+                        </button>
+                    </div>
+                    
                 </tbody>
             </table>
 
         </div>
 
-        <div class="btn-container">
-            <button type="button" class="btn btn-outline-secondary"
-                onclick="window.location.href='{{ route('jadwalkuliah.create') }}'">←</button>
-        </div>
+        <button type="button" class="btn btn-custom-secondary"
+        onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">
+        Kembali
+    </button>
     </div>
 
     <!-- Bootstrap JS & Icons -->
