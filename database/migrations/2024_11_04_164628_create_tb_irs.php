@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('irs', function (Blueprint $table) {
             $table->bigIncrements('id_irs');
-            $table->bigIncrements('id_jadwal');
+            $table->unsignedBigInteger('id_jadwal');
             $table->string('nim', 14); // Foreign key untuk NIM
             $table->string('kode_mk', 8); // Foreign key untuk kode mata kuliah
             $table->string('nama_kelas', 10); // Foreign key untuk nama kelas

@@ -40,18 +40,19 @@ class KetuaProgramStudiController extends Controller
 
     public function getRuangan($id_programstudi)
     {
-        // Ambil ruangan berdasarkan pengalokasian program studi
+        // Ambil ruangan berdasarkan pengalokasian program studi yang disetujui
         $ruangPerkuliahan = PengalokasianRuang::where('id_programstudi', $id_programstudi)
             ->where('status', 'disetujui')
-            ->with('ruangperkuliahan') // Relasi ke RuangPerkuliahan
+            ->with('ruangperkuliahan')
             ->get()
-            ->pluck('ruangperkuliahan'); // Ambil data ruangan dari relasi
-
-        // Kembalikan data sebagai JSON untuk AJAX
+            ->pluck('ruangperkuliahan');
+    
         return response()->json($ruangPerkuliahan);
     }
+    
     public function getMatakuliah($id_programstudi)
     {
+        // Ambil mata kuliah berdasarkan program studi
         $matakuliah = MataKuliah::where('id_programstudi', $id_programstudi)->get();
         return response()->json($matakuliah);
     }
@@ -79,23 +80,80 @@ class KetuaProgramStudiController extends Controller
         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
     }
 
-    public function createMemilihMataKuliah()
+    public function createMemilihMataKuliah( Request $request)
     {
-        $programstudi = ProgramStudi::all();
-        return view('ketuaprogramstudi.memilihmatakuliah.create', compact('programstudi'));
+        // Ambil user yang sedang login
+        $user = Auth::user();
+    
+        
+        // Periksa apakah user memiliki relasi dosen
+        if (!$user->dosen) {
+            return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
+        }
+    
+        // Cari data Ketua Program Studi yang terkait dengan user ini
+        $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
+    
+        if (!$ketuaProgramStudi) {
+            return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
+        }
+    
+        // Debug: Tampilkan informasi untuk memastikan
+        \Log::info('Ketua Prodi Data:', [
+            'NIDN' => $ketuaProgramStudi->nidn_ketuaprogramstudi,
+            'ID Program Studi' => $ketuaProgramStudi->id_programstudi
+        ]);
+    
+        // Ambil Program Studi milik Ketua Program Studi
+        $programStudi = ProgramStudi::find($ketuaProgramStudi->id_programstudi);
+        // dd($request->all());
+        
+    
+        if (!$programStudi) {
+            return redirect()->back()->withErrors('Program Studi tidak ditemukan');
+        }
+    
+        return view('ketuaprogramstudi.memilihmatakuliah.create', compact('programStudi'));
     }
-
 
     public function createJadwalKuliah()
     {
-        $matakuliah = MataKuliah::all();
-        $ruangperkuliahan = RuangPerkuliahan::all();
+        $user = Auth::user();
+    
+        // Periksa apakah user memiliki relasi dosen
+        if (!$user->dosen) {
+            return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
+        }
+    
+        // Cari data Ketua Program Studi yang terkait dengan user ini
+        $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
+    
+        if (!$ketuaProgramStudi) {
+            return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
+        }
+    
+        // Ambil Program Studi milik Ketua Program Studi
+        $programStudi = ProgramStudi::find($ketuaProgramStudi->id_programstudi);
+    
+        // Filter mata kuliah berdasarkan id_programstudi
+        $matakuliah = MataKuliah::where('id_programstudi', $programStudi->id_programstudi)->get();
+    
+        // Filter ruang perkuliahan berdasarkan id_programstudi dan status disetujui
+        $ruangperkuliahan = PengalokasianRuang::where('id_programstudi', $programStudi->id_programstudi)
+            ->where('status', 'disetujui')
+            ->with('ruangperkuliahan')
+            ->get()
+            ->pluck('ruangperkuliahan');
+    
+        // Filter kelas berdasarkan id_programstudi (tambahkan kondisi ini jika diperlukan)
         $kelas = Kelas::all();
-        $programstudi = ProgramStudi::all();
+    
+        // Filter dosen berdasarkan id_programstudi (opsional)
         $dosen = Dosen::all();
-        return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'programstudi', 'dosen'));
+    
+        return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'dosen', 'programStudi'));
     }
-
+    
 
     /**
      * Store a newly created resource in storage.

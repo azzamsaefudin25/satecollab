@@ -23,10 +23,16 @@ class Ketuaprogramstudi extends Model
         'nidn_ketuaprogramstudi',
         'nama_ketuaprogramstudi',
         'email',
+        'id_programstudi',
     ];
 
     public function dosen()
     {
         return $this->belongsTo(Dosen::class, 'nidn_ketuaprogramstudi', 'nidn_dosen');
     }
+    public function programStudi()
+{
+    return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
+}
+
 }

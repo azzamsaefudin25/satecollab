@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->hasOne(Dosen::class, 'email', 'email');
     }
 
+    // public function cekdosen()
+    // {
+    //     return $this->hasOne(Dosen::class, 'user_id', 'id');
+    // }
+
     // public function dekan()
     // {
     //     return $this->hasOne(Dekan::class, 'email', 'email');
@@ -87,4 +92,10 @@ class User extends Authenticatable
     // {
     //     return $this->hasOne(PembimbingAkademik::class, 'email', 'email');
     // }
+
+    public function programStudi()
+{
+    return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id');
+}
+
 }

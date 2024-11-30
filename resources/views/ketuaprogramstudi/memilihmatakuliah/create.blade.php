@@ -10,6 +10,14 @@
         <div class="form">
             <form id="matkulForm" action="{{ route('memilihmatakuliah.store') }}" method="POST">
                 @csrf <!-- Token CSRF untuk keamanan -->
+
+                <input type="hidden" name="id_programstudi" value="{{ $programStudi->id_programstudi }}">
+
+                <div class="form-group">
+                    <label>Program Studi</label>
+                    <input type="text" class="form-control" value="{{ $programStudi->nama_programstudi }}" readonly>
+                </div>
+
                 <div class="form-group">
                     <label for="kode_mk">Kode Mata Kuliah</label>
                     <input id="kode_mk" class="form-control" type="text" name="kode_mk"
@@ -47,15 +55,7 @@
                     </select>
                 </div>
                 
-                <div class="form-group">
-                    <label for="jenis">Program Studi</label>
-                    <select id="id_programstudi" name="id_programstudi" class="form-control">
-                        <option value="">-- Pilih Program Studi --</option>
-                        @foreach ($programstudi as $ps)
-                            <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
-                        @endforeach
-                    </select>
-                </div>
+    
                 <div class="btn-container">
                     <button type="button" class="btn btn-outline-secondary"
                         onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">←</button>
