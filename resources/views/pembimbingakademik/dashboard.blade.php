@@ -239,11 +239,9 @@
         </div>
 
         <div class="action-buttons">
-            <button type="button" class="btn btn-outline-success btn-lg"
-                onclick="window.location.href='{{ route('pembimbingakademik.verifikasiirs') }}'">VERIFIKASI IRS</button>
-            {{-- <a href="{{ route('verifikasiirs') }}" class="action-button">
+            <a href="{{ route('pembimbingakademik.verifikasiirs') }}" class="action-button">
                 Verifikasi irs
-            </a> --}}
+            </a> 
         </div>
 
         <div class="profile">

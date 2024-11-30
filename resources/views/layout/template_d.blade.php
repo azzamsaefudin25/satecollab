@@ -262,11 +262,10 @@
             }
 
         @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
-            }
-
-    </style>
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+        }
+        </style>
 </head>
 
 <body>
@@ -283,11 +282,11 @@
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="#">Dashboard</a>
-        <a href="#">Penyusunan Ruang Perkuliahan</a>
-        <a href="#">Pengalokasian Ruang Perkuliahan</a>
+        <a href="#">Jadwal Perkuliahan</a>
+        <a href="#">Ruang Perkuliahan</a>
         <a href="#">Profile</a>
         <a href="#">Notifikasi</a>
-        <a href="#">Log Out</a>
+        <a href="#">Log out</a>
         </div>
       
       <div id="main">
