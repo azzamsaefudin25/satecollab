@@ -5,11 +5,11 @@
 
     <!-- Container -->
     <div class="container mt-4">
-        
+
         <!-- Table -->
         <div class="table-container">
             <h4 class="mt-4">Daftar Ruang Perkuliahan</h4>
-            
+
             <!-- Search Box -->
             <div class="search-box d-flex justify-content-between align-items-center">
                 <input type="text" class="form-control me-2" placeholder="CARI RUANG PERKULIAHAN" aria-label="Search">
@@ -20,7 +20,7 @@
                     <i class="bi bi-plus-minus"></i>
                 </button>
             </div>
-            
+
             <div class="pb-3">
                 <a onclick="window.location.href='{{ route('penyusunanruang.create') }}'" class="btn btn-primary">+ Tambah
                     Data</a>
@@ -65,16 +65,16 @@
             {{ $ruangPerkuliahan->withQueryString()->links() }}
         </div>
 
-    </div>
-    <div class="btn-container">
-        <button type="button" class="btn btn-dark back-button"
-            onclick="window.location.href='{{ route('bagianakademik') }}'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-            </svg>
-            BACK
-        </button>
+        <div class="btn-container">
+            <button type="button" class="btn btn-dark back-button"
+                onclick="window.location.href='{{ route('bagianakademik') }}'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                </svg>
+                BACK
+            </button>
+        </div>
     </div>
 @endsection

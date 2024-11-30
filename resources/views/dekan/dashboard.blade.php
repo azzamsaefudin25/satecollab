@@ -205,7 +205,7 @@
 
         <div class="action-buttons">
             <a href="{{ route('dekan.approvejadwal') }}" class="action-button">
-                jadwal Perkuliahan
+                Jadwal Perkuliahan
             </a>
             <a href="{{ route('dekan.approveruang') }}" class="action-button">
                 Ruang perkuliahan

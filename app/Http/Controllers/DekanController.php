@@ -55,13 +55,13 @@ class DekanController extends Controller
             $pengajuanruang->status = 'disetujui';
             $pengajuanruang->save();
 
-            return redirect()->route('dekan.approveruang')->with('message', 'Pengajuan dengan kode ruang ' . $pengajuanruang->kode_ruang . ' telah disetujui.');
+            return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan dengan kode ruang ' . $pengajuanruang->kode_ruang . ' telah disetujui.');
         } elseif ($request->input('action') === 'tolak') {
             // Update status menjadi 'ditolak'
             $pengajuanruang->status = 'ditolak';
             $pengajuanruang->save();
 
-            return redirect()->route('dekan.approveruang')->with('message', 'Pengajuan dengan kode ruang ' . $pengajuanruang->kode_ruang . ' telah ditolak dan dihapus.');
+            return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan dengan kode ruang ' . $pengajuanruang->kode_ruang . ' telah ditolak dan dihapus.');
         }
 
         return redirect()->route('dekan.approveruang')->with('error', 'Tindakan tidak valid.');
@@ -78,13 +78,13 @@ class DekanController extends Controller
             $pengajuan->status = 'disetujui';
             $pengajuan->save();
 
-            return redirect()->route('dekan.approvejadwal')->with('message', 'Jadwal dengan kode MK ' . $pengajuan->kode_mk . ' telah disetujui.');
+            return redirect()->route('dekan.approvejadwal')->with('success', 'Jadwal dengan kode MK ' . $pengajuan->kode_mk . ' telah disetujui.');
         } elseif ($request->input('action') === 'tolak') {
             // Update status jadwal menjadi ditolak (tanpa menghapus dari database)
             $pengajuan->status = 'ditolak';
             $pengajuan->save();
 
-            return redirect()->route('dekan.approvejadwal')->with('message', 'Jadwal dengan kode MK ' . $pengajuan->kode_mk . ' telah ditolak.');
+            return redirect()->route('dekan.approvejadwal')->with('success', 'Jadwal dengan kode MK ' . $pengajuan->kode_mk . ' telah ditolak.');
         }
 
         return redirect()->route('dekan.approvejadwal')->with('error', 'Tindakan tidak valid.');
