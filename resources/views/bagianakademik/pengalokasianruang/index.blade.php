@@ -5,7 +5,7 @@
 
     <!-- Container -->
     <div class="container mt-4">
-        
+
         <!-- Table -->
         <div class="table-container">
             <h4 class="mt-4">Daftar Alokasi Ruang Perkuliahan</h4>
@@ -26,37 +26,39 @@
                     Data</button>
             </div>
 
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Ruang Kuliah</th>
-                        <th>Nama Program Studi</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = $alokasiRuang->firstItem(); ?>
-                    @foreach ($alokasiRuang as $alokasi)
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
                         <tr>
-                            <td>{{ $i }}</td>
-                            <td>{{ $alokasi->kode_ruang }}</td>
-                            <td>{{ $alokasi->programStudi->nama_programstudi }}</td>
-                            <td>
-                                @if ($alokasi->status === 'disetujui')
-                                    <span class="text-success">Disetujui</span>
-                                @elseif ($alokasi->status === 'ditolak')
-                                    <span class="text-danger">Ditolak</span>
-                                @else
-                                    <span class="text-warning">Menunggu Konfirmasi</span>
-                                @endif
-                            </td>
+                            <th>No</th>
+                            <th>Nama Ruang Kuliah</th>
+                            <th>Nama Program Studi</th>
+                            <th>Status</th>
                         </tr>
-                        <?php $i++; ?>
-                    @endforeach
-                </tbody>
-            </table>
-            {{ $alokasiRuang->withQueryString()->links() }}
+                    </thead>
+                    <tbody>
+                        <?php $i = $alokasiRuang->firstItem(); ?>
+                        @foreach ($alokasiRuang as $alokasi)
+                            <tr>
+                                <td>{{ $i }}</td>
+                                <td>{{ $alokasi->kode_ruang }}</td>
+                                <td>{{ $alokasi->programStudi->nama_programstudi }}</td>
+                                <td>
+                                    @if ($alokasi->status === 'disetujui')
+                                        <span class="text-success">Disetujui</span>
+                                    @elseif ($alokasi->status === 'ditolak')
+                                        <span class="text-danger">Ditolak</span>
+                                    @else
+                                        <span class="text-warning">Menunggu Konfirmasi</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <?php $i++; ?>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $alokasiRuang->withQueryString()->links() }}
+            </div>
         </div>
 
         <div class="btn-container">

@@ -26,43 +26,46 @@
                     Data</a>
             </div>
 
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Ruang Kuliah</th>
-                        <th>Gedung</th>
-                        <th>Kapasitas Ruangan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = $ruangPerkuliahan->firstItem(); ?>
-                    @foreach ($ruangPerkuliahan as $ruang)
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
                         <tr>
-                            <td>{{ $i }}</td>
-                            <td>{{ $ruang->kode_ruang }}</td>
-                            <td>{{ $ruang->gedung }}</td>
-                            <td>{{ $ruang->kapasitas }} Mahasiswa</td>
-                            <td>
-                                <!-- Tombol Edit -->
-                                <a href="{{ route('penyusunanruang.edit', $ruang->kode_ruang) }}"
-                                    class="btn btn-warning">EDIT</a>
-
-                                <!-- Tombol Hapus -->
-                                <form action="{{ route('penyusunanruang.destroy', $ruang->kode_ruang) }}" method="POST"
-                                    style="display:inline-block;" onsubmit="return confirm('Yakin akan menghapus data?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">HAPUS</button>
-                                </form>
-                            </td>
+                            <th>No</th>
+                            <th>Nama Ruang Kuliah</th>
+                            <th>Gedung</th>
+                            <th>Kapasitas Ruangan</th>
+                            <th>Aksi</th>
                         </tr>
-                        <?php $i++; ?>
-                    @endforeach
-                </tbody>
-            </table>
-            {{ $ruangPerkuliahan->withQueryString()->links() }}
+                    </thead>
+                    <tbody>
+                        <?php $i = $ruangPerkuliahan->firstItem(); ?>
+                        @foreach ($ruangPerkuliahan as $ruang)
+                            <tr>
+                                <td>{{ $i }}</td>
+                                <td>{{ $ruang->kode_ruang }}</td>
+                                <td>{{ $ruang->gedung }}</td>
+                                <td>{{ $ruang->kapasitas }} Mahasiswa</td>
+                                <td>
+                                    <!-- Tombol Edit -->
+                                    <a href="{{ route('penyusunanruang.edit', $ruang->kode_ruang) }}"
+                                        class="btn btn-warning">EDIT</a>
+
+                                    <!-- Tombol Hapus -->
+                                    <form action="{{ route('penyusunanruang.destroy', $ruang->kode_ruang) }}" method="POST"
+                                        style="display:inline-block;"
+                                        onsubmit="return confirm('Yakin akan menghapus data?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">HAPUS</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <?php $i++; ?>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $ruangPerkuliahan->withQueryString()->links() }}
+            </div>
         </div>
 
         <div class="btn-container">

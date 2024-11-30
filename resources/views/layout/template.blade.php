@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        html,
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -53,9 +54,13 @@
 
         .container {
             margin-top: 30px;
+            margin-bottom: 30px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            padding: 20px;
+            padding: 10px;
+            min-height: calc(100vh - 30vh);
+            overflow: auto;
+            position: relative;
         }
 
         h4 {
@@ -94,9 +99,24 @@
             margin-top: 20px;
         }
 
+        .table th {
+            white-space: nowrap;
+        }
+
         .table thead {
             background-color: #343a40;
             color: white;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            /* Tombol Back di kiri dan simpan di */
+            margin-top: 50px;
+        }
+
+        .btn-right {
+            display: flex;
         }
 
         .back-btn {
@@ -146,17 +166,6 @@
             border-radius: 8px;
         }
 
-        .btn-container {
-            display: flex;
-            justify-content: space-between;
-            /* Tombol Back di kiri, SIMPAN dan LIHAT di kanan */
-            margin-bottom: 20px;
-            /* Jarak keseluruhan di bawah tombol */
-        }
-
-        .btn-right {
-            display: flex;
-        }
 
         .back-button {
             padding: 10px 20px;
@@ -229,17 +238,19 @@
         @yield('content')
     </div>
 
-    <footer class="footer">
-        <h3>SATE</h3>
-        <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
-        <div class="footer-icons">
-            <a href="#"><i class="bi bi-facebook"></i></a>
-            <a href="#"><i class="bi bi-twitter"></i></a>
-            <a href="#"><i class="bi bi-google"></i></a>
-            <a href="#"><i class="bi bi-youtube"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
-        </div>
-    </footer>
+    <div>
+        <footer class="footer">
+            <h3>SATE</h3>
+            <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
+            <div class="footer-icons">
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-google"></i></a>
+                <a href="#"><i class="bi bi-youtube"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </footer>
+    </div>
 
 
     <!-- Bootstrap JS & Icons -->
