@@ -8,15 +8,19 @@
         <div class="table-container">
             <h4 class="mt-4">Daftar Alokasi Ruang Perkuliahan</h4>
 
-            <div class="search-box">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Cari Alokasi Ruang Perkuliahan"
-                        aria-label="Search">
-                    <button class="btn btn-outline-secondary" type="submit">
-                        <i class="bi bi-search"></i> <!-- Bootstrap Icons -->
+            <form action="{{ route('dekan.approveruang') }}" method="GET">
+                <div class="search-box d-flex justify-content-between align-items-center">
+                    <input name="search" type="search" class="form-control me-2" placeholder="CARI PENGAJUAN RUANG"
+                        aria-label="Search" value="{{ request('search') }}">
+                    <button class="btn" type="submit">
+                        <i class="bi bi-search"></i>
                     </button>
-                </form>
-            </div>
+                    <button class="capacity-btn">
+                        <i class="bi bi-plus-minus"></i>
+                    </button>
+                </div>
+            </form>
+
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -42,20 +46,7 @@
                                     @elseif ($pengajuanruang->status === 'ditolak')
                                         <span class="text-danger">Ditolak</span>
                                     @else
-                                        <form action="{{ route('pengajuan.updateruang', $pengajuanruang->id) }}"
-                                            method="POST" class="d-inline">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="PATCH">
-                                            <input type="hidden" name="action" value="setuju">
-                                            <button type="submit" class="btn btn-success btn-sm">Setuju</button>
-                                        </form>
-                                        <form action="{{ route('pengajuan.updateruang', $pengajuanruang->id) }}"
-                                            method="POST" class="d-inline">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="PATCH">
-                                            <input type="hidden" name="action" value="tolak">
-                                            <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
-                                        </form>
+                                        <span class="text-warning">Menunggu Konfirmasi</span>
                                     @endif
                                 </td>
                             </tr>
@@ -80,6 +71,26 @@
                 </svg>
                 BACK
             </button>
+            <div class="btn-right">
+                @if ($pengajuanruang->status === 'menunggu konfirmasi')
+                    <form action="{{ route('pengajuan.updateruang', $pengajuanruang->id) }}" method="POST"
+                        class="d-inline">
+                        @csrf
+                        <input type="hidden" name="_method" value="PATCH">
+                        <input type="hidden" name="action" value="setuju">
+                        <button type="submit" class="btn btn-success me-2">SETUJU</button>
+                    </form>
+                @endif
+                @if ($pengajuanruang->status === 'disetujui' ||  $pengajuanruang->status === 'ditolak')
+                    <form action="{{ route('pengajuan.updateruang', $pengajuanruang->id) }}" method="POST"
+                        class="d-inline">
+                        @csrf
+                        <input type="hidden" name="_method" value="PATCH">
+                        <input type="hidden" name="action" value="ubah">
+                        <button type="submit" class="btn btn-warning">BATALKAN PERSETUJUAN</button>
+                    </form>
+                @endif
+            </div>
         </div>
     </div>
 @endsection

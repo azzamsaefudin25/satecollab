@@ -8,7 +8,8 @@
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html,
@@ -121,12 +122,16 @@
             display: flex;
         }
 
-        .back-btn {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            font-size: 24px;
-            color: #5e2d91;
+        .btn-custom {
+            background-color: #007bff;
+            /* Warna biru */
+            color: white;
+            border-radius: 8px; 
+            margin-right: 10px; 
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
         }
 
         .capacity-btn {
@@ -139,38 +144,9 @@
             text-align: center;
         }
 
-        .btn-custom {
-            background-color: #007bff;
-            /* Warna biru */
-            color: white;
-            border-radius: 8px;
-            /* Border radius untuk memperhalus tombol */
-            margin-right: 10px;
-            /* Jarak antara tombol SIMPAN dan LIHAT */
-        }
-
-        .btn-custom-secondary {
-            background-color: #28a745;
-            /* Warna hijau */
-            color: white;
-            border-radius: 8px;
-        }
-
-        .btn-custom:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-custom-secondary:hover {
-            background-color: #218838;
-        }
-
-        .btn-outline-secondary {
-            border-radius: 8px;
-        }
-
-
         .back-button {
             padding: 10px 20px;
+            border-radius: 8px;
             background-color: black;
             color: white;
             border: none;
@@ -233,7 +209,7 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-            }
+        }
 
         .sidenav a {
             padding: 8px 8px 8px 32px;
@@ -242,11 +218,11 @@
             color: #818181;
             display: block;
             transition: 0.3s;
-            }
+        }
 
         .sidenav a:hover {
             color: #f1f1f1;
-            }
+        }
 
         .sidenav .closebtn {
             position: absolute;
@@ -254,18 +230,22 @@
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
-            }
+        }
 
         #main {
             transition: margin-left .5s;
             padding: 16px;
-            }
+        }
 
         @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
+            .sidenav {
+                padding-top: 15px;
             }
 
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
@@ -288,25 +268,25 @@
         <a href="#">Profile</a>
         <a href="#">Notifikasi</a>
         <a href="#">Log Out</a>
-        </div>
-      
-      <div id="main">
+    </div>
+
+    <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-      </div>
-      
-      <script>
+    </div>
+
+    <script>
         function openNav() {
-          document.getElementById("mySidenav").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
-          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
         }
-        
+
         function closeNav() {
-          document.getElementById("mySidenav").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
-          document.body.style.backgroundColor = "white";
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
         }
-        </script>
+    </script>
 
     <div class="container">
         @include('komponen.pesan')

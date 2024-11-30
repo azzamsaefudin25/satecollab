@@ -11,15 +11,19 @@
             <h4 class="mt-4">Daftar Ruang Perkuliahan</h4>
 
             <!-- Search Box -->
-            <div class="search-box d-flex justify-content-between align-items-center">
-                <input type="text" class="form-control me-2" placeholder="CARI RUANG PERKULIAHAN" aria-label="Search">
-                <button class="btn">
-                    <i class="bi bi-search"></i>
-                </button>
-                <button class="capacity-btn">
-                    <i class="bi bi-plus-minus"></i>
-                </button>
-            </div>
+
+            <form action="{{ route('penyusunanruang.index') }}" method="GET">
+                <div class="search-box d-flex justify-content-between align-items-center">
+                    <input name="search" type="search" class="form-control me-2" placeholder="CARI RUANG PERKULIAHAN"
+                        aria-label="Search" value="{{ request('search') }}">
+                    <button class="btn" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <button class="capacity-btn">
+                        <i class="bi bi-plus-minus"></i>
+                    </button>
+                </div>
+            </form>
 
             <div class="pb-3">
                 <a onclick="window.location.href='{{ route('penyusunanruang.create') }}'" class="btn btn-primary">+ Tambah
@@ -62,6 +66,11 @@
                             </tr>
                             <?php $i++; ?>
                         @endforeach
+                        @if ($ruangPerkuliahan->isEmpty())
+                            <tr>
+                                <td colspan="6" class="text-center">Data Ruang Perkuliahan Tidak Ditemukan</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
                 {{ $ruangPerkuliahan->withQueryString()->links() }}

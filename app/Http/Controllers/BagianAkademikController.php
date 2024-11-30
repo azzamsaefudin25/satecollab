@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\QueryException;
 
+
 class BagianAkademikController extends Controller
 {
 
@@ -35,17 +36,42 @@ class BagianAkademikController extends Controller
     //     // return redirect()->route('home');
     // }
 
-    public function indexPenyusunanRuang()
+    public function indexPenyusunanRuang(Request $request)
     {
-        $ruangPerkuliahan = RuangPerkuliahan::orderBy('kode_ruang', 'desc')->paginate(5);
+        $ruangPerkuliahan = RuangPerkuliahan::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $ruangPerkuliahan->where(function ($query) use ($search) {
+                $query->where('kode_ruang', 'like', '%' . $search . '%')
+                    ->orWhere('gedung', 'like', '%' . $search . '%')
+                    ->orWhere('kapasitas', 'like', '%' . $search . '%');
+            });
+        }
+
+        $ruangPerkuliahan = $ruangPerkuliahan->orderBy('kode_ruang', 'desc')->paginate(5);
+
         return view('bagianakademik.penyusunanruang.index', compact('ruangPerkuliahan'));
     }
-    public function indexPengalokasianRuang()
+
+    public function indexPengalokasianRuang(Request $request)
     {
-        // $alokasiRuang = PengalokasianRuang::orderBy('kode_ruang', 'desc')->paginate(5);
-        $alokasiRuang = PengalokasianRuang::orderBy('id','desc')->paginate(5);
+        $alokasiRuang = PengalokasianRuang::with('programStudi');
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $alokasiRuang->where(function ($query) use ($search) {
+                $query->where('kode_ruang', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%')
+                    ->orWhereHas('programStudi', function ($q) use ($search) {
+                        $q->where('nama_programstudi', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+        $alokasiRuang = $alokasiRuang->orderBy('id', 'desc')->paginate(5);
         return view('bagianakademik.pengalokasianruang.index', compact('alokasiRuang'));
     }
+
     public function createPenyusunanRuang()
     {
         return view('bagianakademik.penyusunanruang.create');
@@ -186,5 +212,19 @@ class BagianAkademikController extends Controller
     {
         RuangPerkuliahan::where('kode_ruang', $kode_ruang)->delete();
         return redirect()->route('penyusunanruang.index')->with('success', 'Data berhasil dihapus');
+    }
+
+    public function destroyAlokasiRuang(string $kode_ruang)
+    {
+        // Hapus data PengalokasianRuang dengan kode_ruang tertentu dan status tidak disetujui
+        $deletedRows = PengalokasianRuang::where('kode_ruang', $kode_ruang)
+            ->where('status', '!=', 'disetujui')
+            ->delete();
+
+        if ($deletedRows > 0) {
+            return redirect()->route('pengalokasianruang.index')->with('success', 'Data berhasil dihapus');
+        } else {
+            return redirect()->route('pengalokasianruang.index')->with('error', 'Data tidak diizinkan untuk dihapus.');
+        }
     }
 }

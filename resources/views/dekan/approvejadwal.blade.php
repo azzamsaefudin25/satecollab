@@ -7,14 +7,18 @@
         <div class="table-container">
             <h4 class="mt-4">Daftar Pengajuan Jadwal Kuliah</h4>
 
-            <div class="search-box">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Cari Jadwal Kuliah" aria-label="Search">
-                    <button class="btn btn-outline-secondary" type="submit">
-                        <i class="bi bi-search"></i> <!-- Bootstrap Icons -->
+            <form action="{{ route('dekan.approvejadwal') }}" method="GET">
+                <div class="search-box d-flex justify-content-between align-items-center">
+                    <input name="search" type="search" class="form-control me-2" placeholder="CARI PENGAJUAN JADWAL"
+                        aria-label="Search" value="{{ request('search') }}">
+                    <button class="btn" type="submit">
+                        <i class="bi bi-search"></i>
                     </button>
-                </form>
-            </div>
+                    <button class="capacity-btn">
+                        <i class="bi bi-plus-minus"></i>
+                    </button>
+                </div>
+            </form>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -104,7 +108,7 @@
                         @endforeach
                         @if ($pengajuans->isEmpty())
                             <tr>
-                                <td colspan="6" class="text-center">Tidak ada pengajuan jadwal kuliah.</td>
+                                <td colspan="20" class="text-center">Tidak ada pengajuan jadwal kuliah.</td>
                             </tr>
                         @endif
                     </tbody>

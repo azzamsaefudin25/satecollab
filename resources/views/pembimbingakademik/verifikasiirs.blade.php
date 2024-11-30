@@ -351,7 +351,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Tidak ada mahasiswa yang ditemukan</td>
+                            <td colspan="6" class="text-center">Data Mahasiwa Tidak Ditemukan</td>
                         </tr>
                     @endforelse
                 </tbody>

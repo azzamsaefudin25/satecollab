@@ -27,12 +27,9 @@
                         name="kapasitas" placeholder="Masukkan Kapasitas">
                 </div>
 
-
-
-                
                 <div class="btn-container">
                     <button type="button" class="btn btn-dark back-button"
-                        onclick="window.location.href='{{ route('bagianakademik') }}'">
+                        onclick="window.location.href='{{ route('penyusunanruang.index') }}'">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-arrow-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
