@@ -89,52 +89,55 @@
             cursor: pointer;
         }
 
-        /* Ajukan button (blue) */
-        .ajukan-btn {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .ajukan-btn:hover {
-            background-color: #0056b3;
-        }
-
-        /* Lihat button (green) */
-        .lihat-btn {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .lihat-btn:hover {
-            background-color: #218838;
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .action-buttons button {
-            width: 48%;
-        }
-
-        /* Back Button */
         .back-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #4c4c4c;
-            border: none;
-            padding: 15px;
-            border-radius: 50%;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
+    position: fixed;
+    bottom: 20px;
+    left: 20px; /* Ubah dari 'right' ke 'left' */
+    background-color: #4c4c4c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-        .back-btn:hover {
-            background-color: #333;
-        }
+
+
+.back-btn:hover {
+    background-color: #333;
+}
+
+.action-buttons button {
+    width: 48%;
+    padding: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
 
         /* Adjust jam mulai and jam berakhir styles */
         .time-select {
@@ -350,7 +353,25 @@
                     <label for="tahun_ajaran">Tahun Ajaran</label>
                     <input type="text" id="tahun_ajaran" name="tahun_ajaran" class="form-control" readonly>
                 </div>
+            <!-- Tombol Simpan dan Lihat -->
+            <div class="d-flex justify-content-between mt-4 action-buttons">
+                <button type="submit" class="btn btn-primary ajukan-btn">Simpan</button>
+                <button type="button" class="btn btn-success lihat-btn" onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
+            </div>
 
+<<<<<<< HEAD
+            <button type="button" class="btn btn-dark back-btn"
+            onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+            class="bi bi-arrow-left" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+        </svg>
+        BACK
+    </button>
+    
+            
+=======
                 <button type="submit" class="ajukan-btn">Ajukan</button>
                 <button type="button" class="lihat-btn"
                     onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
@@ -370,6 +391,7 @@
             </svg>
             BACK
     </button>
+>>>>>>> main
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
