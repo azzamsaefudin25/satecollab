@@ -96,6 +96,8 @@
                         @endif
                     </tbody>
                 </table>
+            </div>
+            <div class="mt-4">
                 {{ $pengajuans_jadwal->withQueryString()->links() }}
             </div>
         </div>
