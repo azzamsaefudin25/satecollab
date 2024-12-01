@@ -46,10 +46,10 @@ class KetuaProgramStudiController extends Controller
             ->with('ruangperkuliahan')
             ->get()
             ->pluck('ruangperkuliahan');
-    
+
         return response()->json($ruangPerkuliahan);
     }
-    
+
     public function getMatakuliah($id_programstudi)
     {
         // Ambil mata kuliah berdasarkan program studi
@@ -69,91 +69,91 @@ class KetuaProgramStudiController extends Controller
     public function indexjadwalKuliah()
     {
         $jadwal = JadwalKuliah::with([
-            'mataKuliah', 
-            'dosen1.dosen', 
-            'dosen2.dosen', 
-            'dosen3.dosen', 
-            'dosen4.dosen', 
+            'mataKuliah',
+            'dosen1.dosen',
+            'dosen2.dosen',
+            'dosen3.dosen',
+            'dosen4.dosen',
             'dosen5.dosen'
-        ])->paginate(5); // Add pagination, 10 items per page
-    
+        ])->orderBy('hari', 'asc')->paginate(5); 
+
         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
     }
 
-    public function createMemilihMataKuliah( Request $request)
+    public function createMemilihMataKuliah(Request $request)
     {
         // Ambil user yang sedang login
         $user = Auth::user();
-    
-        
+
+
         // Periksa apakah user memiliki relasi dosen
         if (!$user->dosen) {
             return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
         }
-    
+
         // Cari data Ketua Program Studi yang terkait dengan user ini
         $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
-    
+
         if (!$ketuaProgramStudi) {
             return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
         }
-    
+
         // Debug: Tampilkan informasi untuk memastikan
-        \Log::info('Ketua Prodi Data:', [
+        Log::info('Ketua Prodi Data:', [
             'NIDN' => $ketuaProgramStudi->nidn_ketuaprogramstudi,
             'ID Program Studi' => $ketuaProgramStudi->id_programstudi
         ]);
-    
+
         // Ambil Program Studi milik Ketua Program Studi
         $programStudi = ProgramStudi::find($ketuaProgramStudi->id_programstudi);
         // dd($request->all());
-        
-    
+
+
         if (!$programStudi) {
             return redirect()->back()->withErrors('Program Studi tidak ditemukan');
         }
-    
+
         return view('ketuaprogramstudi.memilihmatakuliah.create', compact('programStudi'));
     }
 
     public function createJadwalKuliah()
     {
         $user = Auth::user();
-    
+
         // Periksa apakah user memiliki relasi dosen
         if (!$user->dosen) {
             return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
         }
-    
+
         // Cari data Ketua Program Studi yang terkait dengan user ini
         $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
-    
+
         if (!$ketuaProgramStudi) {
             return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
         }
-    
+
         // Ambil Program Studi milik Ketua Program Studi
         $programStudi = ProgramStudi::find($ketuaProgramStudi->id_programstudi);
-    
+
         // Filter mata kuliah berdasarkan id_programstudi
         $matakuliah = MataKuliah::where('id_programstudi', $programStudi->id_programstudi)->get();
-    
+
         // Filter ruang perkuliahan berdasarkan id_programstudi dan status disetujui
         $ruangperkuliahan = PengalokasianRuang::where('id_programstudi', $programStudi->id_programstudi)
             ->where('status', 'disetujui')
             ->with('ruangperkuliahan')
             ->get()
             ->pluck('ruangperkuliahan');
-    
+
         // Filter kelas berdasarkan id_programstudi (tambahkan kondisi ini jika diperlukan)
         $kelas = Kelas::all();
-    
+
         // Filter dosen berdasarkan id_programstudi (opsional)
         $dosen = Dosen::all();
-    
+
         return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'dosen', 'programStudi'));
     }
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -169,11 +169,11 @@ class KetuaProgramStudiController extends Controller
             'jenis' => 'required|string|in:Wajib,Pilihan',
             'id_programstudi' => 'required|exists:programstudi,id_programstudi',
         ]);
-    
+
         // Tentukan semester aktif berdasarkan input semester
         $semester = $request->input('semester');
         $semesterAktif = $semester % 2 === 0 ? 'Genap' : 'Ganjil';
-    
+
         // Simpan data ke dalam tabel matakuliah
         MataKuliah::create([
             'kode_mk' => $request->input('kode_mk'),
@@ -184,12 +184,12 @@ class KetuaProgramStudiController extends Controller
             'jenis' => $request->input('jenis'),
             'id_programstudi' => $request->input('id_programstudi'),
         ]);
-    
+
         // Redirect ke halaman daftar mata kuliah dengan pesan sukses
         return redirect()->route('memilihmatakuliah.create')
             ->with('success', 'Mata kuliah berhasil ditambahkan.');
     }
-    
+
 
     public function hitungJamSelesai(Request $request)
     {
@@ -281,38 +281,38 @@ class KetuaProgramStudiController extends Controller
         // Ambil data MataKuliah berdasarkan kode_mk dari request
         $mataKuliah = MataKuliah::where('kode_mk', $request->kode_mk)->first();
         if (!$mataKuliah) {
-            return redirect()->back()->withErrors(['kode_mk' => 'Mata kuliah tidak ditemukan.']);
+            return redirect()->back()->withErrors(['error' => 'Mata kuliah tidak ditemukan.']);
         }
 
-         // Validasi bentrok ruangan
-         $overlapRuangan = JadwalKuliah::where('kode_ruang', $request->kode_ruang)
-         ->where('hari', $request->hari)
-         ->where(function ($query) use ($request) {
-             $query->where('jam_mulai', '<', $request->jam_selesai)
-                 ->where('jam_selesai', '>', $request->jam_mulai);
-         })
-         ->whereIn('status', ['disetujui', 'menunggu konfirmasi'])
-         ->first();
+        // Validasi bentrok ruangan
+        $overlapRuangan = JadwalKuliah::where('kode_ruang', $request->kode_ruang)
+            ->where('hari', $request->hari)
+            ->where(function ($query) use ($request) {
+                $query->where('jam_mulai', '<', $request->jam_selesai)
+                    ->where('jam_selesai', '>', $request->jam_mulai);
+            })
+            ->whereIn('status', ['disetujui', 'menunggu konfirmasi'])
+            ->first();
 
-     if ($overlapRuangan) {
-         return redirect()->back()->withErrors(['kode_ruang' => 'Ruangan telah digunakan pada hari dan jam yang dipilih.']);
-     }
+        if ($overlapRuangan) {
+            return redirect()->back()->withErrors(['error' => 'Ruangan telah digunakan pada hari dan jam yang dipilih.']);
+        }
 
-     // Validasi bentrok matkul dan kelas
-     $overlapMatkul = JadwalKuliah::where('kode_mk', $request->kode_mk)
-         ->where('nama_kelas', $request->nama_kelas)
-         ->whereIn('status', ['disetujui', 'menunggu konfirmasi'])
-         ->first();
+        // Validasi bentrok matkul dan kelas
+        $overlapMatkul = JadwalKuliah::where('kode_mk', $request->kode_mk)
+            ->where('nama_kelas', $request->nama_kelas)
+            ->whereIn('status', ['disetujui', 'menunggu konfirmasi'])
+            ->first();
 
-     if ($overlapMatkul) {
-         return redirect()->back()->withErrors(['nama_mk' => 'mata kuliah dengan kelas yang sama sudah diajukan dengan status ' . $overlapMatkul->status])->withInput();
-     }
+        if ($overlapMatkul) {
+            return redirect()->back()->withErrors(['error' => 'Mata kuliah dengan kelas yang sama sudah diajukan dengan status ' . $overlapMatkul->status])->withInput();
+        }
 
-         // Ambil dosen yang terkait dengan mata kuliah dari tabel dosenpengampu
-         $dosenPengampu = DosenPengampu::where('kode_mk', $request->kode_mk)->pluck('nidn_dosen')->toArray();
+        // Ambil dosen yang terkait dengan mata kuliah dari tabel dosenpengampu
+        $dosenPengampu = DosenPengampu::where('kode_mk', $request->kode_mk)->pluck('nidn_dosen')->toArray();
 
-         // Batasi hingga maksimal 5 dosen
-         $dosenTerpilih = array_slice($dosenPengampu, 0, 5);
+        // Batasi hingga maksimal 5 dosen
+        $dosenTerpilih = array_slice($dosenPengampu, 0, 5);
         // Buat jadwal kuliah
         $jadwalKuliah = JadwalKuliah::create([
             'kode_mk' => $request->kode_mk,
@@ -338,39 +338,39 @@ class KetuaProgramStudiController extends Controller
 
 
     public function indexMemilihMataKuliah(Request $request)
-{
-    $query = MataKuliah::query()
-    ->where('sks', '>=', 1)
-    ->where('sks', '<=', 9)
-    ->where('semester', '>=', 1)
-    ->where('semester', '<=', 9)
-    ->whereNotNull('kode_mk')
-    ->whereNotNull('nama_mk')
-    ->whereHas('programStudi')
-    ->orderBy('kode_mk', 'desc');
+    {
+        $query = MataKuliah::query()
+            ->where('sks', '>=', 1)
+            ->where('sks', '<=', 9)
+            ->where('semester', '>=', 1)
+            ->where('semester', '<=', 9)
+            ->whereNotNull('kode_mk')
+            ->whereNotNull('nama_mk')
+            ->whereHas('programStudi')
+            ->orderBy('kode_mk', 'desc');
 
-    // Add search functionality
-    if ($request->has('search')) {
-        $searchTerm = $request->input('search');
-        $query->where(function($q) use ($searchTerm) {
-            $q->where('kode_mk', 'like', '%' . $searchTerm . '%')
-              ->orWhere('nama_mk', 'like', '%' . $searchTerm . '%')
-              ->orWhere('semester', 'like', '%' . $searchTerm . '%');
-        });
+        // Add search functionality
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('kode_mk', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('nama_mk', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('semester', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        $matakuliah = $query->paginate(5)->withQueryString();
+
+        // Tambahkan pengecekan jika tidak ada data
+        if ($matakuliah->isEmpty()) {
+            return view('ketuaprogramstudi.memilihmatakuliah.index', [
+                'matakuliah' => $matakuliah,
+                'message' => 'Tidak ada mata kuliah yang memenuhi kriteria.'
+            ]);
+        }
+
+        return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah'));
     }
-
-    $matakuliah = $query->paginate(5)->withQueryString();
-
-    // Tambahkan pengecekan jika tidak ada data
-    if ($matakuliah->isEmpty()) {
-        return view('ketuaprogramstudi.memilihmatakuliah.index', [
-            'matakuliah' => $matakuliah,
-            'message' => 'Tidak ada mata kuliah yang memenuhi kriteria.'
-        ]);
-    }
-
-    return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah'));
-}
 
     public function editMemilihMataKuliah($kode_mk)
     {

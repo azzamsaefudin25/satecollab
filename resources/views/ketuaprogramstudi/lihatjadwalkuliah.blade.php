@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
         }
+
         .header {
             background-color: #658345;
             padding: 15px 30px;
@@ -50,10 +55,12 @@
             border-radius: 10px;
             margin-top: 20px;
         }
+
         .table-responsive {
             max-height: 600px;
             overflow-y: auto;
         }
+
         .sticky-header th {
             position: sticky;
             top: 0;
@@ -61,16 +68,19 @@
             color: white;
             z-index: 10;
         }
+
         .btn-toggle-dosen {
             cursor: pointer;
             color: #007bff;
         }
+
         .dosen-dropdown {
             display: none;
             background-color: #f8f9fa;
             padding: 5px;
             border-radius: 5px;
         }
+
         .btn-custom-secondary {
             background: linear-gradient(135deg, #6c757d, #495057);
             color: #ffffff;
@@ -82,6 +92,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease-in-out;
         }
+
         .btn-custom-secondary:hover {
             background: linear-gradient(135deg, #495057, #343a40);
             color: #f8f9fa;
@@ -89,6 +100,7 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
+
         .btn-custom-secondary:focus {
             outline: none;
             box-shadow: 0 0 0 4px rgba(108, 117, 125, 0.5);
@@ -112,7 +124,7 @@
             font-size: 24px;
             color: #5e2d91;
         }
-        
+
         .sidenav {
             height: 100%;
             width: 0;
@@ -124,7 +136,7 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-            }
+        }
 
         .sidenav a {
             padding: 8px 8px 8px 32px;
@@ -133,11 +145,11 @@
             color: #818181;
             display: block;
             transition: 0.3s;
-            }
+        }
 
         .sidenav a:hover {
             color: #f1f1f1;
-            }
+        }
 
         .sidenav .closebtn {
             position: absolute;
@@ -145,23 +157,28 @@
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
-            }
+        }
 
         #main {
             transition: margin-left .5s;
             padding: 16px;
-            }
+        }
 
         @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
+            .sidenav {
+                padding-top: 15px;
             }
 
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    
+
     <!-- Header -->
     <div class="header">
         <div class="logo-container">
@@ -177,29 +194,35 @@
         <!-- Center "Daftar Jadwal Kuliah" -->
         <h4 class="text-center">Daftar Jadwal Kuliah</h4>
 
-    <div class="container mt-4">
-        <!-- Search Box -->
-        <div class="search-box d-flex justify-content-between align-items-center">
-            <input type="text" id="searchInput" class="form-control me-2" placeholder="CARI JADWAL KULIAH" aria-label="Search">
-            <button class="btn">
-                <i class="bi bi-search"></i>
-            </button>
-        </div>
+        <div class="container mt-4">
+            <!-- Search Box -->
+            <div class="search-box d-flex justify-content-between align-items-center">
+                <input type="text" id="searchInput" class="form-control me-2" placeholder="CARI JADWAL KULIAH"
+                    aria-label="Search">
+                <button class="btn">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
 
-        
-        <!-- Table Container -->
+
+            <!-- Table Container -->
             <div class="pb-3">
                 <a href="{{ route('jadwalkuliah.create') }}" class="btn btn-primary"> + Tambah
-                        Jadwal</a>
+                    Data</a>
             </div>
 
             @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $item)
-                            <li>{{ $item }}</li>
-                        @endforeach
-                    </ul>
+                <div class="pt-3">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             @endif
 
@@ -211,7 +234,14 @@
                     </button>
                 </div>
             @endif
-
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="sticky-header">
@@ -229,7 +259,7 @@
                             <th>Hari</th>
                             <th>Jam Mulai</th>
                             <th>Jam Selesai</th>
-                            <th>Dosen</th>
+                            <th>Dosen Pengampu</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -280,35 +310,37 @@
                 </table>
             </div>
 
-        <div class="d-flex justify-content-between align-items-center mt-3">
-            <!-- Back Button on the Left -->
-            <button type="button" class="btn btn-dark back-button"
-                onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-                </svg>
-                BACK
-            </button>
-            
-            <!-- Paginator on the Right -->
-            <div>
-                {{ $jadwal->links('pagination::bootstrap-4') }}
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <!-- Back Button on the Left -->
+                <button type="button" class="btn btn-dark back-button"
+                    onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                    </svg>
+                    BACK
+                </button>
+
+                <!-- Paginator on the Right -->
+                <div>
+                    {{ $jadwal->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
     </div>
-</div>
     <!-- Bootstrap & jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function toggleDosen(element) {
             const dropdown = element.nextElementSibling;
             const icon = element.querySelector('i');
-            
+
             if (dropdown.style.display === 'block') {
                 dropdown.style.display = 'none';
                 icon.classList.remove('bi-chevron-up');
@@ -331,4 +363,5 @@
         });
     </script>
 </body>
+
 </html>

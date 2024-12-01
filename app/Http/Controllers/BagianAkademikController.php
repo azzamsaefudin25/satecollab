@@ -82,7 +82,7 @@ class BagianAkademikController extends Controller
     {
         // Mengambil data dari tabel ruangperkuliahan dan program_studi
         $ruangPerkuliahan = RuangPerkuliahan::whereDoesntHave('pengalokasianRuang', function ($query) {
-            $query->whereIn('status', ['disetujui']);
+            $query->whereIn('status', ['disetujui', 'menunggu konfirmasi']);
         })->orderBy('kode_ruang', 'asc')->get();
         $programStudi = ProgramStudi::all();
 

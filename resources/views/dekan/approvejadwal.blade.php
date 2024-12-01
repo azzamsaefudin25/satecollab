@@ -42,8 +42,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $i = $pengajuans->firstItem(); ?>
-                        @foreach ($pengajuans as $pengajuan)
+                        <?php $i = $pengajuans_jadwal->firstItem(); ?>
+                        @foreach ($pengajuans_jadwal as $pengajuan)
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>{{ $pengajuan->kode_mk }}</td>
@@ -82,38 +82,21 @@
                                 <td>
                                     @if ($pengajuan->status === 'disetujui')
                                         <span class="text-success">Disetujui</span>
-                                    @elseif ($pengajuan->status === 'ditolak')
-                                        <span class="text-danger">Ditolak</span>
                                     @else
-                                        <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}"
-                                            method="POST" class="d-inline">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="PATCH">
-                                            <!-- Menyatakan metode PATCH -->
-                                            <input type="hidden" name="action" value="setuju">
-                                            <button type="submit" class="btn btn-success btn-sm">Setuju</button>
-                                        </form>
-                                        <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}"
-                                            method="POST" class="d-inline">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="PATCH">
-                                            <!-- Menyatakan metode PATCH -->
-                                            <input type="hidden" name="action" value="tolak">
-                                            <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
-                                        </form>
+                                        <span class="text-warning">Menunggu Konfirmasi</span>
                                     @endif
                                 </td>
                             </tr>
                             <?php $i++; ?>
                         @endforeach
-                        @if ($pengajuans->isEmpty())
+                        @if ($pengajuans_jadwal->isEmpty())
                             <tr>
                                 <td colspan="20" class="text-center">Tidak ada pengajuan jadwal kuliah.</td>
                             </tr>
                         @endif
                     </tbody>
                 </table>
-                {{ $pengajuans->withQueryString()->links() }}
+                {{ $pengajuans_jadwal->withQueryString()->links() }}
             </div>
         </div>
         <div class="btn-container">
@@ -125,6 +108,26 @@
                 </svg>
                 BACK
             </button>
+            <div class="btn-right">
+                @if ($pengajuan->status === 'menunggu konfirmasi')
+                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}" method="POST"
+                        class="d-inline">
+                        @csrf
+                        <input type="hidden" name="_method" value="PATCH">
+                        <input type="hidden" name="action" value="setuju">
+                        <button type="submit" class="btn btn-success me-2">SETUJU</button>
+                    </form>
+                @endif
+                @if ($pengajuan->status === 'disetujui' || $pengajuan->status === 'ditolak')
+                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}" method="POST"
+                        class="d-inline">
+                        @csrf
+                        <input type="hidden" name="_method" value="PATCH">
+                        <input type="hidden" name="action" value="ubah">
+                        <button type="submit" class="btn btn-warning">BATALKAN PERSETUJUAN</button>
+                    </form>
+                @endif
+            </div>
         </div>
     </div>
 @endsection

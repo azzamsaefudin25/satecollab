@@ -19,7 +19,7 @@
         <!-- Add Button -->
         <div class="pb-3">
             <a href="{{ route('memilihmatakuliah.create') }}" class="btn btn-primary"> + Tambah
-                Mata Kuliah</a>
+                Data</a>
         </div>
 
         <!-- Table -->

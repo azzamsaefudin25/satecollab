@@ -34,17 +34,15 @@
                     </thead>
                     <tbody>
                         <?php $i = $pengajuans_ruang->firstItem(); ?>
-                        @foreach ($pengajuans_ruang as $pengajuanruang)
+                        @foreach ($pengajuans_ruang as $pengajuan)
                             <tr>
                                 <td>{{ $i }}</td>
-                                <td>{{ $pengajuanruang->kode_ruang }}</td>
-                                <td>{{ $pengajuanruang->programStudi->nama_programstudi ?? 'Program studi tidak ditemukan' }}
+                                <td>{{ $pengajuan->kode_ruang }}</td>
+                                <td>{{ $pengajuan->programStudi->nama_programstudi ?? 'Program studi tidak ditemukan' }}
                                 </td>
                                 <td>
-                                    @if ($pengajuanruang->status === 'disetujui')
+                                    @if ($pengajuan->status === 'disetujui')
                                         <span class="text-success">Disetujui</span>
-                                    @elseif ($pengajuanruang->status === 'ditolak')
-                                        <span class="text-danger">Ditolak</span>
                                     @else
                                         <span class="text-warning">Menunggu Konfirmasi</span>
                                     @endif
@@ -72,8 +70,8 @@
                 BACK
             </button>
             <div class="btn-right">
-                @if ($pengajuanruang->status === 'menunggu konfirmasi')
-                    <form action="{{ route('pengajuan.updateruang', $pengajuanruang->id) }}" method="POST"
+                @if ($pengajuan->status === 'menunggu konfirmasi')
+                    <form action="{{ route('pengajuan.updateruang', $pengajuan->id) }}" method="POST"
                         class="d-inline">
                         @csrf
                         <input type="hidden" name="_method" value="PATCH">
@@ -81,8 +79,8 @@
                         <button type="submit" class="btn btn-success me-2">SETUJU</button>
                     </form>
                 @endif
-                @if ($pengajuanruang->status === 'disetujui' ||  $pengajuanruang->status === 'ditolak')
-                    <form action="{{ route('pengajuan.updateruang', $pengajuanruang->id) }}" method="POST"
+                @if ($pengajuan->status === 'disetujui' ||  $pengajuan->status === 'ditolak')
+                    <form action="{{ route('pengajuan.updateruang', $pengajuan->id) }}" method="POST"
                         class="d-inline">
                         @csrf
                         <input type="hidden" name="_method" value="PATCH">

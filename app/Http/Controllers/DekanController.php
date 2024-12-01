@@ -48,11 +48,11 @@ class DekanController extends Controller
 
     public function indexPengajuanJadwal(Request $request)
     {
-        $pengajuans = JadwalKuliah::with('mataKuliah');
+        $pengajuans_jadwal = JadwalKuliah::with('mataKuliah');
 
         if ($request->has('search')) {
             $search = $request->input('search');
-            $pengajuans->where(function ($query) use ($search) {
+            $pengajuans_jadwal->where(function ($query) use ($search) {
                 $query->where('kode_mk', 'like', '%' . $search . '%')
                     ->orWhereHas('mataKuliah', function ($q) use ($search) {
                         $q->where('nama_mk', 'like', '%' . $search . '%');
@@ -70,25 +70,24 @@ class DekanController extends Controller
                     ->orWhere('status', 'like', '%' . $search . '%');
             });
         }
-        $pengajuans = $pengajuans->orderBy('hari', 'desc')->paginate(5);
+        $pengajuans_jadwal = $pengajuans_jadwal->orderBy('hari', 'desc')->paginate(5);
 
-        return view('dekan.approvejadwal', compact('pengajuans'));
+        return view('dekan.approvejadwal', compact('pengajuans_jadwal'));
     }
 
     // Menyetujui atau menolak pengalokasian ruang (diakses oleh dekan)
-    public function updatePengajuanRuang(Request $request, $id)
+    public function updatePengajuanRuang(Request $request)
     {
         if ($request->input('action') === 'setuju') {
 
             PengalokasianRuang::query()->update(['status' => 'disetujui']);
 
             return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan ruangan telah disetujui.');
-
-        }elseif ($request->input('action') === 'ubah') {
+        } elseif ($request->input('action') === 'ubah') {
 
             PengalokasianRuang::query()->update(['status' => 'menunggu konfirmasi']);
 
-            return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan ruangan telah dibatalkan');
+            return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan ruangan telah dibatalkan.');
         }
 
         return redirect()->route('dekan.approveruang')->with('error', 'Tindakan tidak valid.');
@@ -96,22 +95,19 @@ class DekanController extends Controller
 
 
     // Menyetujui atau menolak jadwal kuliah (diakses oleh dekan)
-    public function updatePengajuanJadwal(Request $request, $id)
+    public function updatePengajuanJadwal(Request $request)
     {
-        $pengajuan = JadwalKuliah::findOrFail($id);
 
         if ($request->input('action') === 'setuju') {
             // Update status jadwal menjadi disetujui
-            $pengajuan->status = 'disetujui';
-            $pengajuan->save();
+            JadwalKuliah::query()->update(['status' => 'disetujui']);
 
-            return redirect()->route('dekan.approvejadwal')->with('success', 'Jadwal dengan kode MK ' . $pengajuan->kode_mk . ' telah disetujui.');
-        } elseif ($request->input('action') === 'tolak') {
+            return redirect()->route('dekan.approvejadwal')->with('success', 'Pengajuan Jadwal telah disetujui.');
+        } elseif ($request->input('action') === 'ubah') {
             // Update status jadwal menjadi ditolak (tanpa menghapus dari database)
-            $pengajuan->status = 'ditolak';
-            $pengajuan->save();
+            JadwalKuliah::query()->update(['status' => 'menunggu konfirmasi']);
 
-            return redirect()->route('dekan.approvejadwal')->with('success', 'Jadwal dengan kode MK ' . $pengajuan->kode_mk . ' telah ditolak.');
+            return redirect()->route('dekan.approvejadwal')->with('success', 'Pengajuan Jadwal telah dibatalkan.');
         }
 
         return redirect()->route('dekan.approvejadwal')->with('error', 'Tindakan tidak valid.');
