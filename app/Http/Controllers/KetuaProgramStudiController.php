@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Kelas;
 use App\Models\RuangPerkuliahan;
 use Illuminate\Http\Request;
@@ -284,19 +285,32 @@ class KetuaProgramStudiController extends Controller
             return redirect()->back()->withErrors(['error' => 'Mata kuliah tidak ditemukan.']);
         }
 
-        // Validasi bentrok ruangan
         $overlapRuangan = JadwalKuliah::where('kode_ruang', $request->kode_ruang)
-            ->where('hari', $request->hari)
-            ->where(function ($query) use ($request) {
-                $query->where('jam_mulai', '<', $request->jam_selesai)
-                    ->where('jam_selesai', '>', $request->jam_mulai);
+        ->where('hari', $request->hari)
+        ->where(function ($query) use ($request) {
+            $query->where(function ($q) use ($request) {
+                // Cek jadwal yang berakhir kurang dari 10 menit sebelum jadwal baru dimulai
+                $q->where('jam_selesai', '>', Carbon::parse($request->jam_mulai)->subMinutes(10)->format('H:i'))
+                  ->where('jam_selesai', '<=', $request->jam_mulai);
             })
-            ->whereIn('status', ['disetujui', 'menunggu konfirmasi'])
-            ->first();
+            ->orWhere(function ($q) use ($request) {
+                // Cek jadwal yang dimulai kurang dari 10 menit setelah jadwal baru berakhir
+                $q->where('jam_mulai', '<', Carbon::parse($request->jam_selesai)->addMinutes(10)->format('H:i'))
+                  ->where('jam_mulai', '>=', $request->jam_selesai);
+            })
+            ->orWhere(function ($q) use ($request) {
+                // Cek jadwal yang mencakup interval jadwal baru
+                $q->where('jam_mulai', '<=', $request->jam_mulai)
+                  ->where('jam_selesai', '>=', $request->jam_selesai);
+            });
+        })
+        ->whereIn('status', ['disetujui', 'menunggu konfirmasi'])
+        ->first();
 
-        if ($overlapRuangan) {
-            return redirect()->back()->withErrors(['error' => 'Ruangan telah digunakan pada hari dan jam yang dipilih.']);
-        }
+    if ($overlapRuangan) {
+        return redirect()->back()->withErrors(['error' => 'Ruangan tidak dapat digunakan. Harus ada jeda minimal 10 menit antar jadwal.']);
+    }
+
 
         // Validasi bentrok matkul dan kelas
         $overlapMatkul = JadwalKuliah::where('kode_mk', $request->kode_mk)
@@ -423,4 +437,26 @@ class KetuaProgramStudiController extends Controller
 
         return redirect()->route('memilihmatakuliah.index')->with('success', 'Mata kuliah berhasil dihapus.');
     }
+
+    public function destroyJadwalKuliah($id_jadwal)
+{
+    // Cari jadwal kuliah berdasarkan ID
+    $jadwalKuliah = JadwalKuliah::find($id_jadwal);
+
+    // Periksa apakah jadwal ditemukan
+    if (!$jadwalKuliah) {
+        return redirect()->route('lihatjadwalkuliah.lihat')->withErrors('Jadwal kuliah tidak ditemukan.');
+    }
+
+    // Periksa apakah status jadwal adalah "menunggu konfirmasi"
+    if ($jadwalKuliah->status !== 'menunggu konfirmasi') {
+        return redirect()->route('lihatjadwalkuliah.lihat')->withErrors('Hanya jadwal dengan status menunggu konfirmasi yang dapat dihapus.');
+    }
+
+    // Hapus jadwal kuliah
+    $jadwalKuliah->delete();
+
+    // Redirect dengan pesan sukses
+    return redirect()->route('lihatjadwalkuliah.lihat')->with('success', 'Jadwal kuliah berhasil dihapus.');
+}
 }
