@@ -173,6 +173,10 @@
                 font-size: 18px;
             }
         }
+
+        tr[data-status="disetujui"] td:nth-child(16):empty {
+            display: none;
+        }
     </style>
 </head>
 
@@ -261,11 +265,12 @@
                             <th>Jam Selesai</th>
                             <th>Dosen Pengampu</th>
                             <th>Status</th>
+                            <th>Aksi</th>  <!-- Selalu tampilkan kolom Aksi -->
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($jadwal as $index => $item)
-                            <tr>
+                            <tr data-status="{{ $item->status }}">
                                 <td>{{ $jadwal->firstItem() + $index }}</td>
                                 <td>{{ $item->kode_mk }}</td>
                                 <td>{{ $item->mataKuliah->nama_mk ?? 'N/A' }}</td>
@@ -304,6 +309,19 @@
                                     </div>
                                 </td>
                                 <td>{{ $item->status }}</td>
+    <td>
+        @if($item->status == 'menunggu konfirmasi')
+        <form action="{{ route('jadwalkuliah.destroy', $item->id_jadwal) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+        </form>
+        @else
+            <!-- Tambahkan spasi atau placeholder jika tidak ada aksi -->
+            &nbsp;
+        @endif
+    </td>
+                                
                             </tr>
                         @endforeach
                     </tbody>
@@ -352,15 +370,15 @@
             }
         }
 
-        // Simple search functionality
         $(document).ready(function() {
-            $("#searchInput").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $("table tbody tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
+    // Simple search functionality
+    $("#searchInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("table tbody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
+    });
+});
     </script>
 </body>
 
