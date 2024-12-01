@@ -173,43 +173,9 @@
         </div>
     </div>
 
-<<<<<<< HEAD
     <div class="table-container mt-4">
         <!-- Center "Daftar Jadwal Kuliah" -->
         <h4 class="text-center">Daftar Jadwal Kuliah</h4>
-=======
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Penyusunan Jadwal Perkuliahan</a>
-        <a href="#">Penyusunan Matakuliah</a>
-        <a href="#">Monitoring IRS</a>
-        <a href="#">Daftar Alokasi Ruang Perkuliahan</a>
-        <a href="#">Profile</a>
-        <a href="#">Notifikasi</a>
-        <a href="#">Log Out</a>
-        </div>
-      
-      <div id="main">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-      </div>
-      
-      <script>
-        function openNav() {
-          document.getElementById("mySidenav").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
-          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-        }
-        
-        function closeNav() {
-          document.getElementById("mySidenav").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
-          document.body.style.backgroundColor = "white";
-        }
-        </script>
-
-
->>>>>>> main
 
     <div class="container mt-4">
         <!-- Search Box -->
@@ -314,7 +280,6 @@
                 </table>
             </div>
 
-<<<<<<< HEAD
         <div class="d-flex justify-content-between align-items-center mt-3">
             <!-- Back Button on the Left -->
             <button type="button" class="btn btn-dark back-button"
@@ -330,29 +295,6 @@
             <!-- Paginator on the Right -->
             <div>
                 {{ $jadwal->links('pagination::bootstrap-4') }}
-=======
-            <!-- Pagination -->
-            <div class="d-flex justify-content-between align-items-center mt-3">
-                <div>
-                    {{ $jadwal->links('pagination::bootstrap-4') }}
-                </div>
-                <div>
-                    <button type="button" class="btn btn-custom-secondary"
-                        onclick="window.location.href='{{ route('jadwalkuliah.create') }}'">
-                        Tambahkan Jadwal Kuliah
-                    </button>
-                    <div class="btn-container">
-                        <button type="button" class="btn btn-dark back-button"
-                            onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-arrow-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-                            </svg>
-                            BACK
-                    </button>
-                </div>
->>>>>>> main
             </div>
         </div>
     </div>

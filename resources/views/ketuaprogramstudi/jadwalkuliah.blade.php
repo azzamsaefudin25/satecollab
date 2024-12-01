@@ -359,7 +359,6 @@
                 <button type="button" class="btn btn-success lihat-btn" onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
             </div>
 
-<<<<<<< HEAD
             <button type="button" class="btn btn-dark back-btn"
             onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -371,27 +370,6 @@
     </button>
     
             
-=======
-                <button type="submit" class="ajukan-btn">Ajukan</button>
-                <button type="button" class="lihat-btn"
-                    onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
-    </div>
-    </form>
-    </main>
-    </div>
-
-
-    <div class="btn-container">
-        <button type="button" class="btn btn-dark back-button"
-            onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-            </svg>
-            BACK
-    </button>
->>>>>>> main
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

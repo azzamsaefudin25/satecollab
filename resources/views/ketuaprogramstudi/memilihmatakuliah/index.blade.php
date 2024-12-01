@@ -7,14 +7,9 @@
         <!-- Search Box -->
         <form action="{{ route('memilihmatakuliah.index') }}" method="GET" class="mb-3">
             <div class="input-group">
-<<<<<<< HEAD
                 <input type="text" name="search" class="form-control" 
                        placeholder="Cari Mata Kuliah (Kode, Nama, Semester, Prodi)..."  aria-label="Search"
                        value="{{ request('search') }}"> 
-=======
-                <input type="text" name="search" class="form-control"
-                    placeholder="Cari Mata Kuliah (Kode, Nama, Semester, Prodi)..." value="{{ request('search') }}">
->>>>>>> main
                 <button class="btn btn-primary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
