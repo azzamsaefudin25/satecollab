@@ -20,25 +20,26 @@
                 <div class="mb-3">
                     <label for="nama_mk" class="form-label">Nama Mata Kuliah</label>
                     <input id="nama_mk" type="text" class="form-control" name="nama_mk"
-                           value="{{ $matakuliah->nama_mk }}" required>
+                        value="{{ $matakuliah->nama_mk }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="semester" class="form-label">Semester</label>
                     <input id="semester" type="number" class="form-control" name="semester"
-                           value="{{ $matakuliah->semester }}" required>
+                        value="{{ $matakuliah->semester }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="sks" class="form-label">Jumlah SKS</label>
-                    <input id="sks" type="number" class="form-control" name="sks"
-                           value="{{ $matakuliah->sks }}" required>
+                    <input id="sks" type="number" class="form-control" name="sks" value="{{ $matakuliah->sks }}"
+                        required>
                 </div>
 
                 <div class="mb-3">
                     <label for="semester_aktif" class="form-label">Semester Aktif</label>
                     <select id="semester_aktif" class="form-control" name="semester_aktif" required>
-                        <option value="Ganjil" {{ $matakuliah->semester_aktif == 'Ganjil' ? 'selected' : '' }}>Ganjil</option>
+                        <option value="Ganjil" {{ $matakuliah->semester_aktif == 'Ganjil' ? 'selected' : '' }}>Ganjil
+                        </option>
                         <option value="Genap" {{ $matakuliah->semester_aktif == 'Genap' ? 'selected' : '' }}>Genap</option>
                     </select>
                 </div>
@@ -57,9 +58,15 @@
             </form>
 
             <div class="text-start mt-3">
-                <a href="{{ route('memilihmatakuliah.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a>
+                <button type="button" class="btn btn-dark back-button"
+                    onclick="window.location.href='{{ route('memilihmatakuliah.index') }}'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                    </svg>
+                    BACK
+                </button>
             </div>
         </div>
     </div>

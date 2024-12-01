@@ -187,7 +187,7 @@ class KetuaProgramStudiController extends Controller
         ]);
 
         // Redirect ke halaman daftar mata kuliah dengan pesan sukses
-        return redirect()->route('memilihmatakuliah.create')
+        return redirect()->route('memilihmatakuliah.index')
             ->with('success', 'Mata kuliah berhasil ditambahkan.');
     }
 
