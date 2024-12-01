@@ -224,7 +224,7 @@ class BagianAkademikController extends Controller
         if ($deletedRows > 0) {
             return redirect()->route('pengalokasianruang.index')->with('success', 'Data berhasil dihapus');
         } else {
-            return redirect()->route('pengalokasianruang.index')->with('error', 'Data tidak diizinkan untuk dihapus.');
+            return redirect()->route('pengalokasianruang.index')->with('error', 'Data tidak diizinkan untuk dihapus karena status sudah disetujui');
         }
     }
 }

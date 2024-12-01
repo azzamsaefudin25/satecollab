@@ -265,7 +265,7 @@
                             <th>Jam Selesai</th>
                             <th>Dosen Pengampu</th>
                             <th>Status</th>
-                            <th>Aksi</th>  <!-- Selalu tampilkan kolom Aksi -->
+                            <th>Aksi</th> <!-- Selalu tampilkan kolom Aksi -->
                         </tr>
                     </thead>
                     <tbody>
@@ -309,19 +309,22 @@
                                     </div>
                                 </td>
                                 <td>{{ $item->status }}</td>
-    <td>
-        @if($item->status == 'menunggu konfirmasi')
-        <form action="{{ route('jadwalkuliah.destroy', $item->id_jadwal) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-        </form>
-        @else
-            <!-- Tambahkan spasi atau placeholder jika tidak ada aksi -->
-            &nbsp;
-        @endif
-    </td>
-                                
+                                <td>
+                                    @if ($item->status == 'menunggu konfirmasi')
+                                        <form action="{{ route('jadwalkuliah.destroy', $item->id_jadwal) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        </form>
+                                    @else
+                                        <!-- Tambahkan spasi atau placeholder jika tidak ada aksi -->
+                                        <button type="submit" class="btn btn-danger btn-sm" disabled>Hapus</button>
+                                        &nbsp;
+                                    @endif
+                                </td>
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -371,14 +374,14 @@
         }
 
         $(document).ready(function() {
-    // Simple search functionality
-    $("#searchInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("table tbody tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            // Simple search functionality
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("table tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
         });
-    });
-});
     </script>
 </body>
 
