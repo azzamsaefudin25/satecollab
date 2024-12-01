@@ -52,9 +52,9 @@
                                 <td>{{ $pengajuan->nama_kelas }}</td>
                                 <td>{{ $pengajuan->mataKuliah->semester ?? 'N/A' }}</td>
                                 <td>{{ $pengajuan->mataKuliah->sks ?? 'N/A' }}</td>
-                                <td>{{ $pengajuan->mataKuliah->jenis ?? 'N/A' }}</td>
+                                {{-- <td>{{ $pengajuan->mataKuliah->jenis ?? 'N/A' }}</td> --}}
                                 <td>{{ $pengajuan->mataKuliah->semester_aktif ?? 'N/A' }}</td>
-                                <td>{{ $pengajuan->tahun_ajaran }}</td>
+                                {{-- <td>{{ $pengajuan->tahun_ajaran }}</td> --}}
                                 <td>{{ $pengajuan->hari }}</td>
                                 <td>{{ $pengajuan->jam_mulai }}</td>
                                 <td>{{ $pengajuan->jam_selesai }}</td>

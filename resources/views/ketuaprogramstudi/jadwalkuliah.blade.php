@@ -110,10 +110,28 @@
             gap: 10px;
         }
 
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            /* Tombol Back di kiri dan simpan di */
+            margin-top: 50px;
+        }
+
+        .btn-right {
+            display: flex;
+        }
 
 
-        .back-btn:hover {
-            background-color: #333;
+        .btn-custom {
+            background-color: #007bff;
+            /* Warna biru */
+            color: white;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
         }
 
         .action-buttons button {
@@ -123,24 +141,6 @@
             font-size: 14px;
             font-weight: bold;
             color: white;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
         }
 
         /* Adjust jam mulai and jam berakhir styles */
@@ -374,22 +374,22 @@
                     <label for="tahun_ajaran">Tahun Ajaran</label>
                     <input type="text" id="tahun_ajaran" name="tahun_ajaran" class="form-control" readonly>
                 </div>
-                <!-- Tombol Simpan dan Lihat -->
-                <div class="d-flex justify-content-between mt-4 action-buttons">
-                    <button type="submit" class="btn btn-primary ajukan-btn">Simpan</button>
-                    <button type="button" class="btn btn-success lihat-btn"
-                        onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
-                </div>
 
-                <button type="button" class="btn btn-dark back-btn"
-                    onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                        class="bi bi-arrow-left" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-                    </svg>
-                    BACK
-                </button>
+                <div class="btn-container">
+                    <button type="button" class="btn btn-dark back-button"
+                        onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                        </svg>
+                        BACK
+                    </button>
+
+                    <div class="btn-right">
+                        <button type="submit" class="btn btn-custom">AJUKAN</button>
+                    </div>
+                </div>
         </main>
     </div>
 
@@ -456,11 +456,11 @@
                 });
             }
         });
-        // Fungsi untuk menghasilkan array waktu dengan interval 15 menit
+        // Fungsi untuk menghasilkan array waktu dengan interval 10 menit
         function generateTimeOptions() {
             const times = [];
-            for (let hour = 0; hour < 24; hour++) {
-                for (let minute = 0; minute < 60; minute += 15) {
+            for (let hour = 6; hour < 21; hour++) {
+                for (let minute = 0; minute < 60; minute += 10) {
                     const formattedHour = hour.toString().padStart(2, '0');
                     const formattedMinute = minute.toString().padStart(2, '0');
                     times.push(`${formattedHour}:${formattedMinute}`);

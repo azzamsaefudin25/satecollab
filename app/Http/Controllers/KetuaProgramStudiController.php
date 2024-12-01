@@ -75,7 +75,7 @@ class KetuaProgramStudiController extends Controller
             'dosen3.dosen',
             'dosen4.dosen',
             'dosen5.dosen'
-        ])->orderBy('hari', 'asc')->paginate(5); 
+        ])->orderBy('hari', 'desc')->paginate(5); 
 
         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
     }
