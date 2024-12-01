@@ -34,7 +34,8 @@
                     <label for="semester">Semester</label>
                     <input id="semester" type="number" class="form-control" name="semester"
                         placeholder="Masukkan semester (1-9)" required>
-                    <small id="semesterError" class="text-danger" style="display:none;">Semester harus di antara 1-9.</small>
+                    <small id="semesterError" class="text-danger" style="display:none;">Semester harus di antara
+                        1-9.</small>
                 </div>
 
                 <div class="form-group">
@@ -54,22 +55,20 @@
                         <option value="Pilihan">Pilihan</option>
                     </select>
                 </div>
-                
-    
+
+
                 <div class="btn-container">
                     <button type="button" class="btn btn-dark back-button"
-                    onclick="window.location.href='{{ route('memilihmatakuliah.index') }}'">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-                    </svg>
-                    BACK
-                </button>
+                        onclick="window.location.href='{{ route('memilihmatakuliah.index') }}'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                        </svg>
+                        BACK
+                    </button>
                     <div class="btn-right">
                         <button type="submit" class="btn btn-custom">SIMPAN</button>
-                        <button type="button" class="btn btn-custom-secondary"
-                            onclick="window.location.href='{{ route('memilihmatakuliah.index') }}'">LIHAT</button>
                     </div>
                 </div>
             </form>
@@ -97,7 +96,7 @@
             }
         }
 
-        semesterInput.addEventListener('input', function () {
+        semesterInput.addEventListener('input', function() {
             if (validateInput(semesterInput, semesterError)) {
                 semesterAktif.value = semesterInput.value % 2 === 0 ? 'Genap' : 'Ganjil';
             } else {
@@ -105,11 +104,11 @@
             }
         });
 
-        sksInput.addEventListener('input', function () {
+        sksInput.addEventListener('input', function() {
             validateInput(sksInput, sksError);
         });
 
-        form.addEventListener('submit', function (event) {
+        form.addEventListener('submit', function(event) {
             const isSemesterValid = validateInput(semesterInput, semesterError);
             const isSksValid = validateInput(sksInput, sksError);
 
