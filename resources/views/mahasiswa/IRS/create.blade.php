@@ -86,7 +86,7 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <img src="{{ asset('backend/img/logoSate.png') }}" alt="SATE Logo">
+            <img src="{{ asset('backend\img\logoSate-removebg-preview.png') }}" alt="SATE Logo">
             <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
         </div>
     </header>

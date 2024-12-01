@@ -122,12 +122,13 @@
             display: flex;
         }
 
+
         .btn-custom {
             background-color: #007bff;
             /* Warna biru */
             color: white;
-            border-radius: 8px; 
-            margin-right: 10px; 
+            border-radius: 8px;
+            margin-right: 10px;
         }
 
         .btn-custom:hover {
@@ -263,11 +264,11 @@
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="#">Dashboard</a>
-        <a href="#">Penyusunan Ruang Perkuliahan</a>
-        <a href="#">Pengalokasian Ruang Perkuliahan</a>
+        <a href="#">Jadwal Perkuliahan</a>
+        <a href="#">Ruang Perkuliahan</a>
         <a href="#">Profile</a>
         <a href="#">Notifikasi</a>
-        <a href="#">Log Out</a>
+        <a href="#">Log out</a>
     </div>
 
     <div id="main">

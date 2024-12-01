@@ -7,9 +7,14 @@
         <!-- Search Box -->
         <form action="{{ route('memilihmatakuliah.index') }}" method="GET" class="mb-3">
             <div class="input-group">
+<<<<<<< HEAD
                 <input type="text" name="search" class="form-control" 
                        placeholder="Cari Mata Kuliah (Kode, Nama, Semester, Prodi)..."  aria-label="Search"
                        value="{{ request('search') }}"> 
+=======
+                <input type="text" name="search" class="form-control"
+                    placeholder="Cari Mata Kuliah (Kode, Nama, Semester, Prodi)..." value="{{ request('search') }}">
+>>>>>>> main
                 <button class="btn btn-primary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
@@ -46,7 +51,7 @@
                             <td>{{ $mk->sks }}</td>
                             <td>{{ $mk->semester_aktif }}</td>
                             <td>
-                                @if($mk->programStudi)
+                                @if ($mk->programStudi)
                                     {{ $mk->programStudi->nama_programstudi }}
                                 @else
                                     Tidak ada Prodi
@@ -55,21 +60,21 @@
                             <td>{{ $mk->jenis }}</td>
                             <td>
                                 <div class="d-flex">
-                                    <a href="{{ route('memilihmatakuliah.edit', $mk->kode_mk) }}" 
-                                       class="btn btn-warning btn-sm me-1">Edit</a>
-                                    <form action="{{ route('memilihmatakuliah.destroy', $mk->kode_mk) }}" 
-                                          method="POST" class="d-inline">
+                                    <a href="{{ route('memilihmatakuliah.edit', $mk->kode_mk) }}"
+                                        class="btn btn-warning btn-sm me-1">Edit</a>
+                                    <form action="{{ route('memilihmatakuliah.destroy', $mk->kode_mk) }}" method="POST"
+                                        class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" 
-                                                onclick="return confirm('Apakah anda yakin?')">Hapus</button>
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Apakah anda yakin?')">Hapus</button>
                                     </form>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center">Tidak ada mata kuliah ditemukan.</td>
+                            <td colspan="8" class="text-center">Tidak ada mata kuliah yang ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -78,8 +83,8 @@
             <!-- Pagination -->
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    Menampilkan {{ $matakuliah->firstItem() }} - 
-                    {{ $matakuliah->lastItem() }} dari 
+                    Menampilkan {{ $matakuliah->firstItem() }} -
+                    {{ $matakuliah->lastItem() }} dari
                     {{ $matakuliah->total() }} mata kuliah
                 </div>
                 <div>

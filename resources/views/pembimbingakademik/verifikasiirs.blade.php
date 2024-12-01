@@ -30,23 +30,36 @@
 
         .header {
             background-color: #658345;
-            color: black;
-            padding: 30px;
-            text-align: left;
+            padding: 15px 30px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
 
-        .header h1 {
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            width: 50px;
+            height: auto;
+        }
+
+        .logo-text {
+            color: black;
+            line-height: 1.2;
+        }
+
+        .logo-text h1 {
             margin: 0;
-            font-size: 30px;
-            margin-left: 120px;
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        .header img {
-            height: 60px;
-            margin-right: 20px;
+        .logo-text p {
+            margin: 0;
+            font-size: 14px;
         }
 
         .statistik {
@@ -187,17 +200,96 @@
         }
 
         /* Red */
+
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+            }
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+            }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+            }
+
+        @media screen and (max-height: 450px) {
+            .sidenav {padding-top: 15px;}
+            .sidenav a {font-size: 18px;}
+            }
+
+
+
     </style>
 </head>
 
 <body>
 
     <div class="header">
-        <div>
-            <img src="sate_logo.png" alt="SATE Logo">
-            <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
+        <div class="logo-container">
+            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            <div class="logo-text">
+                <h1>SATE</h1>
+                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
+            </div>
         </div>
     </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">Dashboard</a>
+        <a href="#">Verifikasi IRS</a>
+        <a href="#">Profile</a>
+        <a href="#">Notifikasi</a>
+        <a href="#">Log Out</a>
+        </div>
+      
+      <div id="main">
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
+      </div>
+      
+      <script>
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "250px";
+          document.getElementById("main").style.marginLeft = "250px";
+          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        }
+        
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft= "0";
+          document.body.style.backgroundColor = "white";
+        }
+        </script>
+
 
     <div class="container">
         <div class="content">
@@ -259,7 +351,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Tidak ada mahasiswa yang ditemukan</td>
+                            <td colspan="6" class="text-center">Data Mahasiwa Tidak Ditemukan</td>
                         </tr>
                     @endforelse
                 </tbody>

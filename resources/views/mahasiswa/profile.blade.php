@@ -142,7 +142,7 @@
 
 <div class="content-wrapper">
     <div class="sidebar">
-        <h2>Dashboard</h2>
+        <a href="{{route('mahasiswa')}}">Dashboard</a>
         <a href="#">Profile</a> 
         <a href="#">Notifikasi</a>
         <div class="student-performance">
@@ -173,8 +173,8 @@
                 </div>
                 <div class="col-md-8">
                     <h5 class="card-title">Informasi Mahasiswa</h5>
-                    <p><strong>NIM</strong> : 24060122140108</p>
-                    <p><strong>Nama</strong> : Yohanes Pannjaitan</p>
+                    <p><strong>NIM</strong> {{ $nim ?? 'NIM tidak ditemukan' }}</p>
+                    <p><strong>Nama</strong> {{ $nama ?? 'User tidak ditemukan' }}</p>
                     <p><strong>Fakultas</strong> : Fakultas Sains dan Matematika</p>
                     <p><strong>Prodi</strong> : Informatika</p>
                     <p><strong>Angkatan</strong> : 2022</p>

@@ -11,7 +11,7 @@
             <form action="{{ route('pengalokasianruang.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="id_programstudi">Kode Ruangan</label>
+                    <label for="id_programstudi">Program Studi</label>
                     <select name="id_programstudi" class="form-control dropdown" id="id_programstudi">
                         <option value="">Pilih Program Studi</option>
                         @foreach ($programStudi as $prodi)

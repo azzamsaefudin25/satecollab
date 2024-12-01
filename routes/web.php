@@ -10,6 +10,7 @@ use App\Http\Controllers\DosenPengampuController;
 use App\Http\Controllers\PembimbingAkademikController;
 use App\Http\Controllers\IRSController;
 use App\Models\Ketuaprogramstudi;
+use App\Models\Mahasiswa;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,7 @@ Route::delete('penyusunanruang/{kode_ruang}', [BagianAkademikController::class, 
 Route::get('bagianakademik/pengalokasianruang/create', [BagianAkademikController::class, 'createPengalokasianRuang'])->name('pengalokasianruang.create');
 Route::post('pengalokasianruang', [BagianAkademikController::class, 'storePengalokasianRuang'])->name('pengalokasianruang.store');
 Route::get('bagianakademik/pengalokasianruang/index', [BagianAkademikController::class, 'indexPengalokasianRuang'])->name('pengalokasianruang.index');
+Route::delete('pengalokasianruang/{kode_ruang}', [BagianAkademikController::class, 'destroyAlokasiRuang'])->name('pengalokasianruang.destroy');
 
 //kaprodi menyusun matakuliah
 Route::get('memilihmatakuliah/create', [KetuaProgramStudiController::class, 'createMemilihMataKuliah'])->name('memilihmatakuliah.create');
@@ -115,11 +117,11 @@ Route::get('/getMatakuliah/{id_programstudi}', [KetuaProgramStudiController::cla
 Route::get('/get-dosen/{kode_mk}', [KetuaprogramstudiController::class, 'getDosenByMk']);
 
 // dekan menyetujui ruangan
-Route::get('/dekan/approve-ruang', [DekanController::class, 'createPengajuanRuang'])->name('dekan.approveruang');
+Route::get('/dekan/approve-ruang', [DekanController::class, 'indexPengajuanRuang'])->name('dekan.approveruang');
 Route::patch('/pengajuan/update/{id}', [DekanController::class, 'updatePengajuanRuang'])->name('pengajuan.updateruang');
 
 //dekan menyetujui jadwal
-Route::get('/dekan/approve-jadwal', [DekanController::class, 'createPengajuanJadwal'])->name('dekan.approvejadwal');
+Route::get('/dekan/approve-jadwal', [DekanController::class, 'indexPengajuanJadwal'])->name('dekan.approvejadwal');
 Route::patch('/dekan/update-pengajuan/{id}', [DekanController::class, 'updatePengajuanJadwal'])->name('pengajuan.updatejadwal');
 
 // IRS
@@ -143,3 +145,11 @@ Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.de
 Route::get('/masuk/IRS', [PembimbingAkademikController::class, 'approveIRS'])->name('pembimbingakademik.verifikasiirs');
 Route::get('/masuk/IRS/verifikasi/{nim}', [PembimbingAkademikController::class, 'approveIRS2'])->name('pembimbingakademik.lihatverifikasi');
 Route::post('/pembimbing-akademik/persetujuan-irs', [PembimbingAkademikController::class, 'persetujuanIRS'])->name('pembimbingakademik.persetujuanirs');
+
+// profile
+// Route::get('profile', function () {
+//     return view('mahasiswa.profile', ['title' => 'profile']);
+// })->name('mahasiswa.profile');
+
+Route::get('/dashboard/profile/mahasiswa', [MahasiswaController::class, 'profile'])->name('mahasiswa.profile');
+

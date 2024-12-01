@@ -1,219 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Approve Jadwal Kuliah</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #fff;
-    }
-
-    .header {
-        background-color: #658345;
-        padding: 15px 30px;
-        display: flex;
-        align-items: center;
-    }
-
-    .logo-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .logo-container img {
-        width: 50px;
-        height: auto;
-    }
-
-    .logo-text {
-        color: black;
-        line-height: 1.2;
-    }
-
-    .logo-text h1 {
-        margin: 0;
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .logo-text p {
-        margin: 0;
-        font-size: 14px;
-    }
-
-    .search-box {
-        margin-top: 20px;
-        padding: 15px;
-        background-color: white;
-        border-radius: 5px;
-    }
-
-    .table-container {
-        margin-top: 20px;
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    .table-striped tbody tr:nth-of-type(even) {
-        background-color: #e9ecef;
-    }
-</style>
-
-<body>
-    <div class="header">
-        <div class="logo-container">
-            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
-            <div class="logo-text">
-                <h1>SATE</h1>
-                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
-            </div>
-        </div>
-    </div>
+@extends('layout.template_d')
+<!-- START FORM -->
+@section('content')
+    <!-- Header -->
 
     <div class="container mt-4">
-        <div class="search-box">
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Cari Jadwal Kuliah" aria-label="Search">
-                <button class="btn btn-outline-secondary" type="submit">
-                    <i class="bi bi-search"></i> <!-- Bootstrap Icons -->
-                </button>
-            </form>
-        </div>
         <div class="table-container">
             <h4 class="mt-4">Daftar Pengajuan Jadwal Kuliah</h4>
 
-            @if (session('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
+            <form action="{{ route('dekan.approvejadwal') }}" method="GET">
+                <div class="search-box d-flex justify-content-between align-items-center">
+                    <input name="search" type="search" class="form-control me-2" placeholder="CARI PENGAJUAN JADWAL"
+                        aria-label="Search" value="{{ request('search') }}">
+                    <button class="btn" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <button class="capacity-btn">
+                        <i class="bi bi-plus-minus"></i>
+                    </button>
                 </div>
-            @endif
+            </form>
 
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>Kode Mata Kuliah</th>
-                        <th>Nama Mata Kuliah</th>
-                        <th>Kode Ruang</th>
-                        <th>Nama Kelas</th>
-                        <th>Semester</th>
-                        <th>Sks</th>
-                        <th>Jenis</th>
-                        <th>Semester Aktif</th>
-                        <th>Tahun Ajaran</th>
-                        <th>Hari</th>
-                        <th>Jam Mulai</th>
-                        <th>Jam Selesai</th>
-                        {{-- <th>Nama Dosen Pengampu</th> --}}
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = $pengajuans->firstItem(); ?>
-                    @foreach ($pengajuans as $pengajuan)
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
                         <tr>
-                            <td>{{ $i }}</td>
-                            <td>{{ $pengajuan->kode_mk }}</td>
-                            <td>{{ $pengajuan->mataKuliah->nama_mk ?? 'mata kuliah tidak ditemukan' }}</td>
-                            <td>{{ $pengajuan->kode_ruang }}</td>
-                            <td>{{ $pengajuan->nama_kelas }}</td>
-                            <td>{{ $pengajuan->mataKuliah->semester ?? 'N/A' }}</td>
-                            <td>{{ $pengajuan->mataKuliah->sks ?? 'N/A' }}</td>
-                            <td>{{ $pengajuan->mataKuliah->jenis ?? 'N/A' }}</td>
-                            <td>{{ $pengajuan->mataKuliah->semester_aktif ?? 'N/A' }}</td>
-                            <td>{{ $pengajuan->tahun_ajaran }}</td>
-                            <td>{{ $pengajuan->hari }}</td>
-                            <td>{{ $pengajuan->jam_mulai }}</td>
-                            <td>{{ $pengajuan->jam_selesai }}</td>
-                            <!-- Menampilkan daftar dosen pengampu -->
-                            {{-- <td>
-                                <ol>
-                                    @if ($pengajuan->dosen1)
-                                        <li>{{ $pengajuan->dosen1->dosen->nama_dosen }}</li>
-                                    @endif
-                                    @if ($pengajuan->dosen2)
-                                        <li>{{ $pengajuan->dosen2->dosen->nama_dosen }}</li>
-                                    @endif
-                                    @if ($pengajuan->dosen3)
-                                        <li>{{ $pengajuan->dosen3->dosen->nama_dosen }}</li>
-                                    @endif
-                                    @if ($pengajuan->dosen4)
-                                        <li>{{ $pengajuan->dosen4->dosen->nama_dosen }}</li>
-                                    @endif
-                                    @if ($pengajuan->dosen5)
-                                        <li>{{ $pengajuan->dosen5->dosen->nama_dosen }}</li>
-                                    @endif
-                                </ol>
-                            </td> --}}
+                            <th>No</th>
+                            <th>Kode Mata Kuliah</th>
+                            <th>Nama Mata Kuliah</th>
+                            <th>Kode Ruang</th>
+                            <th>Nama Kelas</th>
+                            <th>Semester</th>
+                            <th>Sks</th>
+                            <th>Jenis</th>
+                            <th>Semester Aktif</th>
+                            <th>Tahun Ajaran</th>
+                            <th>Hari</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                            {{-- <th>Nama Dosen Pengampu</th> --}}
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = $pengajuans->firstItem(); ?>
+                        @foreach ($pengajuans as $pengajuan)
+                            <tr>
+                                <td>{{ $i }}</td>
+                                <td>{{ $pengajuan->kode_mk }}</td>
+                                <td>{{ $pengajuan->mataKuliah->nama_mk ?? 'mata kuliah tidak ditemukan' }}</td>
+                                <td>{{ $pengajuan->kode_ruang }}</td>
+                                <td>{{ $pengajuan->nama_kelas }}</td>
+                                <td>{{ $pengajuan->mataKuliah->semester ?? 'N/A' }}</td>
+                                <td>{{ $pengajuan->mataKuliah->sks ?? 'N/A' }}</td>
+                                <td>{{ $pengajuan->mataKuliah->jenis ?? 'N/A' }}</td>
+                                <td>{{ $pengajuan->mataKuliah->semester_aktif ?? 'N/A' }}</td>
+                                <td>{{ $pengajuan->tahun_ajaran }}</td>
+                                <td>{{ $pengajuan->hari }}</td>
+                                <td>{{ $pengajuan->jam_mulai }}</td>
+                                <td>{{ $pengajuan->jam_selesai }}</td>
+                                <!-- Menampilkan daftar dosen pengampu -->
+                                {{-- <td>
+                                    <ol>
+                                        @if ($pengajuan->dosen1)
+                                            <li>{{ $pengajuan->dosen1->dosen->nama_dosen }}</li>
+                                        @endif
+                                        @if ($pengajuan->dosen2)
+                                            <li>{{ $pengajuan->dosen2->dosen->nama_dosen }}</li>
+                                        @endif
+                                        @if ($pengajuan->dosen3)
+                                            <li>{{ $pengajuan->dosen3->dosen->nama_dosen }}</li>
+                                        @endif
+                                        @if ($pengajuan->dosen4)
+                                            <li>{{ $pengajuan->dosen4->dosen->nama_dosen }}</li>
+                                        @endif
+                                        @if ($pengajuan->dosen5)
+                                            <li>{{ $pengajuan->dosen5->dosen->nama_dosen }}</li>
+                                        @endif
+                                    </ol>
+                                </td> --}}
 
-                            <td>
-                                @if ($pengajuan->status === 'disetujui')
-                                    <span class="text-success">Disetujui</span>
-                                @elseif ($pengajuan->status === 'ditolak')
-                                    <span class="text-danger">Ditolak</span>
-                                @else
-                                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}"
-                                        method="POST" class="d-inline">
-                                        @csrf
-                                        <input type="hidden" name="_method" value="PATCH">
-                                        <!-- Menyatakan metode PATCH -->
-                                        <input type="hidden" name="action" value="setuju">
-                                        <button type="submit" class="btn btn-success btn-sm">Setuju</button>
-                                    </form>
-                                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}"
-                                        method="POST" class="d-inline">
-                                        @csrf
-                                        <input type="hidden" name="_method" value="PATCH">
-                                        <!-- Menyatakan metode PATCH -->
-                                        <input type="hidden" name="action" value="tolak">
-                                        <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
-                                    </form>
-                                @endif
-                            </td>
-                        </tr>
-                        <?php $i++; ?>
-                    @endforeach
-                    @if ($pengajuans->isEmpty())
-                        <tr>
-                            <td colspan="6" class="text-center">Tidak ada pengajuan jadwal kuliah.</td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
-            {{ $pengajuans->withQueryString()->links() }}
-            <div class="btn-container">
-                <button type="button" class="btn btn-dark back-button"
-                    onclick="window.location.href='{{ route('dekan') }}'">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-                    </svg>
-                    BACK
-                </button>
+                                <td>
+                                    @if ($pengajuan->status === 'disetujui')
+                                        <span class="text-success">Disetujui</span>
+                                    @elseif ($pengajuan->status === 'ditolak')
+                                        <span class="text-danger">Ditolak</span>
+                                    @else
+                                        <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}"
+                                            method="POST" class="d-inline">
+                                            @csrf
+                                            <input type="hidden" name="_method" value="PATCH">
+                                            <!-- Menyatakan metode PATCH -->
+                                            <input type="hidden" name="action" value="setuju">
+                                            <button type="submit" class="btn btn-success btn-sm">Setuju</button>
+                                        </form>
+                                        <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}"
+                                            method="POST" class="d-inline">
+                                            @csrf
+                                            <input type="hidden" name="_method" value="PATCH">
+                                            <!-- Menyatakan metode PATCH -->
+                                            <input type="hidden" name="action" value="tolak">
+                                            <button type="submit" class="btn btn-danger btn-sm">Tolak</button>
+                                        </form>
+                                    @endif
+                                </td>
+                            </tr>
+                            <?php $i++; ?>
+                        @endforeach
+                        @if ($pengajuans->isEmpty())
+                            <tr>
+                                <td colspan="20" class="text-center">Tidak ada pengajuan jadwal kuliah.</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+                {{ $pengajuans->withQueryString()->links() }}
             </div>
         </div>
-
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+        <div class="btn-container">
+            <button type="button" class="btn btn-dark back-button" onclick="window.location.href='{{ route('dekan') }}'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                </svg>
+                BACK
+            </button>
+        </div>
+    </div>
+@endsection

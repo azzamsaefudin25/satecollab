@@ -163,15 +163,15 @@
 
 <div class="header">
     <div>
-        <img src="{{ asset('backend/img/logoSate.png') }}" alt="">
+        <img src="{{ asset('backend\img\logoSate-removebg-preview.png') }}" alt="">
         <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
     </div>
 </div>
 
 <div class="content-wrapper">
     <div class="sidebar">
-        <h2>Dashboard</h2>
-        <a href="#">Profile</a> 
+        <a href="">Dashboard</a>
+        <a href="{{route('mahasiswa.profile')}}">Profile</a> 
         <a href="#">Notifikasi</a>
         <div class="student-performance">
             <h3>Prestasi Mahasiswa</h3>
