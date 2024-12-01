@@ -49,6 +49,7 @@
             margin: 0;
             font-size: 14px;
         }
+
         .container {
             width: 100%;
             max-width: 700px;
@@ -90,54 +91,55 @@
         }
 
         .back-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 20px; /* Ubah dari 'right' ke 'left' */
-    background-color: #4c4c4c;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            /* Ubah dari 'right' ke 'left' */
+            background-color: #4c4c4c;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
 
 
-.back-btn:hover {
-    background-color: #333;
-}
+        .back-btn:hover {
+            background-color: #333;
+        }
 
-.action-buttons button {
-    width: 48%;
-    padding: 10px;
-    border: none;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-}
+        .action-buttons button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+        }
 
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-}
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
 
-.btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
-}
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
 
-.btn-success:hover {
-    background-color: #218838;
-}
+        .btn-success:hover {
+            background-color: #218838;
+        }
 
         /* Adjust jam mulai and jam berakhir styles */
         .time-select {
@@ -173,8 +175,8 @@
             color: red;
             cursor: pointer;
         }
-        
-        
+
+
         .sidenav {
             height: 100%;
             width: 0;
@@ -186,7 +188,7 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-            }
+        }
 
         .sidenav a {
             padding: 8px 8px 8px 32px;
@@ -195,11 +197,11 @@
             color: #818181;
             display: block;
             transition: 0.3s;
-            }
+        }
 
         .sidenav a:hover {
             color: #f1f1f1;
-            }
+        }
 
         .sidenav .closebtn {
             position: absolute;
@@ -207,20 +209,22 @@
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
-            }
+        }
 
         #main {
             transition: margin-left .5s;
             padding: 16px;
-            }
+        }
 
         @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
+            .sidenav {
+                padding-top: 15px;
             }
 
-
-
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
@@ -245,25 +249,25 @@
         <a href="#">Profile</a>
         <a href="#">Notifikasi</a>
         <a href="#">Log Out</a>
-        </div>
-      
-      <div id="main">
+    </div>
+
+    <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-      </div>
-      
-      <script>
+    </div>
+
+    <script>
         function openNav() {
-          document.getElementById("mySidenav").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
-          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
         }
-        
+
         function closeNav() {
-          document.getElementById("mySidenav").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
-          document.body.style.backgroundColor = "white";
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
         }
-        </script>
+    </script>
 
 
 
@@ -293,26 +297,27 @@
                 <!-- Dropdown untuk Program Studi -->
                 <div class="form-group">
                     <label for="programstudi">Program Studi</label>
-                    <input type="text" id="programstudi" name="programstudi" class="form-control" value="{{ $programStudi->nama_programstudi }}" readonly>
+                    <input type="text" id="programstudi" name="programstudi" class="form-control"
+                        value="{{ $programStudi->nama_programstudi }}" readonly>
                     <input type="hidden" name="id_programstudi" value="{{ $programStudi->id_programstudi }}">
                 </div>
 
 
-<!-- Dropdown Ruangan -->
-<select name="kode_ruang" id="ruangan" required>
-    <option value="">Pilih Ruangan</option>
-    @foreach ($ruangperkuliahan as $ruang)
-        <option value="{{ $ruang->kode_ruang }}">{{ $ruang->kode_ruang }}</option>
-    @endforeach
-</select>
+                <!-- Dropdown Ruangan -->
+                <select name="kode_ruang" id="ruangan" required>
+                    <option value="">Pilih Ruangan</option>
+                    @foreach ($ruangperkuliahan as $ruang)
+                        <option value="{{ $ruang->kode_ruang }}">{{ $ruang->kode_ruang }}</option>
+                    @endforeach
+                </select>
 
-<!-- Dropdown Mata Kuliah -->
-<select name="kode_mk" id="kode_mk" required>
-    <option value="">Pilih Mata Kuliah</option>
-    @foreach ($matakuliah as $mk)
-        <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
-    @endforeach
-</select>
+                <!-- Dropdown Mata Kuliah -->
+                <select name="kode_mk" id="kode_mk" required>
+                    <option value="">Pilih Mata Kuliah</option>
+                    @foreach ($matakuliah as $mk)
+                        <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
+                    @endforeach
+                </select>
 
 
                 <!-- Pilih Hari -->
@@ -330,7 +335,7 @@
                     <select id="jam_mulai" name="jam_mulai" required>
                         <option value="">Pilih Jam Mulai</option>
                     </select>
-                    
+
 
                     <select name="jam_selesai_displayphp" id="jam_selesai_display" required>
                         <option value="">Jam Berakhir (otomatis)</option>
@@ -353,74 +358,82 @@
                     <label for="tahun_ajaran">Tahun Ajaran</label>
                     <input type="text" id="tahun_ajaran" name="tahun_ajaran" class="form-control" readonly>
                 </div>
-            <!-- Tombol Simpan dan Lihat -->
-            <div class="d-flex justify-content-between mt-4 action-buttons">
-                <button type="submit" class="btn btn-primary ajukan-btn">Simpan</button>
-                <button type="button" class="btn btn-success lihat-btn" onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
-            </div>
+                <!-- Tombol Simpan dan Lihat -->
+                <div class="d-flex justify-content-between mt-4 action-buttons">
+                    <button type="submit" class="btn btn-primary ajukan-btn">Simpan</button>
+                    <button type="button" class="btn btn-success lihat-btn"
+                        onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">Lihat</button>
+                </div>
 
-            <button type="button" class="btn btn-dark back-btn"
-            onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-            class="bi bi-arrow-left" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-                d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-        </svg>
-        BACK
-    </button>
-    
-            
+                <button type="button" class="btn btn-dark back-btn"
+                    onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-arrow-left" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                    </svg>
+                    BACK
+                </button>
+
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-$(document).ready(function() {
-    // Ambil ID Program Studi dari backend
-    var id_programstudi = "{{ $programStudi->id_programstudi }}";
+        $(document).ready(function() {
+            // Ambil ID Program Studi dari backend
+            var id_programstudi = "{{ $programStudi->id_programstudi }}";
 
-    if (id_programstudi) {
-        // Mendapatkan ruangan
-        $.ajax({
-    url: '/getRuangan/' + id_programstudi,
-    type: 'GET',
-    dataType: 'json',
-    success: function(data) {
-        $('#ruangan').empty();
-        if (data.length === 0) {
-            $('#ruangan').append('<option value="">-- Tidak ada ruangan tersedia --</option>');
-        } else {
-            $('#ruangan').append('<option value="">-- Pilih Ruangan --</option>');
-            $.each(data, function(key, value) {
-                $('#ruangan').append(`<option value="${value.kode_ruang}">${value.kode_ruang}</option>`);
-            });
-        }
-    },
-            error: function() {
-                $('#ruangan').append('<option value="">-- Gagal memuat ruangan --</option>');
+            if (id_programstudi) {
+                // Mendapatkan ruangan
+                $.ajax({
+                    url: '/getRuangan/' + id_programstudi,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#ruangan').empty();
+                        if (data.length === 0) {
+                            $('#ruangan').append(
+                                '<option value="">-- Tidak ada ruangan tersedia --</option>');
+                        } else {
+                            $('#ruangan').append('<option value="">-- Pilih Ruangan --</option>');
+                            $.each(data, function(key, value) {
+                                $('#ruangan').append(
+                                    `<option value="${value.kode_ruang}">${value.kode_ruang}</option>`
+                                    );
+                            });
+                        }
+                    },
+                    error: function() {
+                        $('#ruangan').append('<option value="">-- Gagal memuat ruangan --</option>');
+                    }
+                });
+
+                // Mendapatkan mata kuliah
+                $.ajax({
+                    url: '/getMatakuliah/' + id_programstudi,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#kode_mk').empty();
+                        if (data.length === 0) {
+                            $('#kode_mk').append(
+                                '<option value="">-- Tidak ada mata kuliah tersedia --</option>');
+                        } else {
+                            $('#kode_mk').append('<option value="">-- Pilih Mata Kuliah --</option>');
+                            $.each(data, function(key, value) {
+                                $('#kode_mk').append(
+                                    `<option value="${value.kode_mk}">${value.nama_mk}</option>`
+                                    );
+                            });
+                        }
+                    },
+                    error: function() {
+                        $('#kode_mk').append(
+                        '<option value="">-- Gagal memuat mata kuliah --</option>');
+                    }
+                });
             }
         });
-
-        // Mendapatkan mata kuliah
-        $.ajax({
-            url: '/getMatakuliah/' + id_programstudi,
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                $('#kode_mk').empty();
-                if (data.length === 0) {
-                    $('#kode_mk').append('<option value="">-- Tidak ada mata kuliah tersedia --</option>');
-                } else {
-                    $('#kode_mk').append('<option value="">-- Pilih Mata Kuliah --</option>');
-                    $.each(data, function(key, value) {
-                        $('#kode_mk').append(`<option value="${value.kode_mk}">${value.nama_mk}</option>`);
-                    });
-                }
-            },
-            error: function() {
-                $('#kode_mk').append('<option value="">-- Gagal memuat mata kuliah --</option>');
-            }
-        });
-    }
-});
         // Fungsi untuk menghasilkan array waktu dengan interval 15 menit
         function generateTimeOptions() {
             const times = [];
