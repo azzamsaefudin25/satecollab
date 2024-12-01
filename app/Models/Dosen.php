@@ -65,4 +65,6 @@ class Dosen extends Model
     {
         return $this->belongsToMany(MataKuliah::class, 'dosenpengampu', 'kode_mk', 'nidn_dosen');
     }
+
+    
 }

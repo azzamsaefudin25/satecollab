@@ -288,24 +288,28 @@
                     </div>
                 @endif
                 <!-- Dropdown untuk Program Studi -->
-                <select id="programstudi" name="programstudi" class="form-control">
-                    <option value="">-- Pilih Program Studi --</option>
-                    @foreach ($programstudi as $ps)
-                        <option value="{{ $ps->id_programstudi }}">{{ $ps->nama_programstudi }}</option>
-                    @endforeach
-                </select>
+                <div class="form-group">
+                    <label for="programstudi">Program Studi</label>
+                    <input type="text" id="programstudi" name="programstudi" class="form-control" value="{{ $programStudi->nama_programstudi }}" readonly>
+                    <input type="hidden" name="id_programstudi" value="{{ $programStudi->id_programstudi }}">
+                </div>
 
-                <select name="kode_ruang" id="ruangan">
-                    @foreach ($ruangperkuliahan as $ruang)
-                        <option value="{{ $ruang->kode_ruang }}">{{ $ruang->nama_ruangan }}</option>
-                    @endforeach
-                </select>
 
-                <select name="kode_mk" id="kode_mk">
-                    @foreach ($matakuliah as $mk)
-                        <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
-                    @endforeach
-                </select>
+<!-- Dropdown Ruangan -->
+<select name="kode_ruang" id="ruangan" required>
+    <option value="">Pilih Ruangan</option>
+    @foreach ($ruangperkuliahan as $ruang)
+        <option value="{{ $ruang->kode_ruang }}">{{ $ruang->kode_ruang }}</option>
+    @endforeach
+</select>
+
+<!-- Dropdown Mata Kuliah -->
+<select name="kode_mk" id="kode_mk" required>
+    <option value="">Pilih Mata Kuliah</option>
+    @foreach ($matakuliah as $mk)
+        <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
+    @endforeach
+</select>
 
 
                 <!-- Pilih Hari -->
@@ -369,50 +373,54 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#programstudi').on('change', function() {
-                var id_programstudi = $(this).val();
-                if (id_programstudi) {
-                    $.ajax({
-                        url: '/getRuangan/' + id_programstudi,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#ruangan').empty();
-                            $('#ruangan').append(
-                                '<option value="">-- Pilih Ruangan --</option>');
-                            $.each(data, function(key, value) {
-                                $('#ruangan').append('<option value="' + value
-                                    .kode_ruang + '">' + value.kode_ruang +
-                                    '</option>');
-                            });
-                        }
-                    });
+$(document).ready(function() {
+    // Ambil ID Program Studi dari backend
+    var id_programstudi = "{{ $programStudi->id_programstudi }}";
 
-                    // Ambil mata kuliah
-                    $.ajax({
-                        url: '/getMatakuliah/' + id_programstudi,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#kode_mk').empty();
-                            $('#kode_mk').append(
-                                '<option value="">-- Pilih Mata Kuliah --</option>');
-                            $.each(data, function(key, value) {
-                                $('#kode_mk').append('<option value="' + value.kode_mk +
-                                    '">' + value.nama_mk + '</option>');
-                            });
-                        }
-                    });
-                } else {
-                    // Kosongkan pilihan jika program studi tidak dipilih
-                    $('#ruangan').empty().append('<option value="">-- Pilih Ruangan --</option>');
-                    $('#kode_mk').empty().append('<option value="">-- Pilih Mata Kuliah --</option>');
-                }
+    if (id_programstudi) {
+        // Mendapatkan ruangan
+        $.ajax({
+    url: '/getRuangan/' + id_programstudi,
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+        $('#ruangan').empty();
+        if (data.length === 0) {
+            $('#ruangan').append('<option value="">-- Tidak ada ruangan tersedia --</option>');
+        } else {
+            $('#ruangan').append('<option value="">-- Pilih Ruangan --</option>');
+            $.each(data, function(key, value) {
+                $('#ruangan').append(`<option value="${value.kode_ruang}">${value.kode_ruang}</option>`);
             });
+        }
+    },
+            error: function() {
+                $('#ruangan').append('<option value="">-- Gagal memuat ruangan --</option>');
+            }
         });
 
-
+        // Mendapatkan mata kuliah
+        $.ajax({
+            url: '/getMatakuliah/' + id_programstudi,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $('#kode_mk').empty();
+                if (data.length === 0) {
+                    $('#kode_mk').append('<option value="">-- Tidak ada mata kuliah tersedia --</option>');
+                } else {
+                    $('#kode_mk').append('<option value="">-- Pilih Mata Kuliah --</option>');
+                    $.each(data, function(key, value) {
+                        $('#kode_mk').append(`<option value="${value.kode_mk}">${value.nama_mk}</option>`);
+                    });
+                }
+            },
+            error: function() {
+                $('#kode_mk').append('<option value="">-- Gagal memuat mata kuliah --</option>');
+            }
+        });
+    }
+});
         // Fungsi untuk menghasilkan array waktu dengan interval 15 menit
         function generateTimeOptions() {
             const times = [];
