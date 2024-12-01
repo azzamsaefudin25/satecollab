@@ -8,8 +8,8 @@
         <form action="{{ route('memilihmatakuliah.index') }}" method="GET" class="mb-3">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" 
-                       placeholder="Cari Mata Kuliah (Kode, Nama, Semester, Prodi)..." 
-                       value="{{ request('search') }}">
+                       placeholder="Cari Mata Kuliah (Kode, Nama, Semester, Prodi)..."  aria-label="Search"
+                       value="{{ request('search') }}"> 
                 <button class="btn btn-primary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
@@ -18,23 +18,22 @@
 
         <!-- Add Button -->
         <div class="pb-3">
-            <a href="{{ route('memilihmatakuliah.create') }}" class="btn btn-primary">
-                Tambah Mata Kuliah
-            </a>
+            <a href="{{ route('memilihmatakuliah.create') }}" class="btn btn-primary"> + Tambah
+                Mata Kuliah</a>
         </div>
 
         <!-- Table -->
         <div class="table-responsive mb-4">
             <table class="table table-bordered table-striped">
-                <thead>
+                <thead class="table-dark">
                     <tr>
                         <th>Kode MK</th>
                         <th>Nama MK</th>
                         <th>Semester</th>
                         <th>SKS</th>
                         <th>Semester Aktif</th>
-                        <th>Jenis</th>
                         <th>Program Studi</th>
+                        <th>Jenis</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -46,7 +45,6 @@
                             <td>{{ $mk->semester }}</td>
                             <td>{{ $mk->sks }}</td>
                             <td>{{ $mk->semester_aktif }}</td>
-                            <td>{{ $mk->jenis }}</td>
                             <td>
                                 @if($mk->programStudi)
                                     {{ $mk->programStudi->nama_programstudi }}
@@ -54,6 +52,7 @@
                                     Tidak ada Prodi
                                 @endif
                             </td>
+                            <td>{{ $mk->jenis }}</td>
                             <td>
                                 <div class="d-flex">
                                     <a href="{{ route('memilihmatakuliah.edit', $mk->kode_mk) }}" 
@@ -91,9 +90,15 @@
 
         <!-- Back Button -->
         <div class="text-start mt-4">
-            <a href="{{ route('ketuaprogramstudi') }}" class="btn btn-outline-secondary">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </a>
+            <button type="button" class="btn btn-dark back-button"
+                onclick="window.location.href='{{ route('ketuaprogramstudi') }}'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                </svg>
+                BACK
+            </button>
         </div>
     </div>
 @endsection
