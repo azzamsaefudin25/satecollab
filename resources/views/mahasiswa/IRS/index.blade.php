@@ -8,11 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,7 +31,7 @@
             padding: 30px 0;
             width: 100%;
             margin: 0;
-        }   
+        }
 
         .header-content {
             display: flex;
@@ -41,7 +42,7 @@
         .header h1 {
             margin: 0;
             font-size: 30px;
-            margin-left: 20px; 
+            margin-left: 20px;
         }
 
         .header img {
@@ -113,6 +114,7 @@
         .table-responsive {
             overflow-x: auto;
         }
+
         .sidenav {
             height: 100%;
             width: 0;
@@ -124,7 +126,7 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-            }
+        }
 
         .sidenav a {
             padding: 8px 8px 8px 32px;
@@ -133,11 +135,11 @@
             color: #818181;
             display: block;
             transition: 0.3s;
-            }
+        }
 
         .sidenav a:hover {
             color: #f1f1f1;
-            }
+        }
 
         .sidenav .closebtn {
             position: absolute;
@@ -145,17 +147,22 @@
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
-            }
+        }
 
         #main {
             transition: margin-left .5s;
             padding: 16px;
-            }
+        }
 
         @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
-            }
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
@@ -179,24 +186,24 @@
         <a href="#">Notifikasi</a>
         <a href="#">Log Out</a>
     </div>
-      
+
     <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
     </div>
-      
+
     <script>
         function openNav() {
-          document.getElementById("mySidenav").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
-          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
         }
-        
+
         function closeNav() {
-          document.getElementById("mySidenav").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
-          document.body.style.backgroundColor = "white";
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
         }
-    </script>
+    </script>
 
     <!-- Main Content -->
     <div class="main-container">
@@ -265,8 +272,14 @@
             </div>
 
             <div class="text-center mt-4">
-                <button type="button" class="btn btn-outline-secondary"
-                    onclick="window.location.href='{{ route('irs.create') }}'">←</button>
+                <button type="button" class="btn btn-dark back-button"
+                    onclick="window.location.href='{{ route('irs.create') }}'"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                    </svg>
+                    BACK
+                </button>
             </div>
         </main>
     </div>

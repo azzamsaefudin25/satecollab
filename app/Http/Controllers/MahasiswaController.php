@@ -75,12 +75,20 @@ class MahasiswaController extends Controller
 
         $idProgramStudi = $mahasiswa->id_programstudi;
 
-        // Query untuk mengambil data dengan join
+        // Query untuk mengambil data dengan join dan filter tambahan
         $mataKuliah = DB::table('jadwalkuliah')
             ->join('matakuliah', 'jadwalkuliah.kode_mk', '=', 'matakuliah.kode_mk')
             ->where('jadwalkuliah.status', 'disetujui') // Filter berdasarkan status disetujui
-            ->where('matakuliah.nama_mk', 'LIKE', "%{$query}%") // Filter berdasarkan nama mata kuliah
-            ->where('matakuliah.id_programstudi', $idProgramStudi)
+            ->where('matakuliah.id_programstudi', $idProgramStudi) // Filter berdasarkan program studi
+            ->where(function ($q) use ($query) {
+                $q->where('matakuliah.nama_mk', 'LIKE', "%{$query}%") // Filter nama mata kuliah
+                    ->orWhere('jadwalkuliah.kode_mk', 'LIKE', "%{$query}%") // Filter kode mata kuliah
+                    ->orWhere('jadwalkuliah.semester', 'LIKE', "%{$query}%") // Filter kode mata kuliah
+                    ->orWhere('jadwalkuliah.jenis', 'LIKE', "%{$query}%") // Filter kode mata kuliah
+                    ->orWhere('jadwalkuliah.hari', 'LIKE', "%{$query}%") // Filter hari
+                    ->orWhere('jadwalkuliah.nama_kelas', 'LIKE', "%{$query}%") // Filter kelas
+                    ->orWhere(DB::raw("CONCAT(jadwalkuliah.jam_mulai, '-', jadwalkuliah.jam_selesai)"), 'LIKE', "%{$query}%"); // Filter jam
+            })
             ->orderBy('matakuliah.nama_mk', 'asc') // Urutkan berdasarkan nama mata kuliah
             ->limit(10)
             ->get([
@@ -98,13 +106,13 @@ class MahasiswaController extends Controller
         $result = $mataKuliah->map(function ($mk) {
             return [
                 'id' => $mk->kode_mk,
-                // 'text' => "{$mk->nama_mk} - {$mk->jenis} - Semester {$mk->semester} - {$mk->hari}, {$mk->jam_mulai}-{$mk->jam_selesai} - kelas {$mk->nama_kelas}"
-                'text' => "{$mk->nama_mk} - {$mk->jenis} - Semester {$mk->semester} - kelas {$mk->nama_kelas} - {$mk->hari}, {$mk->jam_mulai}-{$mk->jam_selesai}"
+                'text' => "{$mk->kode_mk} - {$mk->nama_mk} - {$mk->jenis} - Semester {$mk->semester} - kelas {$mk->nama_kelas} - {$mk->hari}, {$mk->jam_mulai}-{$mk->jam_selesai}"
             ];
         });
 
         return response()->json(['results' => $result]);
     }
+
 
 
     public function getMatkulDetails(Request $request)
@@ -164,7 +172,7 @@ class MahasiswaController extends Controller
         $mahasiswa = $user->mahasiswa;
         $nim = $mahasiswa->nim;
         // Debug query
-        $irsIndex = IRS::with(['mahasiswa','jadwalKuliah'])
+        $irsIndex = IRS::with(['mahasiswa', 'jadwalKuliah'])
             ->where('nim', $nim)
             ->get();
 

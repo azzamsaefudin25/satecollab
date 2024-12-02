@@ -1,6 +1,8 @@
 @extends('layout.template')
+
 <!-- START FORM -->
 @section('content')
+
     <div class="container">
         <br>
         <h4>Penyusunan Ruang Perkuliahan</h4>

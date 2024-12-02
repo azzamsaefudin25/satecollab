@@ -7,7 +7,8 @@
     <title>Sistem Akademik Terpadu Efisien</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
@@ -21,46 +22,54 @@
             display: flex;
             flex-direction: column;
         }
+
         .header {
             background-color: #658345;
             color: black;
             padding: 30px 0;
             width: 100%;
             margin: 0;
-        }   
+        }
 
         .header-content {
             display: flex;
             align-items: center;
             padding: 0 40px;
-        }  
+        }
+
         .header h1 {
             margin: 0;
             font-size: 30px;
-            margin-left: 20px; 
+            margin-left: 20px;
         }
+
         .header img {
             height: 60px;
         }
+
         .footer {
             background-color: #658345;
             color: white;
             text-align: center;
             padding: 6px 0;
         }
+
         .footer h3 {
             font-size: 24px;
             margin-bottom: 10px;
         }
+
         .footer p {
             font-size: 14px;
             margin-bottom: 20px;
         }
+
         .footer-icons {
             display: flex;
             justify-content: center;
             gap: 15px;
         }
+
         .footer-icons a {
             color: white;
             text-decoration: none;
@@ -74,10 +83,12 @@
             border-radius: 50%;
             transition: 0.3s;
         }
+
         .footer-icons a:hover {
             color: #658345;
             background-color: white;
         }
+
         .sidenav {
             height: 100%;
             width: 0;
@@ -89,7 +100,7 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-            }
+        }
 
         .sidenav a {
             padding: 8px 8px 8px 32px;
@@ -98,11 +109,11 @@
             color: #818181;
             display: block;
             transition: 0.3s;
-            }
+        }
 
         .sidenav a:hover {
             color: #f1f1f1;
-            }
+        }
 
         .sidenav .closebtn {
             position: absolute;
@@ -110,17 +121,22 @@
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
-            }
+        }
 
         #main {
             transition: margin-left .5s;
             padding: 16px;
-            }
+        }
 
         @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
-            }
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
@@ -144,37 +160,37 @@
         <a href="#">Notifikasi</a>
         <a href="#">Log Out</a>
     </div>
-      
+
     <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
     </div>
-      
+
     <script>
         function openNav() {
-          document.getElementById("mySidenav").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
-          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
         }
-        
+
         function closeNav() {
-          document.getElementById("mySidenav").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
-          document.body.style.backgroundColor = "white";
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
         }
-    </script>
+    </script>
 
     <div class="container-fluid flex-grow-1">
         <div class="row flex-grow-1">
             <!-- Sidebar -->
             <aside class="col-3 col-md-2 bg-light p-3">
-                <div class="btn btn-secondary w-100 mb-3">Tambahkan Jadwal Perkuliahan</div>
+                <div class="btn btn-secondary w-100 mb-3">Daftar Mata Kuliah</div>
                 <div class="dropdown">
                     <select id="matkul" class="form-select mb-4">
                         <option value="">-- Pilih Mata Kuliah --</option>
                     </select>
                 </div>
                 <div class="text-center">
-                    <img src="crown-icon.png" alt="user-icon" class="img-fluid rounded-circle mb-3"
+                    <img src="{{ asset('backend/img/profile img.jpg') }}" alt="user-icon" class="img-fluid rounded-circle mb-3"
                         style="width: 60px;">
                     <p>Nama: {{ $user->name ?? 'User tidak ditemukan' }}</p>
                     <p id="nim">NIM: {{ $nim ?? 'NIM tidak ditemukan' }}</p>
@@ -203,7 +219,7 @@
                             <th>Jam Mulai</th>
                             <th>Jam Selesai</th>
                             <th>Kode Ruang</th>
-                            <th>Nama Dosen Pengampu</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -223,23 +239,6 @@
                                 <td>{{ $irs->jam_selesai ?? 'N/A' }}</td>
                                 <td>{{ $irs->kode_ruang ?? 'N/A' }} </td>
                                 <td>
-                                    @if ($irs->jadwalKuliah->dosen1)
-                                        {{ $irs->jadwalKuliah->dosen1->dosen->nama_dosen }}<br>
-                                    @endif
-                                    @if ($irs->jadwalKuliah->dosen2)
-                                        {{ $irs->jadwalKuliah->dosen2->dosen->nama_dosen }}<br>
-                                    @endif
-                                    @if ($irs->jadwalKuliah->dosen3)
-                                        {{ $irs->jadwalKuliah->dosen3->dosen->nama_dosen }}<br>
-                                    @endif
-                                    @if ($irs->jadwalKuliah->dosen4)
-                                        {{ $irs->jadwalKuliah->dosen4->dosen->nama_dosen }}<br>
-                                    @endif
-                                    @if ($irs->jadwalKuliah->dosen5)
-                                        {{ $irs->jadwalKuliah->dosen5->dosen->nama_dosen }}
-                                    @endif
-                                </td>
-                                <td>
                                     @if ($irs->status_approve === 'menunggu konfirmasi')
                                         <button class="btn btn-danger btn-hapus">Hapus</button>
                                     @else
@@ -252,11 +251,17 @@
                 </table>
 
                 <div class="text-center mt-4">
-                    <button type="button" class="btn btn-outline-secondary"
-                        onclick="window.location.href='{{ route('mahasiswa') }}'">←</button>
-                    {{-- <button id="btnAjukan" class="btn btn-primary mx-2">Ajukan</button> --}}
+                    <button type="button" class="btn btn-dark back-button"
+                        onclick="window.location.href='{{ route('mahasiswa') }}'"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                        </svg>
+                        BACK
+                    </button>
                     <button class="btn btn-success mx-2"
-                        onclick="window.location.href='{{ route('irs.index') }}'">Lihat</button>
+                        onclick="window.location.href='{{ route('irs.index') }}'">LIHAT</button>
                 </div>
 
             </main>
@@ -328,7 +333,7 @@
                         },
                         success: function(matkul) {
                             if (matkul) {
-                                if (matkul.terisi>= matkul.kapasitas) {
+                                if (matkul.terisi >= matkul.kapasitas) {
                                     alert(
                                         `Kuota untuk mata kuliah ${matkul.nama_mk} kelas ${matkul.nama_kelas} sudah penuh.`
                                     );
@@ -411,13 +416,6 @@
                                                     <td>${matkul.jam_mulai}</td>
                                                     <td>${matkul.jam_selesai}</td>
                                                     <td>${matkul.kode_ruang}</td>
-                                                    <td>
-                                                        ${matkul.nama_dosen1 || ''}<br>
-                                                        ${matkul.nama_dosen2 || ''}<br>
-                                                        ${matkul.nama_dosen3 || ''}<br>
-                                                        ${matkul.nama_dosen4 || ''}<br>
-                                                        ${matkul.nama_dosen5 || ''}
-                                                    </td>
                                                     <td>
                                                         <button class="btn btn-danger btn-hapus">Hapus</button>
                                                     </td>
