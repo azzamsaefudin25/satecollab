@@ -390,6 +390,7 @@
                         <button type="submit" class="btn btn-custom">AJUKAN</button>
                     </div>
                 </div>
+            </form>
         </main>
     </div>
 
