@@ -182,7 +182,7 @@
         </div>
         
         <div class="profile">
-            <img src="profile.png" alt="Profile Image">
+            <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Image">
             <div class="profile-name">
                 <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
                 <p>{{ $nim ?? 'NIM tidak ditemukan' }}</p>
