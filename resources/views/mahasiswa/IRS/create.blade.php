@@ -223,6 +223,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{-- {{ dd($mahasiswa) }} --}}
                         @foreach ($irsData as $index => $irs)
                             <tr data-kode-mk="{{ $irs->kode_mk }}" data-nama-kelas="{{ $irs->nama_kelas }}"
                                 data-status="{{ $irs->status_approve }}">
@@ -247,6 +248,7 @@
                                 </td>
                             </tr>
                         @endforeach
+                        {{-- {{ dd($mahasiswa) }} --}}
                     </tbody>
                 </table>
 
@@ -522,6 +524,33 @@
                 });
             });
         });
+        // Di dalam script JavaScript Anda
+$.ajax({
+    url: '{{ route("irs.store") }}',
+    method: 'POST',
+    data: formData,
+    success: function(response) {
+        // Tampilkan pesan sukses
+        let successMessage = response.messages.join('<br>');
+        Swal.fire({
+            icon: 'success',
+            title: 'Pengajuan IRS Berhasil',
+            html: successMessage
+        }).then(() => {
+            // Refresh halaman atau redirect
+            window.location.reload();
+        });
+    },
+    error: function(xhr) {
+        // Tangani error
+        let errorMessage = xhr.responseJSON.message || 'Terjadi kesalahan dalam pengajuan IRS';
+        Swal.fire({
+            icon: 'error',
+            title: 'Pengajuan IRS Gagal',
+            text: errorMessage
+        });
+    }
+});
     </script>
 </body>
 
