@@ -147,6 +147,7 @@ Route::get('/masuk/IRS', [PembimbingAkademikController::class, 'approveIRS'])->n
 Route::get('/masuk/IRS/verifikasi/{nim}', [PembimbingAkademikController::class, 'approveIRS2'])->name('pembimbingakademik.lihatverifikasi');
 Route::post('/pembimbing-akademik/persetujuan-irs', [PembimbingAkademikController::class, 'persetujuanIRS'])->name('pembimbingakademik.persetujuanirs');
 
+Route::get('/check-irs-status', [MahasiswaController::class, 'checkStatus'])->name('check.irs.status');
 // profile
 // Route::get('profile', function () {
 //     return view('mahasiswa.profile', ['title' => 'profile']);

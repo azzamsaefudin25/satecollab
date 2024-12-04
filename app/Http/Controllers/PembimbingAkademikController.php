@@ -31,7 +31,7 @@ class PembimbingAkademikController extends Controller
     //     return redirect()->route('home');
     // }
 
-    public function approveIRS()
+    public function approveIRS(Request $request)
     {
         // Ambil email user yang sedang login
         $userEmail = Auth::user()->email;
@@ -44,36 +44,58 @@ class PembimbingAkademikController extends Controller
             return back()->with('error', 'Akses ditolak: Data pembimbing akademik tidak ditemukan.');
         }
 
-        // Ambil mahasiswa yang terkait dengan pembimbing akademik ini
-        $mahasiswa = Mahasiswa::where('nidn_pembimbingakademik', $pembimbing->nidn_pembimbingakademik)
-            ->with('irs') // Eager load IRS
-            ->get();
+        $mahasiswaCollection = collect(); // Inisialisasi koleksi kosong
 
-        // Debug log
-        Log::info('Data Pembimbing:', [
-            'nidn' => $pembimbing->nidn_pembimbingakademik,
-            'nama' => $pembimbing->nama_pembimbingakademik,
-            'jumlah_mahasiswa' => $mahasiswa->count()
-        ]);
+        // Looping untuk setiap pembimbing akademik
+        $pembimbingAkademik = PembimbingAkademik::all();
+        foreach ($pembimbingAkademik as $pembimbing) {
+            $mahasiswa = Mahasiswa::with('irs');
+            if ($request->has('search')) {
+                $search = $request->input('search');
+                $mahasiswa->where(function ($query) use ($search) {
+                    $query->where('nim', 'like', '%' . $search . '%')
+                        ->orWhere('nama_mahasiswa', 'like', '%' . $search . '%')
+                        ->orWhere('semester', 'like', '%' . $search . '%')
+                        ->orWhereHas('pembimbingAkademik', function ($q) use ($search) {
+                            $q->where('nama_pembimbingakademik', 'like', '%' . $search . '%');
+                        });
+                });
+            }
 
-        // Hitung statistik
-        $totalMahasiswa = $mahasiswa->count();
-        $mahasiswaVerified = $mahasiswa->filter(function($m) {
-            return $m->irs && $m->irs->status_approve === 'disetujui';
-        })->count();
-        $mahasiswaIsiIRS = $mahasiswa->filter(function($m) {
-            return $m->irs !== null;
-        })->count();
+            $mahasiswa = $mahasiswa
+                ->where('nidn_pembimbingakademik', $pembimbing->nidn_pembimbingakademik)
+                ->orderBy('nim', 'asc')
+                ->paginate(5);
 
-        return view('pembimbingakademik.verifikasiirs', compact(
-            'mahasiswa',
-            'pembimbing',
-            'totalMahasiswa',
-            'mahasiswaVerified',
-            'mahasiswaIsiIRS'
-        ));
+
+            // Debug log
+            Log::info('Data Pembimbing:', [
+                'nidn' => $pembimbing->nidn_pembimbingakademik,
+                'nama' => $pembimbing->nama_pembimbingakademik,
+                'jumlah_mahasiswa' => $mahasiswa->count()
+            ]);
+
+            // Hitung statistik untuk setiap pembimbing
+            $totalMahasiswa = $mahasiswa->count();
+            $mahasiswaVerified = $mahasiswa->filter(function ($m) {
+                return $m->irs && $m->irs->status_approve === 'disetujui';
+            })->count();
+            $mahasiswaIsiIRS = $mahasiswa->filter(function ($m) {
+                return $m->irs !== null;
+            })->count();
+
+            // Tambahkan data mahasiswa ke koleksi
+            $mahasiswaCollection->push([
+                'pembimbing' => $pembimbing,
+                'mahasiswa' => $mahasiswa,
+                'totalMahasiswa' => $totalMahasiswa,
+                'mahasiswaVerified' => $mahasiswaVerified,
+                'mahasiswaIsiIRS' => $mahasiswaIsiIRS,
+            ]);
+        }
+
+        return view('pembimbingakademik.verifikasiirs', compact('mahasiswaCollection'));
     }
-
     public function approveIRS2($nim)
     {
         try {
@@ -141,5 +163,4 @@ class PembimbingAkademikController extends Controller
             return back()->with('error', 'Terjadi kesalahan saat memproses IRS');
         }
     }
-
 }

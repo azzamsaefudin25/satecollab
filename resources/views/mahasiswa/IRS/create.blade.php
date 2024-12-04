@@ -190,8 +190,8 @@
                     </select>
                 </div>
                 <div class="text-center">
-                    <img src="{{ asset('backend/img/profile img.jpg') }}" alt="user-icon" class="img-fluid rounded-circle mb-3"
-                        style="width: 60px;">
+                    <img src="{{ asset('backend/img/profile img.jpg') }}" alt="user-icon"
+                        class="img-fluid rounded-circle mb-3" style="width: 60px;">
                     <p>Nama: {{ $user->name ?? 'User tidak ditemukan' }}</p>
                     <p id="nim">NIM: {{ $nim ?? 'NIM tidak ditemukan' }}</p>
                     <p>Informatika</p>
@@ -304,6 +304,32 @@
                     cache: true
                 }
             });
+
+            // Fungsi untuk memeriksa status persetujuan IRS
+            function checkIrsStatus() {
+                const nimText = document.getElementById('nim').innerText;
+                const nim = nimText.replace('NIM: ', '');
+
+                $.ajax({
+                    url: "{{ route('check.irs.status') }}", // Buat route baru untuk cek status
+                    method: "GET",
+                    data: {
+                        nim: nim
+                    },
+                    success: function(response) {
+                        if (response.status === 'disetujui') {
+                            // Nonaktifkan Select2 jika status disetujui
+                            $('#matkul').prop('disabled', true);
+                        } else {
+                            // Aktifkan Select2 jika status belum disetujui
+                            $('#matkul').prop('disabled', false);
+                        }
+                    }
+                });
+            }
+
+            // Panggil fungsi checkIrsStatus saat halaman dimuat
+            checkIrsStatus();
 
             // Event ketika mata kuliah dipilih
             $('#matkul').on('select2:select', function(e) {
@@ -525,32 +551,32 @@
             });
         });
         // Di dalam script JavaScript Anda
-$.ajax({
-    url: '{{ route("irs.store") }}',
-    method: 'POST',
-    data: formData,
-    success: function(response) {
-        // Tampilkan pesan sukses
-        let successMessage = response.messages.join('<br>');
-        Swal.fire({
-            icon: 'success',
-            title: 'Pengajuan IRS Berhasil',
-            html: successMessage
-        }).then(() => {
-            // Refresh halaman atau redirect
-            window.location.reload();
+        $.ajax({
+            url: '{{ route('irs.store') }}',
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                // Tampilkan pesan sukses
+                let successMessage = response.messages.join('<br>');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Pengajuan IRS Berhasil',
+                    html: successMessage
+                }).then(() => {
+                    // Refresh halaman atau redirect
+                    window.location.reload();
+                });
+            },
+            error: function(xhr) {
+                // Tangani error
+                let errorMessage = xhr.responseJSON.message || 'Terjadi kesalahan dalam pengajuan IRS';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Pengajuan IRS Gagal',
+                    text: errorMessage
+                });
+            }
         });
-    },
-    error: function(xhr) {
-        // Tangani error
-        let errorMessage = xhr.responseJSON.message || 'Terjadi kesalahan dalam pengajuan IRS';
-        Swal.fire({
-            icon: 'error',
-            title: 'Pengajuan IRS Gagal',
-            text: errorMessage
-        });
-    }
-});
     </script>
 </body>
 

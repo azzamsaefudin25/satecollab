@@ -187,158 +187,144 @@ class MahasiswaController extends Controller
         return view('mahasiswa.IRS.index', compact('irsIndex', 'jadwalKuliah'));
     }
 
+
+
     public function store(Request $request)
-{
-    $responseMessages = [];
-    try {
-        // Ambil data mahasiswa
-        $user = Auth::user();
-        $mahasiswa = $user->mahasiswa;
-
-        if (!$mahasiswa) {
-            throw new \Exception('Mahasiswa tidak ditemukan untuk user ini.');
-        }
-
-        // Log nilai awal SKS
-        Log::info('Jumlah SKS Awal: ' . $mahasiswa->jumlah_sks);
-
-        // Periksa apakah ada data IRS yang dikirim
-        if (!$request->has('irsData') || empty($request->irsData)) {
-            return response()->json(['error' => 'Tidak ada data IRS'], 400);
-        }
-
-        // Tentukan batas maksimal SKS berdasarkan IPK
-        $ipk = $mahasiswa->ipk;
-        $maxSks = 0;
-        if ($ipk >= 2.50 && $ipk < 2.75) {
-            $maxSks = 18;
-        } elseif ($ipk >= 2.75 && $ipk < 3.00) {
-            $maxSks = 22;
-        } elseif ($ipk >= 3.00 && $ipk <= 4.00) {
-            $maxSks = 24;
-        } else {
-            throw new \Exception("IPK tidak valid atau di luar jangkauan.");
-        }
-
-        // Validasi jumlah SKS saat ini
-        $currentSks = $mahasiswa->jumlah_sks;
-        if ($currentSks >= $maxSks) {
-            throw new \Exception("Jumlah SKS saat ini sudah mencapai batas maksimal: $maxSks SKS.");
-        }
-
-        // Variabel untuk menampung total SKS yang akan ditambahkan
-        $totalSksTambahan = 0;
-        $kodeMkList = []; // Untuk menyimpan kode MK yang diajukan
+    {
+        $responseMessages = []; // Untuk menyimpan pesan sukses atau error
 
         foreach ($request->irsData as $data) {
-            $jadwal = JadwalKuliah::where('kode_mk', $data['kode_mk'])
-                ->where('nama_kelas', $data['nama_kelas'])
-                ->first();
+            try {
+                // Mulai transaksi database
+                DB::beginTransaction();
 
-            if (!$jadwal) {
-                throw new \Exception("Jadwal kuliah tidak ditemukan");
+                // Cek apakah IRS dengan kombinasi nim, kode_mk, dan nama_kelas sudah diajukan
+                $existingIrs = Irs::where('nim', $data['nim'])
+                    ->where('kode_mk', $data['kode_mk'])
+                    ->whereIn('status_approve', ['menunggu konfirmasi', 'disetujui'])
+                    ->first();
+
+                if ($existingIrs) {
+                    // Tambahkan pesan error jika IRS sudah ada
+                    $responseMessages[] = "IRS dengan kode mata kuliah {$data['kode_mk']} sudah pernah diajukan dengan status {$existingIrs->status_approve}.";
+                    continue;
+                }
+
+                // Ambil data jadwal kuliah untuk mata kuliah dan kelas yang diajukan
+                $jadwal = JadwalKuliah::with('pengalokasianRuang.ruangperkuliahan')
+                    ->where('kode_mk', $data['kode_mk'])
+                    ->where('nama_kelas', $data['nama_kelas'])
+                    ->first();
+
+                if (!$jadwal) {
+                    $responseMessages[] = "Jadwal untuk mata kuliah {$data['kode_mk']} kelas {$data['nama_kelas']} tidak ditemukan.";
+                    continue;
+                }
+
+                // Periksa kuota ruangan
+                $kapasitasRuangan = $jadwal->pengalokasianRuang->ruangperkuliahan->kapasitas ?? 0;
+                if ($jadwal->terisi >= $kapasitasRuangan) {
+                    $responseMessages[] = "Kuota ruangan untuk mata kuliah {$data['kode_mk']} kelas {$data['nama_kelas']} sudah penuh.";
+                    continue;
+                }
+
+                $user = Auth::user();
+                $mahasiswa = $user->mahasiswa;
+                $nidn_pembimbingakademik = $mahasiswa->nidn_pembimbingakademik;
+                // Tambahkan IRS baru
+                Irs::create([
+                    'id_jadwal' => $jadwal->id_jadwal, // Masukkan id_jadwal dari tabel jadwalkuliah
+                    'nim' => $data['nim'],
+                    'kode_mk' => $data['kode_mk'],
+                    'nama_kelas' => $data['nama_kelas'],
+                    'sks' => $jadwal->sks,
+                    'kode_ruang' => $jadwal->kode_ruang,
+                    'hari' => $jadwal->hari,
+                    'jam_mulai' => $jadwal->jam_mulai,
+                    'jam_selesai' => $jadwal->jam_selesai,
+                    'tahun_ajaran' => $jadwal->tahun_ajaran,
+                    'nidn_pembimbingakademik' => $nidn_pembimbingakademik,
+                    'status' => 'baru',
+                    'status_approve' => 'menunggu konfirmasi',
+                ]);
+
+                // Perbarui jumlah pendaftar pada jadwal kuliah
+                $jadwal->increment('terisi');
+
+                // Tambahkan pesan sukses
+                // $responseMessages[] = "IRS dengan kode mata kuliah {$data['kode_mk']} berhasil diajukan.";
+                session()->flash('success', "IRS dengan kode mata kuliah {$data['kode_mk']} berhasil diajukan.");
+
+                // Commit transaksi
+                DB::commit();
+            } catch (\Exception $e) {
+                // Rollback transaksi jika terjadi error
+                DB::rollBack();
+                $responseMessages[] = "Terjadi kesalahan saat mengajukan IRS untuk kode mata kuliah {$data['kode_mk']}: {$e->getMessage()}";
             }
-
-            // Validasi SKS tambahan tidak melebihi batas
-            $totalSksTambahan += $jadwal->sks;
-            if ($currentSks + $totalSksTambahan > $maxSks) {
-                throw new \Exception("Penambahan SKS melebihi batas maksimal: $maxSks SKS.");
-            }
-
-            IRS::create([
-                'id_jadwal' => $jadwal->id_jadwal,
-                'nim' => $data['nim'],
-                'kode_mk' => $data['kode_mk'],
-                'nama_kelas' => $data['nama_kelas'],
-                'sks' => $jadwal->sks,
-                'kode_ruang' => $jadwal->kode_ruang,
-                'hari' => $jadwal->hari,
-                'jam_mulai' => $jadwal->jam_mulai,
-                'jam_selesai' => $jadwal->jam_selesai,
-                'tahun_ajaran' => $jadwal->tahun_ajaran,
-                'nidn_pembimbingakademik' => $mahasiswa->nidn_pembimbingakademik,
-                'status' => 'baru',
-                'status_approve' => 'menunggu konfirmasi',
-            ]);
-
-            $jadwal->increment('terisi');
-            $kodeMkList[] = $data['kode_mk']; // Tambahkan ke daftar kode MK
-            $responseMessages[] = "IRS dengan kode mata kuliah {$data['kode_mk']} berhasil diajukan.";
         }
 
-        // Update jumlah SKS mahasiswa menggunakan SQL
-        DB::table('mahasiswa')
-            ->where('nim', $mahasiswa->nim)
-            ->update([
-                'jumlah_sks' => $currentSks + $totalSksTambahan
-            ]);
-
-        Log::info('Jumlah SKS Setelah: ' . $mahasiswa->fresh()->jumlah_sks); // Refresh data mahasiswa
-
+        // Kirim respons sebagai array pesan
         return response()->json([
             'messages' => $responseMessages
         ]);
-    } catch (\Exception $e) {
-        Log::error('Error: ' . $e->getMessage());
-
-        return response()->json([
-            'error' => true,
-            'message' => "Terjadi kesalahan: " . $e->getMessage()
-        ], 500);
     }
-}
 
-    
-public function delete(Request $request)
-{
-    try {
-        // Validasi input
-        $request->validate([
-            'nim' => 'required',
-            'kode_mk' => 'required',
-            'nama_kelas' => 'required'
-        ]);
+    public function delete(Request $request)
+    {
+        try {
+            // Log request data
+            // \Log::info('Delete IRS Request:', $request->all());
 
-        // Cari IRS berdasarkan kombinasi nim, kode_mk, dan nama_kelas
-        $irs = IRS::where('nim', $request->nim)
-            ->where('kode_mk', $request->kode_mk)
-            ->where('nama_kelas', $request->nama_kelas)
-            ->where('status_approve', 'menunggu konfirmasi') // Hanya hapus yang belum dikonfirmasi
-            ->first();
-
-        if ($irs) {
-            // Ambil jadwal kuliah terkait
-            $jadwal = $irs->jadwalKuliah;
-            $sksDihapus = $irs->sks;
-
-            if ($jadwal) {
-                // Kurangi jumlah pendaftar pada jadwal kuliah
-                $jadwal->decrement('terisi');
-            }
-
-            // Hapus IRS
-            $irs->delete();
-
-            // Kurangi jumlah SKS mahasiswa
-            $mahasiswa = $irs->mahasiswa;
-            $mahasiswa->decrement('jumlah_sks', $sksDihapus);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Mata kuliah berhasil dihapus dari IRS'
+            // Validasi input
+            $request->validate([
+                'nim' => 'required',
+                'kode_mk' => 'required',
+                'nama_kelas' => 'required'
             ]);
-        }
-        if (!$irs) {
+
+            // Cari IRS berdasarkan kombinasi nim, kode_mk, dan nama_kelas
+            $irs = IRS::where('nim', $request->nim)
+                ->where('kode_mk', $request->kode_mk)
+                ->where('nama_kelas', $request->nama_kelas)
+                ->where('status_approve', 'menunggu konfirmasi') // Hanya hapus yang belum dikonfirmasi
+                ->first();
+
+            // \Log::info('Query Result:', ['irs' => $irs]);
+
+            if ($irs) {
+                // Ambil jadwal kuliah terkait
+                $jadwal = $irs->jadwalKuliah;
+
+                if ($jadwal) {
+                    // Kurangi jumlah pendaftar pada jadwal kuliah
+                    $jadwal->decrement('terisi');
+                }
+
+                // Hapus IRS
+                $irs->delete();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Mata kuliah berhasil dihapus dari IRS'
+                ]);
+            }
+            if (!$irs) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'IRS tidak ditemukan atau sudah dikonfirmasi'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            // \Log::error('Error deleting IRS:', [
+            //     'error' => $e->getMessage(),
+            //     'trace' => $e->getTraceAsString()
+            // ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'IRS tidak ditemukan atau sudah dikonfirmasi'
-            ], 404);
+                'message' => 'Error: ' . $e->getMessage()
+            ], 500);
         }
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Error: ' . $e->getMessage()
-        ], 500);
     }
-}
 }

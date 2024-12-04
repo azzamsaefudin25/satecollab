@@ -142,8 +142,9 @@
             padding: 5px 10px;
             border-radius: 25px;
         }
+
         .waiting-approved {
-            background-color:#BFCAB7;
+            background-color: #BFCAB7;
             color: black;
             padding: 5px 10px;
             border-radius: 25px;
@@ -213,7 +214,7 @@
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
-            }
+        }
 
         .sidenav a {
             padding: 8px 8px 8px 32px;
@@ -222,11 +223,11 @@
             color: #818181;
             display: block;
             transition: 0.3s;
-            }
+        }
 
         .sidenav a:hover {
             color: #f1f1f1;
-            }
+        }
 
         .sidenav .closebtn {
             position: absolute;
@@ -234,20 +235,22 @@
             right: 25px;
             font-size: 36px;
             margin-left: 50px;
-            }
+        }
 
         #main {
             transition: margin-left .5s;
             padding: 16px;
-            }
+        }
 
         @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
+            .sidenav {
+                padding-top: 15px;
             }
 
-
-
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
@@ -270,25 +273,25 @@
         <a href="#">Profile</a>
         <a href="#">Notifikasi</a>
         <a href="#">Log Out</a>
-        </div>
-      
-      <div id="main">
+    </div>
+
+    <div id="main">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-      </div>
-      
-      <script>
+    </div>
+
+    <script>
         function openNav() {
-          document.getElementById("mySidenav").style.width = "250px";
-          document.getElementById("main").style.marginLeft = "250px";
-          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
         }
-        
+
         function closeNav() {
-          document.getElementById("mySidenav").style.width = "0";
-          document.getElementById("main").style.marginLeft= "0";
-          document.body.style.backgroundColor = "white";
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
         }
-        </script>
+    </script>
 
 
     <div class="container">
@@ -308,15 +311,18 @@
                 <div>Mahasiswa Yang Sudah Mengisi IRS<br><b>3</b></div>
             </div>
 
-            <div class="search-container">
-                <input type="text" placeholder="CARI MAHASISWA">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path
-                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z" />
-                    </svg>
-                </button>
-            </div>
+            <form action="{{ route('pembimbingakademik.verifikasiirs') }}" method="GET">
+                <div class="search-container">
+                    <input type="text" name="search" placeholder="CARI MAHASISWA" value="{{ request('search') }}">
+                    <button type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
             <table id="mahasiswaTable">
                 <thead>
                     <tr>
@@ -329,26 +335,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($mahasiswa as $index => $mhs)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $mhs->nim }}</td>
-                            <td>{{ $mhs->nama_mahasiswa }}</td>
-                            <td>{{ $mhs->semester }}</td>
-                            <td>
-                                @if ($mhs->irs && $mhs->irs->status_approve === 'disetujui')
-                                    <span class="approved">Disetujui</span>
-                                @elseif($mhs->irs)
-                                    <span class="waiting-approved">Menunggu</span>
-                                @else
-                                    <span class="not-approved">Belum Ada IRS</span>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('pembimbingakademik.lihatverifikasi', ['nim' => $mhs->nim]) }}"
-                                    class="btn btn-outline-info">Lihat</a>
-                            </td>
-                        </tr>
+                    @forelse ($mahasiswaCollection as $index => $data)
+                        <?php $i = $data['mahasiswa']->firstItem(); ?>
+                        @foreach ($data['mahasiswa'] as $mhs)
+                            <tr>
+                                <td>{{ $i }}</td>
+                                <td>{{ $mhs->nim }}</td>
+                                <td>{{ $mhs->nama_mahasiswa }}</td>
+                                <td>{{ $mhs->semester }}</td>
+                                <td>
+                                    @if ($mhs->irs && $mhs->irs->status_approve === 'disetujui')
+                                        <span class="approved">Disetujui</span>
+                                    @elseif($mhs->irs)
+                                        <span class="waiting-approved">Menunggu</span>
+                                    @else
+                                        <span class="not-approved">Belum Ada IRS</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('pembimbingakademik.lihatverifikasi', ['nim' => $mhs->nim]) }}"
+                                        class="btn btn-outline-info">Lihat</a>
+                                </td>
+                            </tr>
+                            <?php $i++; ?>
+                        @endforeach
                     @empty
                         <tr>
                             <td colspan="6" class="text-center">Data Mahasiwa Tidak Ditemukan</td>
@@ -356,7 +366,7 @@
                     @endforelse
                 </tbody>
             </table>
-
+            {{ $data['mahasiswa']->withQueryString()->links() }}
 
             <!-- Back Button -->
             <a onclick="window.location.href='{{ route('pembimbingakademik') }}'" class="btn btn-dark back-button">
