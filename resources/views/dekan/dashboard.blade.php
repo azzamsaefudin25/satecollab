@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+
     <title>Dashboard Dekan</title>
 
     <style>
@@ -54,19 +55,31 @@
         }
 
         .sidebar {
-            width: 270px;
+            width: 200px;
             background-color: #fff;
             height: 100vh;
             position: fixed;
-            top: 10;
             left: 0;
-            color: black;
+            top: 85 px;
             padding: 20px;
-            border-right: 2px solid green;
-            height: 1;
-            position: absolute;
-            right: 10%;
+            border-right: 1px solid #ddd;
+        }
 
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .menu-item.active {
+            background-color: #658345;
+            color: white;
+            border-radius: 5px;
         }
 
         .sidebar h2,
@@ -86,8 +99,8 @@
         }
 
         .main-content {
-            margin-left: 270px;
-            padding: 30px;
+            margin-left: 200px;
+            padding: 20px;
         }
 
         .status-section {
@@ -124,8 +137,9 @@
         .profile {
             position: fixed;
             bottom: 20px;
-            left: 30px;
-            text-align: left;
+            left: 20px;
+            width: 160px;
+            text-align: center;
         }
 
         .profile img {
