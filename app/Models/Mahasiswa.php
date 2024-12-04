@@ -23,6 +23,8 @@ class Mahasiswa extends Model
         'semester', 
         'email',
         'nidn_pembimbingakademik', 
+        'ipk',
+        'jumlah_sks',
         'id_programstudi', 
     ];
 
