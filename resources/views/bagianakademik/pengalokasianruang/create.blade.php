@@ -1,4 +1,4 @@
-@extends('layout.template')
+@extends('layout.template_b')
 @section('content')
     <div class="container">
         <br>
@@ -23,10 +23,10 @@
                 </div>
                 <div class="form-group">
                     <label for="kode_ruang">Kode Ruang</label>
-                    <div class="row"> 
+                    <div class="row">
                         @foreach ($ruangPerkuliahan as $ruang)
-                        {{-- /* Bagi menjadi 2 kolom */ --}}
-                            <div class="col-md-4"> 
+                            {{-- /* Bagi menjadi 2 kolom */ --}}
+                            <div class="col-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="kode_ruang[]"
                                         value="{{ $ruang->kode_ruang }}" id="kode_ruang_{{ $ruang->kode_ruang }}"
@@ -57,6 +57,5 @@
             </form>
         </div>
 
-        </div>
     </div>
 @endsection

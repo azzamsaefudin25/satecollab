@@ -1,8 +1,7 @@
-@extends('layout.template')
-
+@extends('layout.template_b')
 <!-- START FORM -->
 @section('content')
-
+    <!-- Header -->
     <div class="container">
         <br>
         <h4>Penyusunan Ruang Perkuliahan</h4>
@@ -44,7 +43,6 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
 @endsection

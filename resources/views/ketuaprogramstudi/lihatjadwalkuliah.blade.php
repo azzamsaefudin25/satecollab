@@ -209,12 +209,6 @@
             </div>
 
 
-            <!-- Table Container -->
-            <div class="pb-3">
-                <a href="{{ route('jadwalkuliah.create') }}" class="btn btn-primary"> + Tambah
-                    Data</a>
-            </div>
-
             @if ($errors->any())
                 <div class="pt-3">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -246,6 +240,12 @@
                     </button>
                 </div>
             @endif
+            <!-- Table Container -->
+            <div class="pb-3">
+                <a href="{{ route('jadwalkuliah.create') }}" class="btn btn-primary"> + Tambah
+                    Data</a>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="sticky-header">

@@ -247,6 +247,18 @@
                 font-size: 18px;
             }
         }
+
+        .sidebar {
+            width: 200px;
+            background-color: #fff;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 85 px;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+
     </style>
 </head>
 

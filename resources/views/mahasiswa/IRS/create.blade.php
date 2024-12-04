@@ -211,8 +211,8 @@
                             <th>Kode MK</th>
                             <th>Nama Mata Kuliah</th>
                             <th>Jenis</th>
-                            <th>Sks</th>
                             <th>Semester</th>
+                            <th>Sks</th>
                             <th>Tahun Ajaran</th>
                             <th>Nama Kelas</th>
                             <th>Hari</th>
@@ -337,7 +337,7 @@
                             if (matkul) {
                                 if (matkul.terisi >= matkul.kapasitas) {
                                     alert(
-                                        `Kuota untuk mata kuliah ${matkul.nama_mk} kelas ${matkul.nama_kelas} sudah penuh.`
+                                        `Kelas untuk mata kuliah ${matkul.nama_mk} ${matkul.nama_kelas} sudah penuh.`
                                     );
                                     return;
                                 }

@@ -131,8 +131,8 @@
 
         .action-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
 
         .action-button {
@@ -240,7 +240,7 @@
 
         <div class="action-buttons">
             <a href="{{ route('pembimbingakademik.verifikasiirs') }}" class="action-button">
-                Verifikasi irs
+                Verifikasi IRS
             </a> 
         </div>
 
