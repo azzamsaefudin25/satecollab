@@ -200,7 +200,7 @@ class MahasiswaController extends Controller
         }
 
         // Log nilai awal SKS
-        \Log::info('Jumlah SKS Awal: ' . $mahasiswa->jumlah_sks);
+        Log::info('Jumlah SKS Awal: ' . $mahasiswa->jumlah_sks);
 
         // Periksa apakah ada data IRS yang dikirim
         if (!$request->has('irsData') || empty($request->irsData)) {
@@ -267,19 +267,19 @@ class MahasiswaController extends Controller
         }
 
         // Update jumlah SKS mahasiswa menggunakan SQL
-        \DB::table('mahasiswa')
+        DB::table('mahasiswa')
             ->where('nim', $mahasiswa->nim)
             ->update([
                 'jumlah_sks' => $currentSks + $totalSksTambahan
             ]);
 
-        \Log::info('Jumlah SKS Setelah: ' . $mahasiswa->fresh()->jumlah_sks); // Refresh data mahasiswa
+        Log::info('Jumlah SKS Setelah: ' . $mahasiswa->fresh()->jumlah_sks); // Refresh data mahasiswa
 
         return response()->json([
             'messages' => $responseMessages
         ]);
     } catch (\Exception $e) {
-        \Log::error('Error: ' . $e->getMessage());
+        Log::error('Error: ' . $e->getMessage());
 
         return response()->json([
             'error' => true,

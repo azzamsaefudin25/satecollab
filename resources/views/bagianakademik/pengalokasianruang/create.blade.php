@@ -1,4 +1,4 @@
-@extends('layout.template')
+@extends('layout.template_b')
 @section('content')
     <div class="container">
         <br>
@@ -57,6 +57,5 @@
             </form>
         </div>
 
-    </div>
     </div>
 @endsection

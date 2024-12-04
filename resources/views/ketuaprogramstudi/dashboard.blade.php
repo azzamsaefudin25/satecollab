@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -186,15 +187,28 @@
 
     <div class="sidebar">
         <a href="#" class="menu-item active">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M9 3v18" />
+                <path d="M3 9h18" />
+            </svg>
             Dashboard
         </a>
         <a href="#" class="menu-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
             Profile
         </a>
         <a href="#" class="menu-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
             Notifikasi
         </a>
     </div>
@@ -206,7 +220,7 @@
                 <div class="status-info">
                     <p>Nama: {{ $nama ?? 'Nama si Pegawai nya' }}</p>
                     <p>NIDN: {{ $nidn ?? 'NIP si Pegawai nya' }}</p>
-                    
+
                     <div class="status-grid">
                         <div class="status-item">
                             <h3>Masa Jabatan</h3>
@@ -227,16 +241,16 @@
 
 
         <div class="action-buttons">
-            <a href="{{ route('penyusunanruang.index') }}" class="action-button">
+            <a href="" class="action-button">
                 Monitoring IRS
             </a>
-            <a href="{{ route('pengalokasianruang.index') }}" class="action-button">
+            <a href="{{ route('lihatjadwalkuliah.lihat') }}" class="action-button">
                 Penyusunan Jadwal Kuliah
             </a>
-            <a href="{{ route('penyusunanruang.index') }}" class="action-button">
+            <a href="{{ route('memilihmatakuliah.index') }}" class="action-button">
                 Penyusunan Mata Kuliah
             </a>
-            <a href="{{ route('penyusunanruang.index') }}" class="action-button">
+            <a href="" class="action-button">
                 Daftar Alokasi Ruang Perkuliahan
             </a>
         </div>

@@ -1,4 +1,4 @@
-@extends('layout.template')
+@extends('layout.template_b')
 <!-- START FORM -->
 @section('content')
     <!-- Header -->
