@@ -14,6 +14,8 @@ return new class extends Migration
             $table->integer('semester'); // Semester
             $table->string('email'); // Foreign key untuk email
             $table->string('nidn_pembimbingakademik', 18);
+            $table->float('ipk');
+            $table->integer('jumlah_sks');
             $table->unsignedBigInteger('id_programstudi'); 
             $table->timestamps(); 
 
