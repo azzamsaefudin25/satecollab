@@ -107,7 +107,7 @@
             margin-bottom: 10px;
         }
         .profile-name {
-            font-size: 10px;
+            font-size: 15px;
             margin-bottom: 10px;
         }
         .btn-container button {
@@ -159,6 +159,23 @@
             color: #658345;
             background-color: white;
         }
+        .button-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2 kolom */
+        gap: 20px; /* Jarak antar tombol */
+        margin-top: 20px;
+        }
+
+        .btn2 {
+            width: 100%; /* Agar tombol mengikuti lebar kolom */
+        }
+
+        .status {
+            background-color: white;
+            color: black;
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -172,9 +189,18 @@
 
 <div class="content-wrapper">
     <div class="sidebar">
-        <a href="">Dashboard</a>
-        <a href="{{route('mahasiswa.profile')}}">Profile</a> 
-        <a href="#">Notifikasi</a>
+        <a href="#" class="menu-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
+            Dashboard
+        </a>
+        <a href="{{route('mahasiswa.profile')}}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile</a> 
+        <a href="#" class="menu-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notifikasi
+        </a>
+        
         <div class="student-performance">
             <h3>Prestasi Mahasiswa</h3>
             <p>IPK: 4.00</p>
@@ -207,11 +233,11 @@
             </div>
         </div>
 
-        <div class="d-grid gap-4">
-            <button type="button" class="btn btn-outline-success btn-lg">Registrasi</button>
-            <button type="button" class="btn btn-outline-success btn-lg" onclick="window.location.href='{{route('irs.create')}}'">Pengisian IRS</button>
-            <button type="button" class="btn btn-outline-success btn-lg">Jadwal Perkuliahan</button>
-            <button type="button" class="btn btn-outline-success btn-lg">KHS</button>
+        <div class="button-grid">
+            <button type="button2" class="btn btn-outline-success btn-lg">Registrasi</button>
+            <button type="button2" class="btn btn-outline-success btn-lg">Jadwal Perkuliahan</button>
+            <button type="button2" class="btn btn-outline-success btn-lg"onclick="window.location.href='{{route('irs.create')}}'" >Pengisian IRS</button>
+            <button type="button2" class="btn btn-outline-success btn-lg">KHS</button>
         </div>
     </div>
 </div>
