@@ -27,6 +27,7 @@ class IRS extends Model
         'jam_selesai',
         'tahun_ajaran',
         'nidn_pembimbingakademik',
+        'priority',
         'status_approve',
     ];
 
