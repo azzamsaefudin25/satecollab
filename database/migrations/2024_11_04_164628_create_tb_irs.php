@@ -22,6 +22,7 @@ return new class extends Migration
             $table->time('jam_selesai')->nullable();
             $table->string('tahun_ajaran', 9);
             $table->string('nidn_pembimbingakademik', 10);
+            $table->integer('priority');
             $table->string('status_approve')->default('menunggu konfirmasi');
             $table->timestamps(); // Untuk mencatat waktu pembuatan dan update
 
