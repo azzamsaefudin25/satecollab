@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Akademik Terpadu Efisien</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
-        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
@@ -88,58 +86,8 @@
             color: #658345;
             background-color: white;
         }
-
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-        .sidenav a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidenav a:hover {
-            color: #f1f1f1;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
-        #main {
-            transition: margin-left .5s;
-            padding: 16px;
-        }
-
-        @media screen and (max-height: 450px) {
-            .sidenav {
-                padding-top: 15px;
-            }
-
-            .sidenav a {
-                font-size: 18px;
-            }
-        }
     </style>
 </head>
-
 <body>
     <!-- Header -->
     <header class="header">
@@ -148,36 +96,6 @@
             <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
         </div>
     </header>
-
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Registrasi</a>
-        <a href="#">Pengisian IRS</a>
-        <a href="#">Jadwal Perkuliahan</a>
-        <a href="#">KHS</a>
-        <a href="#">Profile</a>
-        <a href="#">Notifikasi</a>
-        <a href="#">Log Out</a>
-    </div>
-
-    <div id="main">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-    </div>
-
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-            document.body.style.backgroundColor = "white";
-        }
-    </script>
 
     <div class="container-fluid flex-grow-1">
         <div class="row flex-grow-1">
@@ -190,20 +108,17 @@
                     </select>
                 </div>
                 <div class="text-center">
-                    <img src="{{ asset('backend/img/profile img.jpg') }}" alt="user-icon" class="img-fluid rounded-circle mb-3"
-                        style="width: 60px;">
+                    <img src="{{ asset('backend/img/profile img.jpg') }}" alt="user-icon" class="img-fluid rounded-circle mb-3" style="width: 60px;">
                     <p>Nama: {{ $user->name ?? 'User tidak ditemukan' }}</p>
                     <p id="nim">NIM: {{ $nim ?? 'NIM tidak ditemukan' }}</p>
                     <p>Informatika</p>
                 </div>
-
             </aside>
 
             <!-- Main Content -->
             <main class="col-9 col-md-10 p-4 bg-white">
                 <h2 class="text-center">IRS</h2>
                 <h3 class="text-center mt-5">Daftar Mata Kuliah</h3>
-                {{-- @include('komponen.pesan') --}}
                 <table class="table table-bordered mt-3 text-center" id="jadwalTable" border="1">
                     <thead class="table-light">
                         <tr>
@@ -223,10 +138,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- {{ dd($mahasiswa) }} --}}
                         @foreach ($irsData as $index => $irs)
-                            <tr data-kode-mk="{{ $irs->kode_mk }}" data-nama-kelas="{{ $irs->nama_kelas }}"
-                                data-status="{{ $irs->status_approve }}">
+                            <tr data-kode-mk="{{ $irs->kode_mk }}" data-nama-kelas="{{ $irs->nama_kelas }}" data-status="{{ $irs->status_approve }}">
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $irs->kode_mk }}</td>
                                 <td>{{ $irs->jadwalKuliah->mataKuliah->nama_mk ?? 'N/A' }}</td>
@@ -248,27 +161,22 @@
                                 </td>
                             </tr>
                         @endforeach
-                        {{-- {{ dd($mahasiswa) }} --}}
                     </tbody>
                 </table>
 
                 <div class="text-center mt-4">
-                    <button type="button" class="btn btn-dark back-button"
-                        onclick="window.location.href='{{ route('mahasiswa') }}'"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-arrow-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                    <button type="button" class="btn btn-dark back-button" onclick="window.location.href='{{ route('mahasiswa') }}'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
                         </svg>
                         BACK
                     </button>
-                    <button class="btn btn-success mx-2"
-                        onclick="window.location.href='{{ route('irs.index') }}'">LIHAT</button>
+                    <button class="btn btn-success mx-2" onclick="window.location.href='{{ route('irs.index') }}'">LIHAT</button>
                 </div>
-
             </main>
         </div>
     </div>
+
     <footer class="footer">
         <h3>SATE</h3>
         <p>Sistem Terpadu Akademik. Contact for more Questions below</p>

@@ -161,13 +161,13 @@
         }
         .button-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* 2 kolom */
-        gap: 20px; /* Jarak antar tombol */
+        grid-template-columns: 1fr 1fr;
+        gap: 20px; 
         margin-top: 20px;
         }
 
         .btn2 {
-            width: 100%; /* Agar tombol mengikuti lebar kolom */
+            width: 100%;
         }
 
         .status {
