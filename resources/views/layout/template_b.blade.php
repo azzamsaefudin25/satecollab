@@ -8,16 +8,15 @@
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
-        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        html,
-        body {
+        html, body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fff;
+            height: 100%;
             transition: background-color .5s;
         }
 
@@ -26,6 +25,7 @@
             padding: 15px 30px;
             display: flex;
             align-items: center;
+            height: 80px;
         }
 
         .logo-container {
@@ -55,20 +55,24 @@
             font-size: 14px;
         }
 
-        .container {
-            margin-top: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            min-height: calc(100vh - 30vh);
-            overflow: auto;
-            position: relative;
+        .main-wrapper {
+            display: flex;
+            height: calc(100vh - 140px);
+        }
+
+        .sidebar {
+            width: 250px; 
+            background-color: #fff;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto; 
         }
 
         .content {
             flex-grow: 1;
             padding: 20px;
+            overflow-y: auto; /* Allow content scrolling */
+            background-color: white;
         }
 
         .menu-item {
@@ -80,28 +84,68 @@
             color: black;
             text-decoration: none;
             font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
 
-        .main-wrapper {
-            display: flex;
-            flex-grow: 1;
+        .menu-item:hover {
+            background-color: #e9ecef;
         }
 
-        .sidebar {
-            width: 200px;
-            background-color: #fff;
-            padding: 20px;
-            border-right: 1px solid #ddd;
+        .menu-item.active {
+            background-color: #658345;
+            color: white;
         }
 
-        h4 {
+        .menu-item svg {
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+
+        .footer {
+            background-color: #658345;
+            color: white;
             text-align: center;
-            font-size: 23px;
-            font-weight: 600;
+            padding: 10px 0;
+            margin-top: auto;
         }
 
-        h5 {
-            margin-top: 30px;
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+
+        .footer-icons a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .footer-icons a:hover {
+            color: #658345;
+            background-color: white;
+            padding: 6px 0;
+            margin-top: auto;
+        }
+
+        .footer h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         .search-box {
@@ -124,6 +168,16 @@
 
         .search-box i {
             color: #6c757d;
+        }
+
+        h4 {
+            text-align: center;
+            font-size: 23px;
+            font-weight: 600;
+        }
+
+        h5 {
+            margin-top: 30px;
         }
 
         .table-container {
@@ -183,97 +237,6 @@
             text-decoration: none;
         }
 
-        .footer {
-            background-color: #658345;
-            color: white;
-            text-align: center;
-            padding: 6px 0;
-            margin-top: auto;
-        }
-
-        .footer h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .footer p {
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .footer-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .footer-icons a {
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid white;
-            border-radius: 50%;
-            transition: 0.3s;
-        }
-
-        .footer-icons a:hover {
-            color: #658345;
-            background-color: white;
-        }
-
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-        .sidenav a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidenav a:hover {
-            color: #f1f1f1;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
-        #main {
-            transition: margin-left .5s;
-            padding: 16px;
-        }
-
-        @media screen and (max-height: 450px) {
-            .sidenav {
-                padding-top: 15px;
-            }
-
-            .sidenav a {
-                font-size: 18px;
-            }
-        }
     </style>
 </head>
 
@@ -287,9 +250,10 @@
             </div>
         </div>
     </div>
+    
     <div class="main-wrapper">
         <div class="sidebar">
-            <a href="#" class="menu-item active">
+            <a href="#dashboard" class="menu-item active" data-menu="dashboard">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -298,7 +262,7 @@
                 </svg>
                 Dashboard
             </a>
-            <a href="#" class="menu-item">
+            <a href="#profile" class="menu-item" data-menu="profile">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
@@ -306,7 +270,7 @@
                 </svg>
                 Profile
             </a>
-            <a href="#" class="menu-item">
+            <a href="#notification" class="menu-item" data-menu="notification">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -314,7 +278,22 @@
                 </svg>
                 Notifikasi
             </a>
+            <a href="#Penyusunan Ruang Perkuliahan" class="menu-item" data-menu="Penyusunan Ruang Perkuliahan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+                  </svg>
+                Penyusunan Ruang Perkuliahan
+            </a>
+            <a href="#Pengalokasian Ruang Perkuliahan" class="menu-item" data-menu="Pengalokasian Ruang Perkuliahan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+                  </svg>
+                Pengalokasian Ruang Perkuliahan
+            </a>
         </div>
+        
         <div class="content">
             <div class="container">
                 @include('komponen.pesan')
@@ -323,18 +302,16 @@
         </div>
     </div>
 
-    <div>
-        <footer class="footer">
-            <h3>SATE</h3>
-            <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
-            <div class="footer-icons">
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-google"></i></a>
-                <a href="#"><i class="bi bi-youtube"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-            </div>
-        </footer>
+    <div class="footer">
+        <h3>SATE</h3>
+        <p>Sistem Terpadu Akademik. Contact for more Questions below</p>
+        <div class="footer-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-google"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
     </div>
 
     <!-- Bootstrap JS & Icons -->
@@ -342,8 +319,34 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackport.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        // Persistent menu item selection
+        $(document).ready(function() {
+            // Retrieve the last selected menu from localStorage
+            const lastSelectedMenu = localStorage.getItem('selectedMenu') || 'dashboard';
+            
+            // Remove active class from all menu items
+            $('.menu-item').removeClass('active');
+            
+            // Add active class to the last selected menu item
+            $(`.menu-item[data-menu="${lastSelectedMenu}"]`).addClass('active');
+            
+            // Handle menu item click
+            $('.menu-item').on('click', function() {
+                // Remove active class from all menu items
+                $('.menu-item').removeClass('active');
+                
+                // Add active class to clicked menu item
+                $(this).addClass('active');
+                
+                // Store the selected menu in localStorage
+                const selectedMenu = $(this).data('menu');
+                localStorage.setItem('selectedMenu', selectedMenu);
+            });
+        });
+    </script>
 </body>
-
 </html>
