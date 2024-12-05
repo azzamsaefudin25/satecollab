@@ -1,4 +1,4 @@
-@extends('layout.template')
+@extends('layout.template_k')
 <!-- START FORM -->
 @section('content')
     <div class="container">
