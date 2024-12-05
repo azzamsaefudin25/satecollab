@@ -48,13 +48,63 @@
         .header img {
             height: 60px;
         }
-
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
         .main-container {
             flex: 1;
             width: 100%;
             padding: 20px;
             max-width: 1400px;
             margin: 0 auto;
+        }
+        .sidebar {
+            width: 230px;
+            background-color: #fff;
+            padding: 20px;
+            border-right: 2px solid green;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar h2, .sidebar a {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: black;
+            text-decoration: none;
+        }
+        .sidebar a {
+            display: block;
+        }
+        .profile {
+            margin-top: auto;
+            padding: 20px;
+            text-align: left;
+            font-size: 12px;
+        }
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .profile-name {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        .btn-container button {
+            display: block;
+            margin-top: 10px;
+            width: 45%;
+        }
+        .student-performance {
+            background-color: #d1d7b4;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         main h2 {
@@ -115,53 +165,9 @@
             overflow-x: auto;
         }
 
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-        .sidenav a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidenav a:hover {
-            color: #f1f1f1;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
         #main {
             transition: margin-left .5s;
             padding: 16px;
-        }
-
-        @media screen and (max-height: 450px) {
-            .sidenav {
-                padding-top: 15px;
-            }
-
-            .sidenav a {
-                font-size: 18px;
-            }
         }
     </style>
 </head>
@@ -175,115 +181,118 @@
         </div>
     </header>
 
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Registrasi</a>
-        <a href="#">Pengisian IRS</a>
-        <a href="#">Jadwal Perkuliahan</a>
-        <a href="#">KHS</a>
-        <a href="#">Profile</a>
-        <a href="#">Notifikasi</a>
-        <a href="#">Log Out</a>
-    </div>
-
-    <div id="main">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-    </div>
-
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-            document.body.style.backgroundColor = "white";
-        }
-    </script>
-
-    <!-- Main Content -->
-    <div class="main-container">
-        <main>
-            <h2 class="text-center">IRS</h2>
-            <h3 class="text-center mt-5">Daftar Mata Kuliah</h3>
-            <div class="table-responsive">
-                <table class="table table-bordered mt-3 text-center" id="jadwalTable" border="1">
-                    <thead class="table-light">
-                        <tr>
-                            <th>No</th>
-                            <th>Kode MK</th>
-                            <th>Nama Mata Kuliah</th>
-                            <th>Jenis</th>
-                            <th>Semester</th>
-                            <th>Sks</th>
-                            <th>Tahun Ajaran</th>
-                            <th>Nama Kelas</th>
-                            <th>Hari</th>
-                            <th>Jam Mulai</th>
-                            <th>Jam Selesai</th>
-                            <th>Kode Ruang</th>
-                            <th>Nama Dosen Pengampu</th>
-                            <th>Status</th>
-                            <th>Status Approve</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($irsIndex as $index => $irs)
+    <div class="content-wrapper">
+            <div class="sidebar">
+                <a href="#" class="menu-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
+                    Dashboard
+                </a>
+                <a href="{{route('mahasiswa.profile')}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Profile</a> 
+                <a href="#" class="menu-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    Notifikasi
+                </a>
+                
+                <div class="student-performance">
+                    <h3>Prestasi Mahasiswa</h3>
+                    <p>IPK: 4.00</p>
+                    <p>SKS: 79</p>
+                </div>
+                
+                <div class="profile">
+                    <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Image">
+                    <div class="profile-name">
+                        <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                        <p>{{ $nim ?? 'NIM tidak ditemukan' }}</p>
+                        <p>Informatika</p>
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="window.location.href='{{ route('logout') }}'">Logout</button>
+                    </div>
+                </div>
+            </div>
+        <!-- Main Content -->
+        <div class="main-container">
+            <main>
+                <h2 class="text-center">IRS</h2>
+                <h3 class="text-center mt-5">Daftar Mata Kuliah</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered mt-3 text-center" id="jadwalTable" border="1">
+                        <thead class="table-light">
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $irs->kode_mk }}</td>
-                                <td>{{ $irs->jadwalKuliah->mataKuliah->nama_mk ?? 'N/A' }}</td>
-                                <td>{{ $irs->jadwalKuliah->jenis ?? 'N/A' }}</td>
-                                <td>{{ $irs->jadwalKuliah->semester ?? 'N/A' }}</td>
-                                <td>{{ $irs->sks ?? 'N/A' }}</td>
-                                <td>{{ $irs->tahun_ajaran ?? 'N/A' }}</td>
-                                <td>{{ $irs->nama_kelas }}</td>
-                                <td>{{ $irs->hari ?? 'N/A' }}</td>
-                                <td>{{ $irs->jam_mulai ?? 'N/A' }}</td>
-                                <td>{{ $irs->jam_selesai ?? 'N/A' }}</td>
-                                <td>{{ $irs->kode_ruang ?? 'N/A' }} </td>
-                                <td>
-                                    @if ($irs->jadwalKuliah->dosen1)
-                                        {{ $irs->jadwalKuliah->dosen1->dosen->nama_dosen }}<br>
-                                    @endif
-                                    @if ($irs->jadwalKuliah->dosen2)
-                                        {{ $irs->jadwalKuliah->dosen2->dosen->nama_dosen }}<br>
-                                    @endif
-                                    @if ($irs->jadwalKuliah->dosen3)
-                                        {{ $irs->jadwalKuliah->dosen3->dosen->nama_dosen }}<br>
-                                    @endif
-                                    @if ($irs->jadwalKuliah->dosen4)
-                                        {{ $irs->jadwalKuliah->dosen4->dosen->nama_dosen }}<br>
-                                    @endif
-                                    @if ($irs->jadwalKuliah->dosen5)
-                                        {{ $irs->jadwalKuliah->dosen5->dosen->nama_dosen }}
-                                    @endif
-                                </td>
-                                <td>{{ $irs->status ?? 'N/A' }}</td>
-                                <td>{{ $irs->status_approve ?? 'N/A' }}</td>
+                                <th>No</th>
+                                <th>Kode MK</th>
+                                <th>Nama Mata Kuliah</th>
+                                <th>Jenis</th>
+                                <th>Semester</th>
+                                <th>Sks</th>
+                                <th>Tahun Ajaran</th>
+                                <th>Nama Kelas</th>
+                                <th>Hari</th>
+                                <th>Jam Mulai</th>
+                                <th>Jam Selesai</th>
+                                <th>Kode Ruang</th>
+                                <th>Nama Dosen Pengampu</th>
+                                <th>Status</th>
+                                <th>Status Approve</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($irsIndex as $index => $irs)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $irs->kode_mk }}</td>
+                                    <td>{{ $irs->jadwalKuliah->mataKuliah->nama_mk ?? 'N/A' }}</td>
+                                    <td>{{ $irs->jadwalKuliah->jenis ?? 'N/A' }}</td>
+                                    <td>{{ $irs->jadwalKuliah->semester ?? 'N/A' }}</td>
+                                    <td>{{ $irs->sks ?? 'N/A' }}</td>
+                                    <td>{{ $irs->tahun_ajaran ?? 'N/A' }}</td>
+                                    <td>{{ $irs->nama_kelas }}</td>
+                                    <td>{{ $irs->hari ?? 'N/A' }}</td>
+                                    <td>{{ $irs->jam_mulai ?? 'N/A' }}</td>
+                                    <td>{{ $irs->jam_selesai ?? 'N/A' }}</td>
+                                    <td>{{ $irs->kode_ruang ?? 'N/A' }} </td>
+                                    <td>
+                                        @if ($irs->jadwalKuliah->dosen1)
+                                            {{ $irs->jadwalKuliah->dosen1->dosen->nama_dosen }}<br>
+                                        @endif
+                                        @if ($irs->jadwalKuliah->dosen2)
+                                            {{ $irs->jadwalKuliah->dosen2->dosen->nama_dosen }}<br>
+                                        @endif
+                                        @if ($irs->jadwalKuliah->dosen3)
+                                            {{ $irs->jadwalKuliah->dosen3->dosen->nama_dosen }}<br>
+                                        @endif
+                                        @if ($irs->jadwalKuliah->dosen4)
+                                            {{ $irs->jadwalKuliah->dosen4->dosen->nama_dosen }}<br>
+                                        @endif
+                                        @if ($irs->jadwalKuliah->dosen5)
+                                            {{ $irs->jadwalKuliah->dosen5->dosen->nama_dosen }}
+                                        @endif
+                                    </td>
+                                    <td>{{ $irs->status ?? 'N/A' }}</td>
+                                    <td>{{ $irs->status_approve ?? 'N/A' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="text-center mt-4">
-                <button type="button" class="btn btn-dark back-button"
-                    onclick="window.location.href='{{ route('irs.create') }}'"><svg xmlns="http://www.w3.org/2000/svg"
-                        width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
-                    </svg>
-                    BACK
-                </button>
-            </div>
-        </main>
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-dark back-button"
+                        onclick="window.location.href='{{ route('irs.create') }}'"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L3.707 7.5H14.5A.5.5 0 0 1 15 8z" />
+                        </svg>
+                        BACK
+                    </button>
+                </div>
+            </main>
+        </div>
     </div>
-
     <!-- Footer -->
     <footer class="footer">
         <h3>SATE</h3>
