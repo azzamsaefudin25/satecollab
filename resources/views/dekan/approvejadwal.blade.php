@@ -38,6 +38,7 @@
                             <th>Jam Mulai</th>
                             <th>Jam Selesai</th>
                             {{-- <th>Nama Dosen Pengampu</th> --}}
+                            <th>Program Studi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -78,7 +79,7 @@
                                         @endif
                                     </ol>
                                 </td> --}}
-
+                                <td>{{ $pengajuan->mataKuliah->programStudi->nama_programstudi }}</td>
                                 <td>
                                     @if ($pengajuan->status === 'disetujui')
                                         <span class="text-success">Disetujui</span>
@@ -110,6 +111,64 @@
                 </svg>
                 BACK
             </button>
+
+            <!-- Modal for Setuju Per Prodi -->
+            <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="{{ route('pengajuan.updatejadwalperprodi', ['id' => $pengajuan->id_jadwal]) }}"
+                        method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="approvalModalLabel">Pengaturan Persetujuan Ruang Per Prodi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="programStudi" class="form-label">Pilih Program Studi:</label>
+                                    <select name="id_programstudi" id="programStudi" class="form-select">
+                                        @foreach ($prodis as $prodi)
+                                            <option value="{{ $prodi->id_programstudi }}">{{ $prodi->nama_programstudi }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label d-block">Pilih Aksi:</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="action" id="setujuAction"
+                                            value="setuju2" required>
+                                        <label class="form-check-label" for="setujuAction">
+                                            Setujui Pengajuan
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="action" id="batalkanAction"
+                                            value="ubah2" required>
+                                        <label class="form-check-label" for="batalkanAction">
+                                            Batalkan Persetujuan
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-outline-primary">Simpan Perubahan</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <button data-bs-toggle="modal" data-bs-target="#approvalModal" class="btn btn-primary">
+                ATUR PERSETUJUAN
+            </button>
+
+
             <div class="btn-right">
                 @if ($pengajuan->status === 'menunggu konfirmasi')
                     <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}" method="POST"

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\PengalokasianRuang;
 use App\Models\JadwalKuliah;
+use App\Models\ProgramStudi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DekanController extends Controller
 {
@@ -30,6 +32,7 @@ class DekanController extends Controller
     public function indexPengajuanRuang(Request $request)
     {
         $pengajuans_ruang = PengalokasianRuang::with('programStudi');
+        $prodis = ProgramStudi::all(); // Ambil semua prodi 
 
         if ($request->has('search')) {
             $search = $request->input('search');
@@ -41,14 +44,59 @@ class DekanController extends Controller
                     });
             });
         }
-        $pengajuans_ruang = $pengajuans_ruang->orderBy('id', 'desc')->paginate(5);
 
-        return view('dekan.approveruang', compact('pengajuans_ruang'));
+        $pengajuans_ruang = $pengajuans_ruang->orderBy('id_programstudi', 'asc')->paginate(5);
+
+        return view('dekan.approveruang', compact('pengajuans_ruang', 'prodis'));
     }
+
+    public function updatePengajuanRuangPerProdi(Request $request)
+    {
+        // Log::info('Action: ' . $request->input('action'));
+        // Log::info('ID Program Studi: ' . $request->input('id_programstudi'));
+        $action = $request->input('action');
+        $id_programstudi = $request->input('id_programstudi');
+
+        if ($action === 'setuju2') {
+            PengalokasianRuang::where('id_programstudi', $id_programstudi)
+                ->where('status', 'menunggu konfirmasi')
+                ->update(['status' => 'disetujui']);
+
+            return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan ruangan untuk Prodi dengan ID ' . $id_programstudi . ' telah disetujui.');
+        } elseif ($action === 'ubah2') {
+            PengalokasianRuang::where('id_programstudi', $id_programstudi)
+                ->whereIn('status', ['disetujui'])
+                ->update(['status' => 'menunggu konfirmasi']);
+
+            return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan ruangan untuk Prodi dengan ID ' . $id_programstudi . ' telah dibatalkan.');
+        }
+
+        return redirect()->route('dekan.approveruang')->with('error', 'Tindakan tidak valid.');
+    }
+    // Menyetujui atau menolak semua pengalokasian ruang (diakses oleh dekan)
+    public function updatePengajuanRuang(Request $request)
+    {
+        if ($request->input('action') === 'setuju') {
+            PengalokasianRuang::where('status', 'menunggu konfirmasi') // Hanya setujui yang statusnya 'menunggu konfirmasi'
+                ->update(['status' => 'disetujui']);
+
+            return redirect()->route('dekan.approveruang')->with('success', 'Semua pengajuan ruangan telah disetujui.');
+        } elseif ($request->input('action') === 'ubah') {
+            PengalokasianRuang::whereIn('status', ['disetujui']) // Hanya ubah yang statusnya 'disetujui' atau 'ditolak'
+                ->update(['status' => 'menunggu konfirmasi']);
+
+            return redirect()->route('dekan.approveruang')->with('success', 'Semua pengajuan ruangan telah dibatalkan.');
+        }
+
+        return redirect()->route('dekan.approveruang')->with('error', 'Tindakan tidak valid.');
+    }
+
+
 
     public function indexPengajuanJadwal(Request $request)
     {
         $pengajuans_jadwal = JadwalKuliah::with('mataKuliah');
+        $prodis = ProgramStudi::all();
 
         if ($request->has('search')) {
             $search = $request->input('search');
@@ -72,32 +120,13 @@ class DekanController extends Controller
         }
         $pengajuans_jadwal = $pengajuans_jadwal->orderBy('hari', 'desc')->paginate(5);
 
-        return view('dekan.approvejadwal', compact('pengajuans_jadwal'));
-    }
-
-    // Menyetujui atau menolak pengalokasian ruang (diakses oleh dekan)
-    public function updatePengajuanRuang(Request $request)
-    {
-        if ($request->input('action') === 'setuju') {
-
-            PengalokasianRuang::query()->update(['status' => 'disetujui']);
-
-            return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan ruangan telah disetujui.');
-        } elseif ($request->input('action') === 'ubah') {
-
-            PengalokasianRuang::query()->update(['status' => 'menunggu konfirmasi']);
-
-            return redirect()->route('dekan.approveruang')->with('success', 'Pengajuan ruangan telah dibatalkan.');
-        }
-
-        return redirect()->route('dekan.approveruang')->with('error', 'Tindakan tidak valid.');
+        return view('dekan.approvejadwal', compact('pengajuans_jadwal', 'prodis'));
     }
 
 
     // Menyetujui atau menolak jadwal kuliah (diakses oleh dekan)
     public function updatePengajuanJadwal(Request $request)
     {
-
         if ($request->input('action') === 'setuju') {
             // Update status jadwal menjadi disetujui
             JadwalKuliah::query()->update(['status' => 'disetujui']);
@@ -108,6 +137,35 @@ class DekanController extends Controller
             JadwalKuliah::query()->update(['status' => 'menunggu konfirmasi']);
 
             return redirect()->route('dekan.approvejadwal')->with('success', 'Pengajuan Jadwal telah dibatalkan.');
+        }
+
+        return redirect()->route('dekan.approvejadwal')->with('error', 'Tindakan tidak valid.');
+    }
+
+    // Menyetujui atau menolak jadwal kuliah per prodi (diakses oleh dekan)
+    public function updatePengajuanJadwalPerProdi(Request $request)
+    {
+        // Log::info('Action: ' . $request->input('action'));
+        // Log::info('ID Program Studi: ' . $request->input('id_programstudi'));
+        $action = $request->input('action');
+        $id_programstudi = $request->input('id_programstudi');
+
+        if ($action === 'setuju2') {
+            JadwalKuliah::whereHas('mataKuliah', function ($query) use ($id_programstudi) {
+                $query->where('id_programstudi', $id_programstudi);
+            })
+                ->where('status', 'menunggu konfirmasi')
+                ->update(['status' => 'disetujui']);
+
+            return redirect()->route('dekan.approvejadwal')->with('success', 'Pengajuan ruangan untuk Prodi dengan ID ' . $id_programstudi . ' telah disetujui.');
+        } elseif ($action === 'ubah2') {
+            JadwalKuliah::whereHas('mataKuliah', function ($query) use ($id_programstudi) {
+                $query->where('id_programstudi', $id_programstudi);
+            })
+                ->whereIn('status', ['disetujui'])
+                ->update(['status' => 'menunggu konfirmasi']);
+
+            return redirect()->route('dekan.approvejadwal')->with('success', 'Pengajuan ruangan untuk Prodi dengan ID ' . $id_programstudi . ' telah dibatalkan.');
         }
 
         return redirect()->route('dekan.approvejadwal')->with('error', 'Tindakan tidak valid.');

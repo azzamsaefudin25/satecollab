@@ -9,6 +9,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\DosenPengampuController;
 use App\Http\Controllers\PembimbingAkademikController;
 use App\Http\Controllers\IRSController;
+use App\Models\Dekan;
 use App\Models\Ketuaprogramstudi;
 use App\Models\Mahasiswa;
 
@@ -119,11 +120,13 @@ Route::get('/get-dosen/{kode_mk}', [KetuaprogramstudiController::class, 'getDose
 
 // dekan menyetujui ruangan
 Route::get('/dekan/approve-ruang', [DekanController::class, 'indexPengajuanRuang'])->name('dekan.approveruang');
-Route::patch('/pengajuan/update/{id}', [DekanController::class, 'updatePengajuanRuang'])->name('pengajuan.updateruang');
+Route::patch('dekan/pengajuan/update/{id}', [DekanController::class, 'updatePengajuanRuang'])->name('pengajuan.updateruang');
+Route::patch('dekan/pengajuan/updateruangperprodi/{id}', [DekanController::class, 'updatePengajuanRuangPerProdi'])->name('pengajuan.updateruangperprodi');
 
 //dekan menyetujui jadwal
 Route::get('/dekan/approve-jadwal', [DekanController::class, 'indexPengajuanJadwal'])->name('dekan.approvejadwal');
 Route::patch('/dekan/update-pengajuan/{id}', [DekanController::class, 'updatePengajuanJadwal'])->name('pengajuan.updatejadwal');
+Route::patch('/dekan/pengajuan/updatejadwalperprodi/{id}', [DekanController::class, 'updatePengajuanJadwalPerProdi'])->name('pengajuan.updatejadwalperprodi');
 
 // IRS
 Route::get('memilihmatakuliah/IRS', [MahasiswaController::class, 'createIRS'])->name('irs.create');
@@ -154,4 +157,3 @@ Route::get('/check-irs-status', [MahasiswaController::class, 'checkStatus'])->na
 // })->name('mahasiswa.profile');
 
 Route::get('/dashboard/profile/mahasiswa', [MahasiswaController::class, 'profile'])->name('mahasiswa.profile');
-
