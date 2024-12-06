@@ -67,19 +67,43 @@ class KetuaProgramStudiController extends Controller
      * Show the form for creating a new resource.
      */
 
-    public function indexjadwalKuliah()
-    {
-        $jadwal = JadwalKuliah::with([
-            'mataKuliah',
-            'dosen1.dosen',
-            'dosen2.dosen',
-            'dosen3.dosen',
-            'dosen4.dosen',
-            'dosen5.dosen'
-        ])->orderBy('hari', 'desc')->paginate(5);
-
-        return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
-    }
+     public function indexjadwalKuliah()
+     {
+         $user = Auth::user();
+     
+         // Periksa apakah user memiliki relasi dosen
+         if (!$user->dosen) {
+             return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
+         }
+     
+         // Cari data Ketua Program Studi yang terkait dengan user ini
+         $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
+     
+         if (!$ketuaProgramStudi) {
+             return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
+         }
+     
+         // Ambil id_programstudi milik Ketua Program Studi
+         $idProgramStudi = $ketuaProgramStudi->id_programstudi;
+     
+         // Filter jadwal kuliah berdasarkan id_programstudi mata kuliah
+         $jadwal = JadwalKuliah::with([
+             'mataKuliah',
+             'dosen1.dosen',
+             'dosen2.dosen',
+             'dosen3.dosen',
+             'dosen4.dosen',
+             'dosen5.dosen'
+         ])
+         ->whereHas('mataKuliah', function ($query) use ($idProgramStudi) {
+             $query->where('id_programstudi', $idProgramStudi);
+         })
+         ->orderBy('hari', 'desc')
+         ->paginate(5);
+     
+         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
+     }
+     
 
     public function createMemilihMataKuliah(Request $request)
     {
@@ -351,19 +375,37 @@ class KetuaProgramStudiController extends Controller
     }
 
 
-    public function indexMemilihMataKuliah(Request $request)
+    public function indexMemilihMataKuliah(Request $request) 
     {
+        $user = Auth::user();
+    
+        // Periksa apakah user memiliki relasi dosen
+        if (!$user->dosen) {
+            return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
+        }
+    
+        // Cari data Ketua Program Studi yang terkait dengan user ini
+        $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
+    
+        if (!$ketuaProgramStudi) {
+            return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
+        }
+    
+        // Ambil id_programstudi milik Ketua Program Studi
+        $idProgramStudi = $ketuaProgramStudi->id_programstudi;
+    
+        // Query mata kuliah dengan filter id_programstudi dan kriteria lainnya
         $query = MataKuliah::query()
+            ->where('id_programstudi', $idProgramStudi) // Filter berdasarkan id_programstudi
             ->where('sks', '>=', 1)
             ->where('sks', '<=', 9)
             ->where('semester', '>=', 1)
             ->where('semester', '<=', 9)
             ->whereNotNull('kode_mk')
             ->whereNotNull('nama_mk')
-            ->whereHas('programStudi')
             ->orderBy('kode_mk', 'desc');
-
-        // Add search functionality
+    
+        // Tambahkan fungsi pencarian
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
             $query->where(function ($q) use ($searchTerm) {
@@ -372,9 +414,10 @@ class KetuaProgramStudiController extends Controller
                     ->orWhere('semester', 'like', '%' . $searchTerm . '%');
             });
         }
-
+    
+        // Paginate hasil query
         $matakuliah = $query->paginate(5)->withQueryString();
-
+    
         // Tambahkan pengecekan jika tidak ada data
         if ($matakuliah->isEmpty()) {
             return view('ketuaprogramstudi.memilihmatakuliah.index', [
@@ -382,10 +425,10 @@ class KetuaProgramStudiController extends Controller
                 'message' => 'Tidak ada mata kuliah yang memenuhi kriteria.'
             ]);
         }
-
+    
         return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah'));
     }
-
+    
     public function editMemilihMataKuliah($kode_mk)
     {
         $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
