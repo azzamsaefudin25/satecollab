@@ -472,32 +472,32 @@
             <script src="https://stackport.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            <script>
-                // Persistent menu item selection
-                $(document).ready(function() {
-                    // Retrieve the last selected menu from localStorage
-                    const lastSelectedMenu = localStorage.getItem('selectedMenu') || 'dashboard';
-
-                    // Remove active class from all menu items
-                    $('.menu-item').removeClass('active');
-
-                    // Add active class to the last selected menu item
-                    $(`.menu-item[data-menu="${lastSelectedMenu}"]`).addClass('active');
-
-                    // Handle menu item click
-                    $('.menu-item').on('click', function() {
-                        // Remove active class from all menu items
-                        $('.menu-item').removeClass('active');
-
-                        // Add active class to clicked menu item
-                        $(this).addClass('active');
-
-                        // Store the selected menu in localStorage
-                        const selectedMenu = $(this).data('menu');
-                        localStorage.setItem('selectedMenu', selectedMenu);
-                    });
-                });
-            </script>
+<script>
+    // Persistent menu item selection
+    $(document).ready(function() {
+        // Retrieve the last selected menu from localStorage
+        const lastSelectedMenu = localStorage.getItem('selectedMenu') || 'dashboard';
+        
+        // Remove active class from all menu items
+        $('.menu-item').removeClass('active');
+        
+        // Add active class to the last selected menu item
+        $(`.menu-item[data-menu="${lastSelectedMenu}"]`).addClass('active');
+        
+        // Handle menu item click
+        $('.menu-item').on('click', function() {
+            // Remove active class from all menu items
+            $('.menu-item').removeClass('active');
+            
+            // Add active class to clicked menu item
+            $(this).addClass('active');
+            
+            // Store the selected menu in localStorage
+            const selectedMenu = $(this).data('menu');
+            localStorage.setItem('selectedMenu', selectedMenu);
+        });
+    });
+</script>
 </body>
 
 </html>
