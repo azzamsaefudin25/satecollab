@@ -250,10 +250,9 @@
             </div>
         </div>
     </div>
-    
     <div class="main-wrapper">
         <div class="sidebar">
-            <a href="#dashboard" class="menu-item active" data-menu="dashboard">
+            <a href="#dashboard" class="menu-item " data-menu="dashboard">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -293,7 +292,6 @@
                 Ruang Perkuliahan
             </a>
         </div>
-        
         <div class="content">
             <div class="container">
                 @include('komponen.pesan')
@@ -302,16 +300,18 @@
         </div>
     </div>
 
-    <div class="footer">
-        <h3>SATE</h3>
-        <p>Sistem Terpadu Akademik. Contact for more Questions below</p>
-        <div class="footer-icons">
-            <a href="#"><i class="bi bi-facebook"></i></a>
-            <a href="#"><i class="bi bi-twitter"></i></a>
-            <a href="#"><i class="bi bi-google"></i></a>
-            <a href="#"><i class="bi bi-youtube"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
-        </div>
+    <div>
+        <footer class="footer">
+            <h3>SATE</h3>
+            <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
+            <div class="footer-icons">
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-google"></i></a>
+                <a href="#"><i class="bi bi-youtube"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </footer>
     </div>
 
     <!-- Bootstrap JS & Icons -->
@@ -319,34 +319,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackport.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <script>
-        // Persistent menu item selection
-        $(document).ready(function() {
-            // Retrieve the last selected menu from localStorage
-            const lastSelectedMenu = localStorage.getItem('selectedMenu') || 'dashboard';
-            
-            // Remove active class from all menu items
-            $('.menu-item').removeClass('active');
-            
-            // Add active class to the last selected menu item
-            $(`.menu-item[data-menu="${lastSelectedMenu}"]`).addClass('active');
-            
-            // Handle menu item click
-            $('.menu-item').on('click', function() {
-                // Remove active class from all menu items
-                $('.menu-item').removeClass('active');
-                
-                // Add active class to clicked menu item
-                $(this).addClass('active');
-                
-                // Store the selected menu in localStorage
-                const selectedMenu = $(this).data('menu');
-                localStorage.setItem('selectedMenu', selectedMenu);
-            });
-        });
-    </script>
 </body>
-</html>
+
+</html
