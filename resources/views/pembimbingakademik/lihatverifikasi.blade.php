@@ -8,7 +8,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
         rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Monitoring IRS Kaprodi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+   title>Monitoring IRS Kaprodi</title>
 
     <style>
         body {
@@ -177,7 +178,44 @@
             background-color: #218838;
         }
 
-        /* Red */
+        .footer {
+            background-color: #658345;
+            color: white;
+            text-align: center;
+            padding: 6px 0;
+            margin-top: auto;
+        }
+        .footer h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .footer p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .footer-icons a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .footer-icons a:hover {
+            color: #658345;
+            background-color: white;
+        }
+
     </style>
 </head>
 
@@ -312,6 +350,18 @@
             </a>
         </footer>
     </div>
+
+    <footer class="footer">
+        <h3>SATE</h3>
+        <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
+        <div class="footer-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-google"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
