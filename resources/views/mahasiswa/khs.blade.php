@@ -218,6 +218,34 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             Notifikasi
         </a>
+        <a href="Registrasi" class="menu-item" data-menu="Registrasi">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+              </svg>
+            Registrasi
+        </a>
+        <a href="#Jadwal Perkuliahan" class="menu-item" data-menu="Jadwal Perkuliahan">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+              </svg>
+            Jadwal Perkuliahan
+        </a>
+        <a href="#KHS" class="menu-item" data-menu="KHS">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+              </svg>
+            KHS
+        </a>
+        <a href="#Pengisian IRS" class="menu-item" data-menu="Pengisian IRS">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+              </svg>
+            Pengisian IRS
+        </a>
         
         <div class="student-performance">
             <h3>Prestasi Mahasiswa</h3>
