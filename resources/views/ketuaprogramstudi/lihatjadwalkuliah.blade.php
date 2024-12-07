@@ -11,21 +11,21 @@
         rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-         body {
+       html, body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            height: 100%;
+            transition: background-color .5s;
         }
-        
+
         .header {
             background-color: #658345;
             padding: 15px 30px;
             display: flex;
             align-items: center;
+            height: 80px;
         }
 
         .logo-container {
@@ -53,6 +53,99 @@
         .logo-text p {
             margin: 0;
             font-size: 14px;
+        }
+
+        .main-wrapper {
+            display: flex;
+            height: calc(100vh - 140px);
+        }
+
+        .sidebar {
+            width: 250px; 
+            background-color: #fff;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto; 
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto; /* Allow content scrolling */
+            background-color: white;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .menu-item.active {
+            background-color: #658345;
+            color: white;
+        }
+
+        .menu-item svg {
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+
+        .footer {
+            background-color: #658345;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto;
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+
+        .footer-icons a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .footer-icons a:hover {
+            color: #658345;
+            background-color: white;
+            padding: 6px 0;
+            margin-top: auto;
+        }
+
+        .footer h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         .search-box {
@@ -131,110 +224,11 @@
             color: #5e2d91;
         }
 
-        .main-wrapper {
-            display: flex;
-            height: calc(100vh - 140px);
-        }
-
-        .sidebar {
-            width: 250px; 
-            background-color: #fff;
-            padding: 20px;
-            border-right: 1px solid #ddd;
-            overflow-y: auto; 
-        }
-
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto; /* Allow content scrolling */
-            background-color: white;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-            color: black;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .menu-item:hover {
-            background-color: #e9ecef;
-        }
-
-        .menu-item.active {
-            background-color: #658345;
-            color: white;
-        }
-
-        .menu-item svg {
-            flex-shrink: 0; /* Prevent icon from shrinking */
-        }
-
-        .footer {
-            background-color: #658345;
-            color: white;
-            text-align: center;
-            padding: 6px 0;
-            margin-top: auto;
-        }
-        .footer h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        .footer p {
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        .footer-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        .footer-icons a {
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid white;
-            border-radius: 50%;
-            transition: 0.3s;
-        }
-        .footer-icons a:hover {
-            color: #658345;
-            background-color: white;
-        }
+        
 
         tr[data-status="disetujui"] td:nth-child(16):empty {
             display: none;
         }
-        .table-container {
-            margin-top: 20px;
-        }
-
-        .table-container {
-            margin-top: 20px;
-        }
-
-        .table th {
-            white-space: nowrap;
-        }
-
-        .table thead {
-            background-color: #343a40;
-            color: white;
-        }
-
     </style>
 </head>
 
@@ -466,19 +460,21 @@
                 </div>
             </div>
         </div>
-        <div>
-            <footer class="footer">
-                <h3>SATE</h3>
-                <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
-                <div class="footer-icons">
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                    <a href="#"><i class="bi bi-twitter"></i></a>
-                    <a href="#"><i class="bi bi-google"></i></a>
-                    <a href="#"><i class="bi bi-youtube"></i></a>
-                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                </div>
-            </footer>
-        </div>
+    </div>
+</div>
+</div>
+    <div>
+        <footer class="footer">
+            <h3>SATE</h3>
+            <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
+            <div class="footer-icons">
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-google"></i></a>
+                <a href="#"><i class="bi bi-youtube"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </footer>
     </div>
     <!-- Bootstrap & jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
