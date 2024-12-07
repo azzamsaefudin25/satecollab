@@ -252,7 +252,7 @@
     </div>
     <div class="main-wrapper">
         <div class="sidebar">
-            <a href="#" class="menu-item ">
+            <a href="{{ route('bagianakademik') }}" class="menu-item ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -277,14 +277,14 @@
                 </svg>
                 Notifikasi
             </a>
-            <a href="#Penyusunan Ruang Perkuliahan" class="menu-item" data-menu="Penyusunan Ruang Perkuliahan">
+            <a href="{{ route('penyusunanruang.index') }}" class="menu-item" data-menu="Penyusunan Ruang Perkuliahan">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
                     <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
                     <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
                   </svg>
                 Penyusunan Ruang Perkuliahan
             </a>
-            <a href="#Pengalokasian Ruang Perkuliahan" class="menu-item" data-menu="Pengalokasian Ruang Perkuliahan">
+            <a href="{{ route('pengalokasianruang.index') }}" class="menu-item" data-menu="Pengalokasian Ruang Perkuliahan">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
                     <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
                     <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>

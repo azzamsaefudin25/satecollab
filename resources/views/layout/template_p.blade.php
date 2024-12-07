@@ -8,15 +8,19 @@
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        html, body {
+        html,
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fff;
-            height: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             transition: background-color .5s;
         }
 
@@ -26,6 +30,16 @@
             display: flex;
             align-items: center;
             height: 80px;
+        }
+
+        .header {
+            background-color: #658345;
+            color: black;
+            padding: 30px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .logo-container {
@@ -50,6 +64,11 @@
             font-weight: bold;
         }
 
+        .logo-text {
+            color: black;
+            line-height: 1.2;
+        }
+
         .logo-text p {
             margin: 0;
             font-size: 14px;
@@ -61,18 +80,127 @@
         }
 
         .sidebar {
-            width: 250px; 
+            width: 250px;
             background-color: #fff;
             padding: 20px;
             border-right: 1px solid #ddd;
-            overflow-y: auto; 
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2,
+        .sidebar a {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: black;
+            text-decoration: none;
+        }
+
+        .sidebar a {
+            display: block;
         }
 
         .content {
             flex-grow: 1;
             padding: 20px;
-            overflow-y: auto; /* Allow content scrolling */
+            overflow-y: auto;
+            /* Allow content scrolling */
             background-color: white;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 40px;
+        }
+
+        .status-card {
+            background-color: #658345;
+            padding: 20px;
+            border-radius: 8px;
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        .status-card h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .status-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-item h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .status-item p {
+            margin: 0;
+        }
+
+        .status-badge {
+            background-color: blue;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .profile {
+            margin-top: auto;
+            padding: 20px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-name {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .btn-container button {
+            display: block;
+            margin-top: 10px;
+            width: 45%;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+
+        .container {
+            /* width: 80%; */
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
         }
 
         .menu-item {
@@ -98,8 +226,148 @@
         }
 
         .menu-item svg {
-            flex-shrink: 0; /* Prevent icon from shrinking */
+            flex-shrink: 0;
+            /* Prevent icon from shrinking */
         }
+
+        .statistik {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #658345;
+            margin-bottom: 20px;
+
+        }
+
+        .statistik div {
+            width: 30%;
+            text-align: center;
+            padding: 10px;
+            background-color: #658345;
+            border-radius: 0;
+            border-right: 2px solid black;
+            height: 1;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .search-container input {
+            width: 50%;
+            padding: 15px;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+
+        .search-container button {
+            background: none;
+            border: none;
+            margin-left: -50px;
+            cursor: pointer;
+        }
+
+        .search-container svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #BFCAB7;
+        }
+
+        .approved {
+            background-color: #14F400;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 25px;
+        }
+
+        .not-approved {
+            background-color: #F4000F;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 25px;
+        }
+
+        .waiting-approved {
+            background-color: #BFCAB7;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 25px;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        select {
+            width: 80%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #f1f1f1;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .button {
+            border: none;
+            color: black;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 25px;
+        }
+
+        .button1 {
+            background-color: #14F400;
+        }
+
+        /* Green */
+        .button2 {
+            background-color: #0014CB;
+        }
+
+        /* Blue */
+        .button3 {
+            background-color: #218838;
+        }
+
 
         .footer {
             background-color: #658345;
@@ -107,6 +375,7 @@
             text-align: center;
             padding: 10px 0;
             margin-top: auto;
+            width: 1;
         }
 
         .footer-icons {
@@ -146,6 +415,46 @@
         .footer p {
             font-size: 14px;
             margin-bottom: 20px;
+        }
+
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            /* 2 kolom */
+            gap: 20px;
+            /* Jarak antar tombol */
+            margin-top: 20px;
+        }
+
+        .btn-green {
+            background-color: #658345;
+            /* Warna hijau yang sama dengan header */
+            color: white;
+            /* Warna teks putih agar kontras */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-green:hover {
+            background-color: #567539;
+            /* Warna hijau sedikit lebih gelap untuk efek hover */
+        }
+
+        .btn2 {
+            width: 100%;
+            /* Agar tombol mengikuti lebar kolom */
+        }
+
+        .status {
+            background-color: white;
+            color: black;
+            padding: 2px 8px;
+            border-radius: 5px;
         }
 
         .search-box {
@@ -236,7 +545,6 @@
             text-align: center;
             text-decoration: none;
         }
-
     </style>
 </head>
 
@@ -252,7 +560,7 @@
     </div>
     <div class="main-wrapper">
         <div class="sidebar">
-            <a href="#" class="menu-item ">
+            <a href="{{ route('pembimbingakademik') }}" class="menu-item ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -277,19 +585,15 @@
                 </svg>
                 Notifikasi
             </a>
-            <a href="#Penyusunan Ruang Perkuliahan" class="menu-item" data-menu="Penyusunan Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
-                  </svg>
-                Penyusunan Ruang Perkuliahan
-            </a>
-            <a href="#Pengalokasian Ruang Perkuliahan" class="menu-item" data-menu="Pengalokasian Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
-                  </svg>
-                Pengalokasian Ruang Perkuliahan
+            <a href="{{ route('pembimbingakademik.verifikasiirs') }}" class="menu-item"
+                data-menu="Penyusunan Ruang Perkuliahan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-door-closed" viewBox="0 0 16 16">
+                    <path
+                        d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z" />
+                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0" />
+                </svg>
+                Verifikasi IRS
             </a>
 
         </div>

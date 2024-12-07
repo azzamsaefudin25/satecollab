@@ -116,7 +116,7 @@
             <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
-                    <form action="{{ route('pengajuan.updatejadwalperprodi', ['id' => $pengajuan->id_jadwal]) }}"
+                    <form action="{{ route('pengajuan.updatejadwalperprodi', $pengajuan->id_jadwal) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')

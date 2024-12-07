@@ -51,13 +51,8 @@
                         <option value="Pilihan" {{ $matakuliah->jenis == 'Pilihan' ? 'selected' : '' }}>Pilihan</option>
                     </select>
                 </div>
-
-                <div class="text-end">
-                    <button type="submit" class="btn btn-primary px-4">Simpan</button>
-                </div>
             </form>
-
-            <div class="text-start mt-3">
+            <div class="btn-container">
                 <button type="button" class="btn btn-dark back-button"
                     onclick="window.location.href='{{ route('memilihmatakuliah.index') }}'">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -67,6 +62,9 @@
                     </svg>
                     BACK
                 </button>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary px-4">Simpan</button>
+                </div>
             </div>
         </div>
     </div>

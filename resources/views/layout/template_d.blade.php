@@ -8,11 +8,13 @@
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <style>
-        html, body {
+        html,
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -62,17 +64,18 @@
         }
 
         .sidebar {
-            width: 250px; 
+            width: 250px;
             background-color: #fff;
             padding: 20px;
             border-right: 1px solid #ddd;
-            overflow-y: auto; 
+            overflow-y: auto;
         }
 
         .content {
             flex-grow: 1;
             padding: 20px;
-            overflow-y: auto; /* Allow content scrolling */
+            overflow-y: auto;
+            /* Allow content scrolling */
             background-color: white;
         }
 
@@ -99,7 +102,8 @@
         }
 
         .menu-item svg {
-            flex-shrink: 0; /* Prevent icon from shrinking */
+            flex-shrink: 0;
+            /* Prevent icon from shrinking */
         }
 
         .footer {
@@ -237,7 +241,6 @@
             text-align: center;
             text-decoration: none;
         }
-
     </style>
 </head>
 
@@ -253,7 +256,7 @@
     </div>
     <div class="main-wrapper">
         <div class="sidebar">
-            <a href="#dashboard" class="menu-item " data-menu="dashboard">
+            <a href="{{ route('dekan') }}" class="menu-item " data-menu="dashboard">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -278,18 +281,23 @@
                 </svg>
                 Notifikasi
             </a>
-            <a href="#notification" class="menu-item" data-menu="Jadwal Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
-                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                  </svg>
+            <a href="{{ route('dekan.approvejadwal') }}" class="menu-item" data-menu="Jadwal Perkuliahan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-calendar3" viewBox="0 0 16 16">
+                    <path
+                        d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
+                    <path
+                        d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                </svg>
                 Jadwal Perkuliahan
             </a>
-            <a href="#notification" class="menu-item" data-menu="Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
-                  </svg>
+            <a href="{{ route('dekan.approveruang') }}" class="menu-item" data-menu="Ruang Perkuliahan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-door-closed" viewBox="0 0 16 16">
+                    <path
+                        d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z" />
+                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0" />
+                </svg>
                 Ruang Perkuliahan
             </a>
         </div>
