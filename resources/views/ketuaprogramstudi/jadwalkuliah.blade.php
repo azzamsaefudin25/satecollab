@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
-        rel="stylesheet">
     <style>
-        body {
+        html,body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fff;
+            height: 100%;
+            transition: background-color .5s;
         }
 
         .header {
@@ -23,7 +25,9 @@
             padding: 15px 30px;
             display: flex;
             align-items: center;
+            height: 80px;
         }
+
 
         .logo-container {
             display: flex;
@@ -60,14 +64,6 @@
             padding: 30px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-        }
-
-        h3 {
-            font-size: 20px;
-            text-align: left;
-            margin-bottom: 30px;
-            color: #333;
-            font-weight: 600;
         }
 
         form {
@@ -184,20 +180,13 @@
         }
 
         .sidebar {
-            width: 230px;
+            width: 250px; 
             background-color: #fff;
             padding: 20px;
-            border-right: 2px solid green;
-            display: flex;
-            flex-direction: column;
+            border-right: 1px solid #ddd;
+            overflow-y: auto; 
         }
-        .sidebar h2, .sidebar a {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: black;
-            text-decoration: none;
-        }
+       
         .sidebar a {
             display: block;
         }
@@ -208,7 +197,6 @@
             overflow-y: auto; /* Allow content scrolling */
             background-color: white;
         }
-
         .menu-item {
             display: flex;
             align-items: center;
@@ -283,6 +271,15 @@
         }
 
 
+        h4 {
+            text-align: center;
+            font-size: 23px;
+            font-weight: 600;
+        }
+
+        h5 {
+            margin-top: 30px;
+        }
     </style>
 </head>
 
@@ -296,9 +293,10 @@
             </div>
         </div>
     </div>
+
     <div class="main-wrapper">
         <div class="sidebar">
-            <a href="#" class="menu-item ">
+            <a href="#dashboard" class="menu-item " data-menu="dashboard">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -307,7 +305,7 @@
                 </svg>
                 Dashboard
             </a>
-            <a href="#" class="menu-item">
+            <a href="#profile" class="menu-item" data-menu="profile">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
@@ -315,7 +313,7 @@
                 </svg>
                 Profile
             </a>
-            <a href="#" class="menu-item">
+            <a href="#notification" class="menu-item" data-menu="notification">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -323,24 +321,39 @@
                 </svg>
                 Notifikasi
             </a>
-            <a href="#Penyusunan Ruang Perkuliahan" class="menu-item" data-menu="Penyusunan Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
-                  </svg>
-                Penyusunan Ruang Perkuliahan
+            <a href="#monitoring-irs" class="menu-item" data-menu="Monitoring IRS">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pc-display-horizontal" viewBox="0 0 16 16">
+                    <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5v7A1.5 1.5 0 0 0 1.5 10H6v1H1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5v-1h4.5A1.5 1.5 0 0 0 16 8.5v-7A1.5 1.5 0 0 0 14.5 0zm0 1h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5M12 12.5a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0m2 0a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0M1.5 12h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M1 14.25a.25.25 0 0 1 .25-.25h5.5a.25.25 0 1 1 0 .5h-5.5a.25.25 0 0 1-.25-.25"/>
+                </svg>
+                Monitoring IRS
             </a>
-            <a href="#Pengalokasian Ruang Perkuliahan" class="menu-item" data-menu="Pengalokasian Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+            <a href="#penyusunan-jadwal" class="menu-item" data-menu="Penyusunan jadwal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
+                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                </svg>
+                Penyusunan Jadwal
+            </a>
+            
+            <a href="#Penyusunan Mata Kuliah" class="menu-item" data-menu="Penyusunan Mata Kuliah">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-bookmark" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M6 8V1h1v6.117L8.743 6.07a.5.5 0 0 1 .514 0L11 7.117V1h1v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8"/>
+                    <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+                    <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
                   </svg>
-                Pengalokasian Ruang Perkuliahan
+                Penyusunan Mata Kuliah
             </a>
 
+            <a href="#Daftar Alokasi Ruang Perkuliahan" class="menu-item" data-menu="Daftar Alokasi Ruang Perkuliahan  ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+                  </svg>
+                Daftar Alokasi Ruang Perkuliahan  
+            </a>
         </div>
         
-    <div class="container">
+    <div class="content">
         <main>
             @if ($errors->any())
                 <div class="pt-3">
@@ -459,20 +472,25 @@
                 </div>
             </form>
         </main>
-        <div>
-            <footer class="footer">
-                <h3>SATE</h3>
-                <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
-                <div class="footer-icons">
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                    <a href="#"><i class="bi bi-twitter"></i></a>
-                    <a href="#"><i class="bi bi-google"></i></a>
-                    <a href="#"><i class="bi bi-youtube"></i></a>
-                    <a href="#"><i class="bi bi-linkedin"></i></a>
-                </div>
-            </footer>
-        </div>
     </div>
+</div>
+</div>  
+    
+    <div>
+        <footer class="footer">
+            <h3>SATE</h3>
+            <p>Sistem Terpadu Akademik.Contact for more Questions below</p>
+            <div class="footer-icons">
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-google"></i></a>
+                <a href="#"><i class="bi bi-youtube"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    
 
     
 
