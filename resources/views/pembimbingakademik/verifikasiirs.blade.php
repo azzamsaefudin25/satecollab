@@ -70,7 +70,7 @@
             width: 80%;
             margin: 20px auto;
             background-color: #fff;
-            padding: 20px;
+            padding: 10px;
             border-radius: 10px;
         }
         
@@ -258,9 +258,6 @@
             font-size: 14px;
             margin-bottom: 20px;
         }
-        
-
-        
         .content {
             flex-grow: 1;
             padding: 20px;
@@ -320,7 +317,7 @@
 
     <div class="main-wrapper">
         <div class="sidebar">
-            <a href="#dashboard" class="menu-item active" data-menu="dashboard">
+            <a href="#dashboard" class="menu-item " data-menu="dashboard">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -345,27 +342,17 @@
                 </svg>
                 Notifikasi
             </a>
-            <a href="#Penyusunan Ruang Perkuliahan" class="menu-item" data-menu="Penyusunan Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
-                    <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
-                    <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
-                  </svg>
-                Penyusunan Ruang Perkuliahan
-            </a>
-            <a href="#Pengalokasian Ruang Perkuliahan" class="menu-item" data-menu="Pengalokasian Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
-                  </svg>
-                Pengalokasian Ruang Perkuliahan
+            <a href="#Verifikasi-irs" class="menu-item" data-menu="Verifikasi IRS">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pc-display-horizontal" viewBox="0 0 16 16">
+                    <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5v7A1.5 1.5 0 0 0 1.5 10H6v1H1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5v-1h4.5A1.5 1.5 0 0 0 16 8.5v-7A1.5 1.5 0 0 0 14.5 0zm0 1h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5M12 12.5a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0m2 0a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0M1.5 12h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M1 14.25a.25.25 0 0 1 .25-.25h5.5a.25.25 0 1 1 0 .5h-5.5a.25.25 0 0 1-.25-.25"/>
+                </svg>
+                Verifikasi IRS
             </a>
         </div>
 
     
 
-    <div class="container">
-        <div class="content">
+    <div class="content">
             <h2>VERIFIKASI IRS</h2>
 
             <div class="statistik">
@@ -448,6 +435,8 @@
                 Back
             </a>
         </div>
+    </div>
+</div>
         <div class="footer">
             <h3>SATE</h3>
             <p>Sistem Terpadu Akademik. Contact for more Questions below</p>
