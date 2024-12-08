@@ -207,7 +207,6 @@
     </style>
 </head>
 <body>
-
     <header class="header">
             <div class="header-content">
                 <img src="{{ asset('backend\img\logoSate-removebg-preview.png') }}" alt="SATE Logo">
