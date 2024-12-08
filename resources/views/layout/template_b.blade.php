@@ -236,6 +236,27 @@
             text-align: center;
             text-decoration: none;
         }
+        .profile {
+            margin-top: auto;
+            padding: 20px;
+            text-align: left;
+            font-size: 12px;
+        }
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .profile-name {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        .logout-button {
+            display: block;
+            margin-top: 10px;
+            width: 45%;
+        }
 
     </style>
 </head>
@@ -291,8 +312,20 @@
                   </svg>
                 Pengalokasian Ruang Perkuliahan
             </a>
-
+            <div class="profile">
+                <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Image">
+                <div class="profile-name">
+                    <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                    <p>{{ $nip ?? 'NIP tidak ditemukan' }}</p>
+                    <p>Informatika</p>
+                </div>
+                <div class="logout-button">
+                    <button type="button" class="btn btn-outline-secondary"
+                        onclick="window.location.href='{{ route('logout') }}'">Logout</button>
+                </div>
+            </div>
         </div>
+        
         <div class="content">
             <div class="container">
                 @include('komponen.pesan')
