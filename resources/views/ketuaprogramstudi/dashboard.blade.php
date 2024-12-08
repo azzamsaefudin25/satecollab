@@ -272,7 +272,7 @@
                 <button class="btn-green" onclick="window.location.href=''">
                     Monitoring IRS
                 </button>
-                <button class="btn-green" onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">
+                <button class="btn-green" onclick="window.location.href='{{ route('jadwalkuliah.index') }}'">
                     Penyusunan Jadwal Kuliah
                 </button>
                 <button class="btn-green" onclick="window.location.href='{{ route('memilihmatakuliah.index') }}'">

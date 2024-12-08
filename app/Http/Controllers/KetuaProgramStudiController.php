@@ -101,7 +101,7 @@ class KetuaProgramStudiController extends Controller
          ->orderBy('hari', 'desc')
          ->paginate(5);
      
-         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
+         return view('ketuaprogramstudi.jadwalkuliah.index', compact('jadwal'));
      }
      
 
@@ -176,7 +176,7 @@ class KetuaProgramStudiController extends Controller
         // Filter dosen berdasarkan id_programstudi (opsional)
         $dosen = Dosen::all();
 
-        return view('ketuaprogramstudi.jadwalkuliah', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'dosen', 'programStudi'));
+        return view('ketuaprogramstudi.jadwalkuliah.create', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'dosen', 'programStudi'));
     }
 
 
@@ -371,7 +371,7 @@ class KetuaProgramStudiController extends Controller
             'nidn_dosen5' => $dosenTerpilih[4] ?? null,
         ]);
 
-        return redirect()->route('lihatjadwalkuliah.lihat')->with('success', 'Jadwal kuliah berhasil diajukan.');
+        return redirect()->route('jadwalkuliah.create')->with('success', 'Jadwal kuliah berhasil diajukan.');
     }
 
 
@@ -488,7 +488,7 @@ class KetuaProgramStudiController extends Controller
 
         // Periksa apakah jadwal ditemukan
         if (!$jadwalKuliah) {
-            return redirect()->route('lihatjadwalkuliah.lihat')->withErrors('Jadwal kuliah tidak ditemukan.');
+            return redirect()->route('jadwalkuliah.index')->withErrors('Jadwal kuliah tidak ditemukan.');
         }
 
         // Periksa apakah status jadwal adalah "menunggu konfirmasi"
@@ -500,6 +500,6 @@ class KetuaProgramStudiController extends Controller
         $jadwalKuliah->delete();
 
         // Redirect dengan pesan sukses
-        return redirect()->route('lihatjadwalkuliah.lihat')->with('success', 'Jadwal kuliah berhasil dihapus.');
+        return redirect()->route('jadwalkuliah.index')->with('success', 'Jadwal kuliah berhasil dihapus.');
     }
 }
