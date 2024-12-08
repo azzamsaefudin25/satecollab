@@ -32,11 +32,8 @@ class PembimbingAkademikController extends Controller
     // }
 
     public function approveIRS(Request $request)
-    {
-        // Ambil email user yang sedang login
+    { 
         $userEmail = Auth::user()->email;
-
-        // Cari data pembimbing akademik berdasarkan email
         $pembimbing = PembimbingAkademik::where('email', $userEmail)->first();
 
         if (!$pembimbing) {
@@ -44,58 +41,41 @@ class PembimbingAkademikController extends Controller
             return back()->with('error', 'Akses ditolak: Data pembimbing akademik tidak ditemukan.');
         }
 
-        $mahasiswaCollection = collect(); // Inisialisasi koleksi kosong
+        // Hitung statistik total tanpa pagination
+        $totalMahasiswa = Mahasiswa::where('nidn_pembimbingakademik', $pembimbing->nidn_pembimbingakademik)->count();
+        $mahasiswaVerified = Mahasiswa::whereHas('irs', function ($query) {
+            $query->where('status_approve', 'disetujui');
+        })->where('nidn_pembimbingakademik', $pembimbing->nidn_pembimbingakademik)->count();
+        $mahasiswaIsiIRS = Mahasiswa::whereHas('irs')->where('nidn_pembimbingakademik', $pembimbing->nidn_pembimbingakademik)->count();
 
-        // Looping untuk setiap pembimbing akademik
-        $pembimbingAkademik = PembimbingAkademik::all();
-        foreach ($pembimbingAkademik as $pembimbing) {
-            $mahasiswa = Mahasiswa::with('irs');
-            if ($request->has('search')) {
-                $search = $request->input('search');
-                $mahasiswa->where(function ($query) use ($search) {
-                    $query->where('nim', 'like', '%' . $search . '%')
-                        ->orWhere('nama_mahasiswa', 'like', '%' . $search . '%')
-                        ->orWhere('semester', 'like', '%' . $search . '%')
-                        ->orWhereHas('pembimbingAkademik', function ($q) use ($search) {
-                            $q->where('nama_pembimbingakademik', 'like', '%' . $search . '%');
-                        });
-                });
-            }
+        // Query mahasiswa dengan pagination
+        $mahasiswa = Mahasiswa::with('irs')
+            ->where('nidn_pembimbingakademik', $pembimbing->nidn_pembimbingakademik);
 
-            $mahasiswa = $mahasiswa
-                ->where('nidn_pembimbingakademik', $pembimbing->nidn_pembimbingakademik)
-                ->orderBy('nim', 'asc')
-                ->paginate(5);
-
-
-            // Debug log
-            Log::info('Data Pembimbing:', [
-                'nidn' => $pembimbing->nidn_pembimbingakademik,
-                'nama' => $pembimbing->nama_pembimbingakademik,
-                'jumlah_mahasiswa' => $mahasiswa->count()
-            ]);
-
-            // Hitung statistik untuk setiap pembimbing
-            $totalMahasiswa = $mahasiswa->count();
-            $mahasiswaVerified = $mahasiswa->filter(function ($m) {
-                return $m->irs && $m->irs->status_approve === 'disetujui';
-            })->count();
-            $mahasiswaIsiIRS = $mahasiswa->filter(function ($m) {
-                return $m->irs !== null;
-            })->count();
-
-            // Tambahkan data mahasiswa ke koleksi
-            $mahasiswaCollection->push([
-                'pembimbing' => $pembimbing,
-                'mahasiswa' => $mahasiswa,
-                'totalMahasiswa' => $totalMahasiswa,
-                'mahasiswaVerified' => $mahasiswaVerified,
-                'mahasiswaIsiIRS' => $mahasiswaIsiIRS,
-            ]);
+        // Tambahkan fitur pencarian jika ada
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $mahasiswa->where(function ($query) use ($search) {
+                $query->where('nim', 'like', '%' . $search . '%')
+                    ->orWhere('nama_mahasiswa', 'like', '%' . $search . '%')
+                    ->orWhere('semester', 'like', '%' . $search . '%');
+            });
         }
 
-        return view('pembimbingakademik.verifikasiirs', compact('mahasiswaCollection'));
+        // Lakukan pagination
+        $mahasiswaPaginated = $mahasiswa->orderBy('nim', 'asc')->paginate(5);
+
+        // Siapkan data untuk view
+        $data = [
+            'totalMahasiswa' => $totalMahasiswa,
+            'mahasiswaVerified' => $mahasiswaVerified,
+            'mahasiswaIsiIRS' => $mahasiswaIsiIRS,
+            'mahasiswa' => $mahasiswaPaginated
+        ];
+
+        return view('pembimbingakademik.verifikasiirs', compact('data'));
     }
+
     public function approveIRS2($nim)
     {
         try {

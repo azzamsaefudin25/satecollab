@@ -1,4 +1,4 @@
-@extends('layout.template_p')
+@extends('layout.template_k')
 @section('content')
     <div class="content">
         <h2>VERIFIKASI IRS</h2>
@@ -16,7 +16,7 @@
             <div>Mahasiswa Yang Sudah Mengisi IRS<br><b>{{ $data['mahasiswaIsiIRS'] ?? 0 }}</b></div>
         </div>
 
-        <form action="{{ route('pembimbingakademik.verifikasiirs') }}" method="GET">
+        <form action="{{ route('monitoringirs.index') }}" method="GET">
             <div class="search-container">
                 <input type="text" name="search" placeholder="CARI MAHASISWA" value="{{ request('search') }}">
                 <button type="submit">
@@ -36,7 +36,6 @@
                     <th>Nama</th>
                     <th>Semester</th>
                     <th>Status IRS</th>
-                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,10 +53,6 @@
                             @else
                                 <span class="not-approved">Belum Ada IRS</span>
                             @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('pembimbingakademik.lihatverifikasi', ['nim' => $mhs->nim]) }}"
-                                class="btn btn-outline-info">Lihat</a>
                         </td>
                     </tr>
                 @empty

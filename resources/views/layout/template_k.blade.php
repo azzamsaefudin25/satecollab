@@ -57,7 +57,7 @@
             font-size: 14px;
         }
 
-        
+
         .time-select {
             display: flex;
             justify-content: space-between;
@@ -337,6 +337,94 @@
             text-align: center;
             text-decoration: none;
         }
+
+        .statistik {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #658345;
+            margin-bottom: 20px;
+
+        }
+
+        .statistik div {
+            width: 30%;
+            text-align: center;
+            padding: 10px;
+            background-color: #658345;
+            border-radius: 0;
+            border-right: 2px solid black;
+            height: 1;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .search-container input {
+            width: 50%;
+            padding: 15px;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+
+        .search-container button {
+            background: none;
+            border: none;
+            margin-left: -50px;
+            cursor: pointer;
+        }
+
+        .search-container svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #BFCAB7;
+        }
+
+        .approved {
+            background-color: #14F400;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 25px;
+        }
+
+        .not-approved {
+            background-color: #F4000F;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 25px;
+        }
+
+        .waiting-approved {
+            background-color: #BFCAB7;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 25px;
+        }
     </style>
 </head>
 
@@ -377,7 +465,7 @@
                 </svg>
                 Notifikasi
             </a>
-            <a href="#monitoring-irs" class="menu-item" data-menu="Monitoring IRS">
+            <a href="{{ route('monitoringirs.index') }}" class="menu-item" data-menu="Monitoring IRS">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-pc-display-horizontal" viewBox="0 0 16 16">
                     <path
@@ -409,7 +497,7 @@
                 Penyusunan Mata Kuliah
             </a>
 
-            <a href="#Daftar Alokasi Ruang Perkuliahan" class="menu-item"
+            <a href="{{route('alokasiruangan.index')}}" class="menu-item"
                 data-menu="Daftar Alokasi Ruang Perkuliahan  ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-door-closed" viewBox="0 0 16 16">
@@ -449,7 +537,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
+
 </body>
 
 </html

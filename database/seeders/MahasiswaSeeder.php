@@ -17,24 +17,16 @@ class MahasiswaSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ambil semua User yang memenuhi kriteria
-        $users = User::where('email', 'like', '%@students.undip.ac.id')
-            ->whereDoesntHave('mahasiswa')
-            ->inRandomOrder()
-            ->get();
-        $pembimbingakademik = PembimbingAkademik::inRandomOrder()->first();
+        $faker = Faker::create();
 
-        foreach ($users as $user) {
-            if (!Mahasiswa::where('email', $user->email)->exists()) {
-                Mahasiswa::create([
-                    'nim' => fake()->unique()->numerify('2406012#######'),
-                    'nama_mahasiswa' => $user->name,
-                    'semester' => fake()->numberBetween(4, 6),
-                    'email' => $user->email,
-                    'nidn_pembimbingakademik' => $pembimbingakademik->nidn_pembimbingakademik,
-                    'id_programstudi' => 1,
-                ]);
-            }
+        // Ambil semua data Mahasiswa
+        $mahasiswaList = Mahasiswa::all();
+
+        foreach ($mahasiswaList as $mahasiswa) {
+            // Update IPK secara random antara 2.50 hingga 4.00
+            $mahasiswa->update([
+                'ipk' => $faker->randomFloat(2, 2.50, 3.90),
+            ]);
         }
     }
 }

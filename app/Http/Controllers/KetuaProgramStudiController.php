@@ -12,6 +12,8 @@ use App\Models\MataKuliah;
 use App\Models\JadwalKuliah;
 use App\Models\PengalokasianRuang;
 use App\Models\ProgramStudi;
+use App\Models\Mahasiswa;
+use App\Models\PembimbingAkademik;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -67,43 +69,43 @@ class KetuaProgramStudiController extends Controller
      * Show the form for creating a new resource.
      */
 
-     public function indexjadwalKuliah()
-     {
-         $user = Auth::user();
-     
-         // Periksa apakah user memiliki relasi dosen
-         if (!$user->dosen) {
-             return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
-         }
-     
-         // Cari data Ketua Program Studi yang terkait dengan user ini
-         $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
-     
-         if (!$ketuaProgramStudi) {
-             return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
-         }
-     
-         // Ambil id_programstudi milik Ketua Program Studi
-         $idProgramStudi = $ketuaProgramStudi->id_programstudi;
-     
-         // Filter jadwal kuliah berdasarkan id_programstudi mata kuliah
-         $jadwal = JadwalKuliah::with([
-             'mataKuliah',
-             'dosen1.dosen',
-             'dosen2.dosen',
-             'dosen3.dosen',
-             'dosen4.dosen',
-             'dosen5.dosen'
-         ])
-         ->whereHas('mataKuliah', function ($query) use ($idProgramStudi) {
-             $query->where('id_programstudi', $idProgramStudi);
-         })
-         ->orderBy('hari', 'desc')
-         ->paginate(5);
-     
-         return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
-     }
-     
+    public function indexjadwalKuliah()
+    {
+        $user = Auth::user();
+
+        // Periksa apakah user memiliki relasi dosen
+        if (!$user->dosen) {
+            return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
+        }
+
+        // Cari data Ketua Program Studi yang terkait dengan user ini
+        $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
+
+        if (!$ketuaProgramStudi) {
+            return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
+        }
+
+        // Ambil id_programstudi milik Ketua Program Studi
+        $idProgramStudi = $ketuaProgramStudi->id_programstudi;
+
+        // Filter jadwal kuliah berdasarkan id_programstudi mata kuliah
+        $jadwal = JadwalKuliah::with([
+            'mataKuliah',
+            'dosen1.dosen',
+            'dosen2.dosen',
+            'dosen3.dosen',
+            'dosen4.dosen',
+            'dosen5.dosen'
+        ])
+            ->whereHas('mataKuliah', function ($query) use ($idProgramStudi) {
+                $query->where('id_programstudi', $idProgramStudi);
+            })
+            ->orderBy('hari', 'desc')
+            ->paginate(5);
+
+        return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
+    }
+
 
     public function createMemilihMataKuliah(Request $request)
     {
@@ -375,25 +377,25 @@ class KetuaProgramStudiController extends Controller
     }
 
 
-    public function indexMemilihMataKuliah(Request $request) 
+    public function indexMemilihMataKuliah(Request $request)
     {
         $user = Auth::user();
-    
+
         // Periksa apakah user memiliki relasi dosen
         if (!$user->dosen) {
             return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
         }
-    
+
         // Cari data Ketua Program Studi yang terkait dengan user ini
         $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
-    
+
         if (!$ketuaProgramStudi) {
             return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
         }
-    
+
         // Ambil id_programstudi milik Ketua Program Studi
         $idProgramStudi = $ketuaProgramStudi->id_programstudi;
-    
+
         // Query mata kuliah dengan filter id_programstudi dan kriteria lainnya
         $query = MataKuliah::query()
             ->where('id_programstudi', $idProgramStudi) // Filter berdasarkan id_programstudi
@@ -404,7 +406,7 @@ class KetuaProgramStudiController extends Controller
             ->whereNotNull('kode_mk')
             ->whereNotNull('nama_mk')
             ->orderBy('kode_mk', 'desc');
-    
+
         // Tambahkan fungsi pencarian
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
@@ -414,10 +416,10 @@ class KetuaProgramStudiController extends Controller
                     ->orWhere('semester', 'like', '%' . $searchTerm . '%');
             });
         }
-    
+
         // Paginate hasil query
         $matakuliah = $query->paginate(5)->withQueryString();
-    
+
         // Tambahkan pengecekan jika tidak ada data
         if ($matakuliah->isEmpty()) {
             return view('ketuaprogramstudi.memilihmatakuliah.index', [
@@ -425,10 +427,10 @@ class KetuaProgramStudiController extends Controller
                 'message' => 'Tidak ada mata kuliah yang memenuhi kriteria.'
             ]);
         }
-    
+
         return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah'));
     }
-    
+
     public function editMemilihMataKuliah($kode_mk)
     {
         $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
@@ -501,5 +503,65 @@ class KetuaProgramStudiController extends Controller
 
         // Redirect dengan pesan sukses
         return redirect()->route('lihatjadwalkuliah.lihat')->with('success', 'Jadwal kuliah berhasil dihapus.');
+    }
+
+    public function indexMonitoringIRS(Request $request)
+    {
+        // Hitung statistik total tanpa pagination
+        $totalMahasiswa = Mahasiswa::all()->count();
+        $mahasiswaVerified = Mahasiswa::whereHas('irs', function ($query) {
+            $query->where('status_approve', 'disetujui');
+        })->count();
+        $mahasiswaIsiIRS = Mahasiswa::whereHas('irs')->count();
+
+        // Query mahasiswa dengan pagination
+        $mahasiswa = Mahasiswa::with('irs');
+
+        // Tambahkan fitur pencarian jika ada
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $mahasiswa->where(function ($query) use ($search) {
+                $query->where('nim', 'like', '%' . $search . '%')
+                    ->orWhere('nama_mahasiswa', 'like', '%' . $search . '%')
+                    ->orWhere('semester', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Lakukan pagination
+        $mahasiswaPaginated = $mahasiswa->orderBy('nim', 'asc')->paginate(5);
+
+        // Siapkan data untuk view
+        $data = [
+            'totalMahasiswa' => $totalMahasiswa,
+            'mahasiswaVerified' => $mahasiswaVerified,
+            'mahasiswaIsiIRS' => $mahasiswaIsiIRS,
+            'mahasiswa' => $mahasiswaPaginated
+        ];
+
+        return view('ketuaprogramstudi.monitoringirs.index', compact('data'));
+    }
+
+    public function indexAlokasiRuangan(Request $request)
+    {
+        $user = Auth::user();
+        $kaprodi = $user->dosen->ketuaProgramStudi;
+        $idProgramStudi = $kaprodi->programStudi->id_programstudi;
+
+        $alokasiRuang = PengalokasianRuang::with('programStudi')
+            ->where('status', 'disetujui')
+            ->where('id_programstudi', $idProgramStudi);
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $alokasiRuang->where(function ($query) use ($search) {
+                $query->where('kode_ruang', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%')
+                    ->orWhereHas('programStudi', function ($q) use ($search) {
+                        $q->where('nama_programstudi', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+        $alokasiRuang = $alokasiRuang->orderBy('id', 'desc')->paginate(5);
+        return view('ketuaprogramstudi.alokasiruang.index', compact('alokasiRuang'));
     }
 }

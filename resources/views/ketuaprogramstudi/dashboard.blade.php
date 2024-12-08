@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
-    <title>Dashboard Bagian Akademik</title>
+    <title>Dashboard Ketua Program Studi</title>
     
     <style>
         body {
@@ -269,7 +269,7 @@
                     </div>
                 </div>
             <div class="button-grid">
-                <button class="btn-green" onclick="window.location.href=''">
+                <button class="btn-green" onclick="window.location.href='{{ route('monitoringirs.index')}}'">
                     Monitoring IRS
                 </button>
                 <button class="btn-green" onclick="window.location.href='{{ route('lihatjadwalkuliah.lihat') }}'">
@@ -278,7 +278,7 @@
                 <button class="btn-green" onclick="window.location.href='{{ route('memilihmatakuliah.index') }}'">
                     Penyusunan Mata Kuliah
                 </button>
-                <button class="btn-green" onclick="window.location.href=''">
+                <button class="btn-green" onclick="window.location.href='{{route('alokasiruangan.index')}}'">
                     Daftar Alokasi Ruang Perkuliahan
                 </button>
             </div>

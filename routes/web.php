@@ -116,7 +116,13 @@ Route::get('Ketuaprogramstudi/jadwalkuliah/lihatjadwalkuliah', [KetuaProgramStud
 Route::post('/hitung-jam-selesai', [KetuaProgramStudiController::class, 'hitungJamSelesai'])->name('jadwalkuliah.hitungJamSelesai');
 Route::get('/getRuangan/{id_programstudi}', [KetuaProgramStudiController::class, 'getRuangan']);
 Route::get('/getMatakuliah/{id_programstudi}', [KetuaProgramStudiController::class, 'getMatakuliah']);
-Route::get('/get-dosen/{kode_mk}', [KetuaprogramstudiController::class, 'getDosenByMk']);
+Route::get('/get-dosen/{kode_mk}', [KetuaProgramstudiController::class, 'getDosenByMk']);
+
+// kaprodi monitoring irs
+Route::get('Kaprodi/MonitoringIRS', [KetuaProgramStudiController::class, 'indexMonitoringIRS'])->name('monitoringirs.index');
+
+// kaprodi lihat alokasi ruangan
+Route::get('Kaprodi/LihatAlokasiRuangan', [KetuaProgramStudiController::class, 'indexAlokasiRuangan'])->name('alokasiruangan.index');
 
 // dekan menyetujui ruangan
 Route::get('/dekan/approve-ruang', [DekanController::class, 'indexPengajuanRuang'])->name('dekan.approveruang');
@@ -135,13 +141,6 @@ Route::get('/search-matakuliah', [MahasiswaController::class, 'searchMatakuliah'
 Route::get('/get-matkul-details', [MahasiswaController::class, 'getMatkulDetails'])->name('get.matkul.details');
 Route::post('/irs/store', [MahasiswaController::class, 'store'])->name('irs.store');
 Route::get('/Lihat/IRS', [MahasiswaController::class, 'index'])->name('irs.index');
-
-Route::get('verifikasiirs', function () {
-    return view('pembimbingakademik.verifikasiirs', ['title' => 'verfikasiirs']);
-})->name('verifikasiirs');
-Route::get('lihatirs', function () {
-    return view('pembimbingakademik.lihatirs', ['title' => 'lihatirs']);
-})->name('lihatirs');
 
 Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.delete');
 
