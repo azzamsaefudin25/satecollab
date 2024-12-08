@@ -212,7 +212,7 @@
             <div class="profile-name">
                 <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
                 <p>{{ $nim ?? 'NIM tidak ditemukan' }}</p>
-                <p>Informatika</p>
+                <p>{{ $nama_programstudi ?? 'Tidak tersedia' }}</p>
             </div>
             <div class="btn-container">
                 <button type="button" class="btn btn-outline-secondary"

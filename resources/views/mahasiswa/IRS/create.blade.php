@@ -25,7 +25,7 @@
 
         .header {
             background-color: #658345;
-            color: black;
+            color: white;
             padding: 30px 0;
             width: 100%;
             margin: 0;
@@ -45,6 +45,104 @@
 
         .header img {
             height: 60px;
+        }
+
+        .d-flex {
+            flex-grow: 1;
+        }
+
+        .sidebar {
+            width: 230px;
+            background-color: #f1f1f1;
+            padding: 20px;
+            border-right: 2px solid #658345;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2,
+        .sidebar a {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .sidebar a {
+            display: block;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            margin-left: 40px;
+        }
+
+        .status-section {
+            background-color: #658345;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-section h3 {
+            margin: 0 0 15px 0;
+            color: white;
+        }
+
+        .status-details {
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+
+        .status-details p {
+            margin: 5px 0;
+        }
+
+        .status-section .status-button {
+            background-color: #0014CB;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .profile {
+            margin-top: auto;
+            padding: 20px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-name {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .btn-container button {
+            display: block;
+            margin-top: 10px;
+            width: 45%;
+        }
+
+        .student-performance {
+            background-color: #d1d7b4;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .footer {
@@ -88,55 +186,6 @@
             color: #658345;
             background-color: white;
         }
-
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-        .sidenav a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidenav a:hover {
-            color: #f1f1f1;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
-        #main {
-            transition: margin-left .5s;
-            padding: 16px;
-        }
-
-        @media screen and (max-height: 450px) {
-            .sidenav {
-                padding-top: 15px;
-            }
-
-            .sidenav a {
-                font-size: 18px;
-            }
-        }
     </style>
 </head>
 
@@ -148,37 +197,67 @@
             <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
         </div>
     </header>
-
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Registrasi</a>
-        <a href="#">Pengisian IRS</a>
-        <a href="#">Jadwal Perkuliahan</a>
-        <a href="#">KHS</a>
-        <a href="#">Profile</a>
-        <a href="#">Notifikasi</a>
-        <a href="#">Log Out</a>
+    <div class="d-flex">
+        <div class="sidebar">
+            <a href="#" class="active">
+                <i class="bi bi-grid-fill"></i>
+                Dashboard
+        </a>
+        <a href="{{route('mahasiswa.profile')}}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile</a> 
+        <a href="#" class="menu-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notifikasi
+        </a>
+        <a href="Registrasi" class="menu-item" data-menu="Registrasi">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+              </svg>
+            Registrasi
+        </a>
+        <a href="#Jadwal Perkuliahan" class="menu-item" data-menu="Jadwal Perkuliahan">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+              </svg>
+            Jadwal Perkuliahan
+        </a>
+        <a href="#KHS" class="menu-item" data-menu="KHS">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+              </svg>
+            KHS
+        </a>
+        <a href="#Pengisian IRS" class="menu-item" data-menu="Pengisian IRS">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+              </svg>
+            Pengisian IRS
+        </a>
+        
+        <div class="student-performance">
+            <h3>Prestasi Mahasiswa</h3>
+            <p>IPK: 4.00</p>
+            <p>SKS: 79</p>
+        </div>
+        
+        <div class="profile">
+            <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Image">
+            <div class="profile-name">
+                <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                <p>{{ $nim ?? 'NIM tidak ditemukan' }}</p>
+                <p>Informatika</p>
+            </div>
+            <div class="btn-container">
+                <button type="button" class="btn btn-outline-secondary"
+                    onclick="window.location.href='{{ route('logout') }}'">Logout</button>
+            </div>
+        </div>
     </div>
-
-    <div id="main">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>
-    </div>
-
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-            document.body.style.backgroundColor = "white";
-        }
-    </script>
-
     <div class="container-fluid flex-grow-1">
         <div class="row flex-grow-1">
             <!-- Sidebar -->
@@ -265,21 +344,22 @@
                     <button class="btn btn-success mx-2"
                         onclick="window.location.href='{{ route('irs.index') }}'">LIHAT</button>
                 </div>
-
             </main>
         </div>
     </div>
-    <footer class="footer">
-        <h3>SATE</h3>
-        <p>Sistem Terpadu Akademik. Contact for more Questions below</p>
-        <div class="footer-icons">
-            <a href="#"><i class="bi bi-facebook"></i></a>
-            <a href="#"><i class="bi bi-twitter"></i></a>
-            <a href="#"><i class="bi bi-google"></i></a>
-            <a href="#"><i class="bi bi-youtube"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
-        </div>
-    </footer>
+</div>
+<footer class="footer">
+    <h3>SATE</h3>
+    <p>Sistem Terpadu Akademik. Contact for more Questions below</p>
+    <div class="footer-icons">
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-twitter"></i></a>
+        <a href="#"><i class="bi bi-google"></i></a>
+        <a href="#"><i class="bi bi-youtube"></i></a>
+        <a href="#"><i class="bi bi-linkedin"></i></a>
+    </div>
+</footer>
+</body>
 
     <script>
         $(document).ready(function() {
