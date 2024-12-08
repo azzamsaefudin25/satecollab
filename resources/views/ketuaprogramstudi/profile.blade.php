@@ -27,6 +27,7 @@
             align-items: center;
             justify-content: space-between;
         }
+        
         .header h1 {
             margin: 0;
             font-size: 30px;

@@ -59,6 +59,7 @@
         .sidebar a {
             display: block;
         }
+        
         .main-content {
             flex: 1;
             padding: 30px;
