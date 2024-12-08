@@ -473,7 +473,7 @@
                 </svg>
                 Monitoring IRS
             </a>
-            <a href="{{ route('lihatjadwalkuliah.lihat') }}" class="menu-item" data-menu="Penyusunan jadwal">
+            <a href="{{ route('jadwalkuliah.index') }}" class="menu-item" data-menu="Penyusunan jadwal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-calendar3" viewBox="0 0 16 16">
                     <path

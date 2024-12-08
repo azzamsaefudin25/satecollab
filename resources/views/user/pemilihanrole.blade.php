@@ -15,13 +15,16 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #ffffff;
-        }
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url('{{ asset("backend/img/undip.jpg") }}');
+        background-size: cover; /* Agar gambar menutupi seluruh area */
+        background-repeat: no-repeat; /* Agar gambar tidak diulang */
+        background-position: center; /* Agar gambar berada di tengah */
+    }
 
         .login-container {
             width: 420px;
