@@ -77,7 +77,7 @@ class PembimbingAkademikController extends Controller
         }
 
         // Lakukan pagination
-        $mahasiswaPaginated = $mahasiswa->orderBy('nim', 'asc')->paginate(5);
+        $mahasiswaPaginated = $mahasiswa->orderBy('nama_mahasiswa', 'asc')->paginate(5);
 
         // Siapkan data untuk view
         $data = [

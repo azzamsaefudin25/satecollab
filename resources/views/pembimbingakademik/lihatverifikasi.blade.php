@@ -1,7 +1,7 @@
 @extends('layout.template_p')
 @section('content')
+    <h2>Detail IRS Mahasiswa: {{ $mahasiswa->nama_mahasiswa ?? 'N/A' }}</h2>
     <div class="content">
-        <h2>Detail IRS Mahasiswa: {{ $mahasiswa->nama_mahasiswa ?? 'N/A' }}</h2>
         <table class="table">
             <thead>
                 <tr>
