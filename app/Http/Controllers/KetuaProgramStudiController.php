@@ -103,7 +103,7 @@ class KetuaProgramStudiController extends Controller
             ->orderBy('hari', 'desc')
             ->paginate(5);
 
-        return view('ketuaprogramstudi.lihatjadwalkuliah', compact('jadwal'));
+        return view('ketuaprogramstudi.jadwalkuliah.index', compact('jadwal'));
     }
 
 
@@ -495,7 +495,7 @@ class KetuaProgramStudiController extends Controller
 
         // Periksa apakah status jadwal adalah "menunggu konfirmasi"
         if ($jadwalKuliah->status !== 'menunggu konfirmasi') {
-            return redirect()->route('lihatjadwalkuliah.lihat')->withErrors('Hanya jadwal dengan status menunggu konfirmasi yang dapat dihapus.');
+            return redirect()->route('jadwalkuliah.index')->withErrors('Hanya jadwal dengan status menunggu konfirmasi yang dapat dihapus.');
         }
 
         // Hapus jadwal kuliah

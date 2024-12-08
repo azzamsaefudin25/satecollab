@@ -276,7 +276,7 @@
                 </svg>
                 Notifikasi
             </a>
-            <a href="#monitoring-irs" class="menu-item" data-menu="Monitoring IRS">
+            <a href="{{ route('monitoringirs.index') }}" class="menu-item" data-menu="Monitoring IRS">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-pc-display-horizontal" viewBox="0 0 16 16">
                     <path
@@ -308,7 +308,7 @@
                 Penyusunan Mata Kuliah
             </a>
 
-            <a href="#Daftar Alokasi Ruang Perkuliahan" class="menu-item"
+            <a href="{{route('alokasiruangan.index')}}" class="menu-item"
                 data-menu="Daftar Alokasi Ruang Perkuliahan  ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-door-closed" viewBox="0 0 16 16">
