@@ -8,10 +8,12 @@
     <title>SATE - Sistem Akademik Terpadu dan Efisien</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        html, body {
+        html,
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -61,17 +63,18 @@
         }
 
         .sidebar {
-            width: 250px; 
+            width: 250px;
             background-color: #fff;
             padding: 20px;
             border-right: 1px solid #ddd;
-            overflow-y: auto; 
+            overflow-y: auto;
         }
 
         .content {
             flex-grow: 1;
             padding: 20px;
-            overflow-y: auto; /* Allow content scrolling */
+            overflow-y: auto;
+            /* Allow content scrolling */
             background-color: white;
         }
 
@@ -98,7 +101,8 @@
         }
 
         .menu-item svg {
-            flex-shrink: 0; /* Prevent icon from shrinking */
+            flex-shrink: 0;
+            /* Prevent icon from shrinking */
         }
 
         .footer {
@@ -237,6 +241,30 @@
             text-decoration: none;
         }
 
+        .profile {
+            margin-top: auto;
+            padding: 20px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-name {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logout-button {
+            display: block;
+            margin-top: 10px;
+            width: 45%;
+        }
     </style>
 </head>
 
@@ -278,20 +306,35 @@
                 Notifikasi
             </a>
             <a href="#Penyusunan Ruang Perkuliahan" class="menu-item" data-menu="Penyusunan Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
-                  </svg>
-                Penyusunan Ruang Perkuliahan
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-door-closed" viewBox="0 0 16 16">
+                    <path
+                        d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z" />
+                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0" />
+                </svg>
+                Entry Nilai
             </a>
             <a href="#Pengalokasian Ruang Perkuliahan" class="menu-item" data-menu="Pengalokasian Ruang Perkuliahan">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
-                  </svg>
-                Pengalokasian Ruang Perkuliahan
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-door-closed" viewBox="0 0 16 16">
+                    <path
+                        d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z" />
+                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0" />
+                </svg>
+                Jadwal Kuliah
             </a>
-
+            <div class="profile">
+                <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Image">
+                <div class="profile-name">
+                    <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                    <p>{{ $nip ?? 'NIP tidak ditemukan' }}</p>
+                    <p>Informatika</p>
+                </div>
+                <div class="logout-button">
+                    <button type="button" class="btn btn-outline-secondary"
+                        onclick="window.location.href='{{ route('logout') }}'">Logout</button>
+                </div>
+            </div>
         </div>
         <div class="content">
             <div class="container">

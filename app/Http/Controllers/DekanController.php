@@ -11,26 +11,36 @@ use Illuminate\Support\Facades\Log;
 
 class DekanController extends Controller
 {
-    // public function dashboard()
-    // {
-    //     $user = Auth::user();
-    //     $dekan = $user->dosen ? $user->dosen->dekan : null;
-    //     if (!$user) {
-    //         return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
-    //     }
+    public function profile()
+    {
+        $user = Auth::user();
+        $dekan = $user->dosen ? $user->dosen->dekan : null;
 
-    //     $nama = $user->name;
-    //     $nidn = null;
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
 
-    //     if ($dekan) {
-    //         $nidn = $dekan->nidn_dekan;
-    //         return view('dekan.dashboard', compact('nama', 'nidn'));
-    //     }
-    //     // return redirect()->route('home');
-    // }
+        $nama = $user->name;
+        $nidn = null;
+
+        if ($dekan) {
+            $nidn = $dekan->nidn_dekan;
+            return view('dekan.profile', compact('nama', 'nidn'));
+        }
+        return redirect()->route('home');
+    }
 
     public function indexPengajuanRuang(Request $request)
     {
+        $user = Auth::user();
+        $dekan = $user->dosen ? $user->dosen->dekan : null;
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nidn = $dekan->nidn_dekan;
+
         $pengajuans_ruang = PengalokasianRuang::with('programStudi');
         $prodis = ProgramStudi::all(); // Ambil semua prodi 
 
@@ -47,7 +57,7 @@ class DekanController extends Controller
 
         $pengajuans_ruang = $pengajuans_ruang->orderBy('id_programstudi', 'asc')->paginate(5);
 
-        return view('dekan.approveruang', compact('pengajuans_ruang', 'prodis'));
+        return view('dekan.approveruang', compact('pengajuans_ruang', 'prodis', 'nama', 'nidn'));
     }
 
     public function updatePengajuanRuangPerProdi(Request $request)
@@ -91,10 +101,17 @@ class DekanController extends Controller
         return redirect()->route('dekan.approveruang')->with('error', 'Tindakan tidak valid.');
     }
 
-
-
     public function indexPengajuanJadwal(Request $request)
     {
+        $user = Auth::user();
+        $dekan = $user->dosen ? $user->dosen->dekan : null;
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nidn = $dekan->nidn_dekan;
+
         $pengajuans_jadwal = JadwalKuliah::with('mataKuliah');
         $prodis = ProgramStudi::all();
 
@@ -120,7 +137,7 @@ class DekanController extends Controller
         }
         $pengajuans_jadwal = $pengajuans_jadwal->orderBy('hari', 'desc')->paginate(5);
 
-        return view('dekan.approvejadwal', compact('pengajuans_jadwal', 'prodis'));
+        return view('dekan.approvejadwal', compact('pengajuans_jadwal', 'prodis', 'nama', 'nidn'));
     }
 
 

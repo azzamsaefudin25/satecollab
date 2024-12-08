@@ -9,20 +9,10 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\DosenPengampuController;
 use App\Http\Controllers\PembimbingAkademikController;
 use App\Http\Controllers\IRSController;
+use App\Models\BagianAkademik;
 use App\Models\Dekan;
 use App\Models\Ketuaprogramstudi;
 use App\Models\Mahasiswa;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -68,13 +58,6 @@ Route::get('logout', [UserController::class, 'logout'])->name('logout');
 Route::post('pemilihanrole', [UserController::class, 'handleRoleSelection'])->name('handleRoleSelection');
 
 // input dashboard
-// Route::get('/bagianakademik/dashboard', [BagianAkademikController::class, 'dashboard'])->name('bagianakademik');
-// Route::get('/dekan/dashboard', [DekanController::class, 'dashboard'])->name('dekan');
-// Route::get('/ketuaprogramstudi/dashboard', [KetuaProgramStudiController::class, 'dashboard'])->name('ketuaprogramstudi');
-// Route::get('/pembimbingakademik/dashboard', [PembimbingAkademikController::class, 'dashboard'])->name('pembimbingakademik');
-// Route::get('/dosenpengampu/dashboard', [DosenPengampuController::class, 'dashboard'])->name('dosenpengampu');
-// Route::get('/mahasiswa/dashboard', [MahasiswaController::class, 'dashboard'])->name('mahasiswa');
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/bagianakademik', [UserController::class, 'dashboard'])->name('bagianakademik');
     Route::get('/dashboard/dekan', [UserController::class, 'dashboard'])->name('dekan');
@@ -141,6 +124,7 @@ Route::get('/search-matakuliah', [MahasiswaController::class, 'searchMatakuliah'
 Route::get('/get-matkul-details', [MahasiswaController::class, 'getMatkulDetails'])->name('get.matkul.details');
 Route::post('/irs/store', [MahasiswaController::class, 'store'])->name('irs.store');
 Route::get('/Lihat/IRS', [MahasiswaController::class, 'index'])->name('irs.index');
+Route::get('/Index/Jadwal', [MahasiswaController::class, 'indexJadwal'])->name('jadwal.index');
 
 Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.delete');
 
@@ -150,9 +134,13 @@ Route::get('/masuk/IRS/verifikasi/{nim}', [PembimbingAkademikController::class, 
 Route::post('/pembimbing-akademik/persetujuan-irs', [PembimbingAkademikController::class, 'persetujuanIRS'])->name('pembimbingakademik.persetujuanirs');
 
 Route::get('/check-irs-status', [MahasiswaController::class, 'checkStatus'])->name('check.irs.status');
-// profile
-// Route::get('profile', function () {
-//     return view('mahasiswa.profile', ['title' => 'profile']);
-// })->name('mahasiswa.profile');
 
+Route::get('/dashboard/registrasi/mahasiswa', [MahasiswaController::class, 'indexRegistrasi'])->name('mahasiswa.registrasi');
+Route::get('/dashboard/khs/mahasiswa', [MahasiswaController::class, 'indexKHS'])->name('mahasiswa.khs');
+
+// profile
 Route::get('/dashboard/profile/mahasiswa', [MahasiswaController::class, 'profile'])->name('mahasiswa.profile');
+Route::get('/dashboard/profile/bagianakademik', [BagianAkademikController::class, 'profile'])->name('bagianakademik.profile');
+Route::get('/dashboard/profile/dekan', [DekanController::class, 'profile'])->name('dekan.profile');
+Route::get('/dashboard/profile/ketuaprogramstudi', [KetuaProgramStudiController::class, 'profile'])->name('ketuaprogramstudi.profile');
+Route::get('/dashboard/profile/pembimbingakademik', [PembimbingAkademikController::class, 'profile'])->name('pembimbingakademik.profile');

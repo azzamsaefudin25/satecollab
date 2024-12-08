@@ -132,7 +132,10 @@ class UserController extends Controller
         $nip = null;
         $nidn = null;
         $nim = null;
+        $id_programstudi = null;
+        $nama_programstudi = null;
         $view = null;
+
         $bagianAkademik = $user->bagianAkademik;
         $dekan = $user->dosen ? $user->dosen->dekan : null;
         $pembimbingAkademik = $user->dosen ? $user->dosen->pembimbingAkademik : null;
@@ -140,6 +143,7 @@ class UserController extends Controller
         $mahasiswa = $user->mahasiswa;
         $dosen = $user->dosen;
         $prodi = $user->mahasiswa ? $user->mahasiswa->programStudi : null;
+
         // Tentukan NIP dan tampilan berdasarkan role yang dipilih
         if (session('role') == 'bagianakademik' && $bagianAkademik) {
             $nip = $user->bagianAkademik->nip;
@@ -149,23 +153,30 @@ class UserController extends Controller
             $view = 'dekan.dashboard';
         } elseif (session('role') == 'ketuaprogramstudi' && $ketuaProgramStudi) {
             $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
+            $id_programstudi = $ketuaProgramStudi->programStudi->id_programstudi ?? null;
+            $nama_programstudi = $ketuaProgramStudi->programStudi->nama_programstudi ?? 'Program Studi tidak ditemukan';
             $view = 'ketuaprogramstudi.dashboard';
         } elseif (session('role') == 'pembimbingakademik' && $pembimbingAkademik) {
             $nidn = $pembimbingAkademik->nidn_pembimbingakademik;
+            $id_programstudi = $pembimbingAkademik->dosen->programStudi->id_programstudi ?? null;
+            $nama_programstudi = $pembimbingAkademik->dosen->programStudi->nama_programstudi ?? 'Program Studi tidak ditemukan';
             $view = 'pembimbingakademik.dashboard';
         } elseif (session('role') == 'dosenpengampu' && $dosen) {
             $nidn = $dosen->nidn_dosen;
             $view = 'dosenpengampu.dashboard';
         } elseif (session('role') == 'mahasiswa' && $mahasiswa) {
             $nim = $mahasiswa->nim;
+            // $ipk = $mahasiswa->ipk ?? 'N/A';
             $jurusan = $prodi->nama_programstudi;
+            $id_programstudi = $mahasiswa->programStudi->id_programstudi ?? null;
+            $nama_programstudi = $mahasiswa->programStudi->nama_programstudi ?? 'Program Studi tidak ditemukan';
             $view = 'mahasiswa.dashboard';
         } else {
             return redirect()->route('home')->withErrors(['message' => 'Role tidak dikenali atau tidak ada data terkait.']);
         }
 
         // Kirim data nama dan nip ke tampilan yang sesuai
-        return view($view, compact('nama', 'nip', 'nidn', 'nim'));
+        return view($view, compact('nama', 'nip', 'nidn', 'nim', 'id_programstudi', 'nama_programstudi'));
     }
 
     public function password()
@@ -196,31 +207,3 @@ class UserController extends Controller
         return redirect()->route('login')->with('success', 'Anda Berhasil Logout');
     }
 }
-
-    // public function handleRoleSelection(Request $request)
-    // {
-    //     $request->validate([
-    //         'role' => 'required|string',
-    //     ]);
-
-    //     // Simpan role yang dipilih di session
-    //     session(['role' => $request->role]);
-
-    //     // Redirect ke dashboard berdasarkan role yang dipilih
-    //     switch ($request->role) {
-    //         case 'mahasiswa':
-    //             return redirect()->route('mahasiswa');
-    //         case 'pembimbingakademik':
-    //             return redirect()->route('pembimbingakademik');
-    //         case 'ketuaprogramstudi':
-    //             return redirect()->route('ketuaprogramstudi');
-    //         case 'dekan':
-    //             return redirect()->route('dekan');
-    //         case 'bagianakademik':
-    //             return redirect()->route('bagianakademik');
-    //         case 'dosenpengampu':
-    //             return redirect()->route('dosenpengampu');
-    //         default:
-    //             return redirect()->route('home');
-    //     }
-    // }

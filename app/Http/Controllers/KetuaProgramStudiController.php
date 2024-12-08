@@ -10,6 +10,7 @@ use App\Models\Dosen;
 use App\Models\DosenPengampu;
 use App\Models\MataKuliah;
 use App\Models\JadwalKuliah;
+use App\Models\Ketuaprogramstudi;
 use App\Models\PengalokasianRuang;
 use App\Models\ProgramStudi;
 use App\Models\Mahasiswa;
@@ -21,25 +22,25 @@ use Illuminate\Support\Facades\DB;
 
 class KetuaProgramStudiController extends Controller
 {
-    // public function dashboard()
-    // {
-    //     $user = Auth::user();
-    //     $ketuaProgramStudi = $user->dosen ? $user->dosen->ketuaProgramStudi : null;
+    public function profile()
+    {
+        $user = Auth::user();
+        $ketuaprogramstudi = $user->dosen ? $user->dosen->ketuaprogramstudi : null;
 
-    //     if (!$user) {
-    //         return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
-    //     }
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
 
-    //     $nama = $user->name;
-    //     $nidn = null;
+        $nama = $user->name;
+        $nidn = null;
 
-    //     if ($ketuaProgramStudi) {
-    //         $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
-    //         return view('ketuaprogramstudi.dashboard', compact('nama', 'nidn'));
-    //     }
-    //     return redirect()->route('home');
-    // }
-
+        if ($ketuaprogramstudi) {
+            $nidn = $ketuaprogramstudi->nidn_ketuaprogramstudi;
+            $programstudi = $ketuaprogramstudi->programStudi->nama_programstudi;
+            return view('ketuaprogramstudi.profile', compact('nama', 'nidn', 'programstudi'));
+        }
+        return redirect()->route('home');
+    }
 
     public function getRuangan($id_programstudi)
     {
@@ -60,26 +61,22 @@ class KetuaProgramStudiController extends Controller
         return response()->json($matakuliah);
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index() {}
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
     public function indexjadwalKuliah()
     {
         $user = Auth::user();
 
+        $ketuaProgramStudi = $user->dosen ? $user->dosen->ketuaProgramStudi : null;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
         // Periksa apakah user memiliki relasi dosen
         if (!$user->dosen) {
             return redirect()->back()->withErrors('Akun Anda tidak terhubung dengan data dosen');
         }
-
-        // Cari data Ketua Program Studi yang terkait dengan user ini
-        $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
 
         if (!$ketuaProgramStudi) {
             return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
@@ -103,7 +100,7 @@ class KetuaProgramStudiController extends Controller
             ->orderBy('hari', 'desc')
             ->paginate(5);
 
-        return view('ketuaprogramstudi.jadwalkuliah.index', compact('jadwal'));
+        return view('ketuaprogramstudi.jadwalkuliah.index', compact('jadwal', 'nama', 'nidn'));
     }
 
 
@@ -131,6 +128,9 @@ class KetuaProgramStudiController extends Controller
             'ID Program Studi' => $ketuaProgramStudi->id_programstudi
         ]);
 
+        $nama = $user->name;
+        $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
+
         // Ambil Program Studi milik Ketua Program Studi
         $programStudi = ProgramStudi::find($ketuaProgramStudi->id_programstudi);
         // dd($request->all());
@@ -140,7 +140,7 @@ class KetuaProgramStudiController extends Controller
             return redirect()->back()->withErrors('Program Studi tidak ditemukan');
         }
 
-        return view('ketuaprogramstudi.memilihmatakuliah.create', compact('programStudi'));
+        return view('ketuaprogramstudi.memilihmatakuliah.create', compact('programStudi', 'nama', 'nidn'));
     }
 
     public function createJadwalKuliah()
@@ -158,7 +158,8 @@ class KetuaProgramStudiController extends Controller
         if (!$ketuaProgramStudi) {
             return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
         }
-
+        $nama = $user->name;
+        $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
         // Ambil Program Studi milik Ketua Program Studi
         $programStudi = ProgramStudi::find($ketuaProgramStudi->id_programstudi);
 
@@ -178,7 +179,7 @@ class KetuaProgramStudiController extends Controller
         // Filter dosen berdasarkan id_programstudi (opsional)
         $dosen = Dosen::all();
 
-        return view('ketuaprogramstudi.jadwalkuliah.create', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'dosen', 'programStudi'));
+        return view('ketuaprogramstudi.jadwalkuliah.create', compact('matakuliah', 'ruangperkuliahan', 'kelas', 'dosen', 'programStudi', 'nama', 'nidn'));
     }
 
 
@@ -389,6 +390,9 @@ class KetuaProgramStudiController extends Controller
         // Cari data Ketua Program Studi yang terkait dengan user ini
         $ketuaProgramStudi = $user->dosen->ketuaProgramStudi;
 
+        $nama = $user->name;
+        $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
+
         if (!$ketuaProgramStudi) {
             return redirect()->back()->withErrors('Anda tidak memiliki akses sebagai Ketua Program Studi');
         }
@@ -428,18 +432,28 @@ class KetuaProgramStudiController extends Controller
             ]);
         }
 
-        return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah'));
+        return view('ketuaprogramstudi.memilihmatakuliah.index', compact('matakuliah', 'nama', 'nidn'));
     }
 
     public function editMemilihMataKuliah($kode_mk)
     {
+        $user = Auth::user();
+        $ketuaProgramStudi = $user->dosen ? $user->dosen->ketuaProgramStudi : null;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
+
         $matakuliah = MataKuliah::where('kode_mk', $kode_mk)->first();
 
         if (!$matakuliah) {
             return redirect()->route('memilihmatakuliah.index')->withErrors('Mata kuliah tidak ditemukan.');
         }
 
-        return view('ketuaprogramstudi.memilihmatakuliah.edit', compact('matakuliah'));
+        return view('ketuaprogramstudi.memilihmatakuliah.edit', compact('matakuliah', 'nama', 'nidn'));
     }
 
     public function updateMemilihMataKuliah(Request $request, $kode_mk)
@@ -507,6 +521,16 @@ class KetuaProgramStudiController extends Controller
 
     public function indexMonitoringIRS(Request $request)
     {
+        $user = Auth::user();
+        $ketuaProgramStudi = $user->dosen ? $user->dosen->ketuaProgramStudi : null;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
+
         // Hitung statistik total tanpa pagination
         $totalMahasiswa = Mahasiswa::all()->count();
         $mahasiswaVerified = Mahasiswa::whereHas('irs', function ($query) {
@@ -538,14 +562,21 @@ class KetuaProgramStudiController extends Controller
             'mahasiswa' => $mahasiswaPaginated
         ];
 
-        return view('ketuaprogramstudi.monitoringirs.index', compact('data'));
+        return view('ketuaprogramstudi.monitoringirs.index', compact('data', 'nama', 'nidn'));
     }
 
     public function indexAlokasiRuangan(Request $request)
     {
         $user = Auth::user();
-        $kaprodi = $user->dosen->ketuaProgramStudi;
-        $idProgramStudi = $kaprodi->programStudi->id_programstudi;
+        $ketuaProgramStudi = $user->dosen ? $user->dosen->ketuaProgramStudi : null;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nidn = $ketuaProgramStudi->nidn_ketuaprogramstudi;
+        $idProgramStudi = $ketuaProgramStudi->programStudi->id_programstudi;
 
         $alokasiRuang = PengalokasianRuang::with('programStudi')
             ->where('status', 'disetujui')
@@ -562,6 +593,6 @@ class KetuaProgramStudiController extends Controller
             });
         }
         $alokasiRuang = $alokasiRuang->orderBy('id', 'desc')->paginate(5);
-        return view('ketuaprogramstudi.alokasiruang.index', compact('alokasiRuang'));
+        return view('ketuaprogramstudi.alokasiruang.index', compact('alokasiRuang', 'nama', 'nidn'));
     }
 }

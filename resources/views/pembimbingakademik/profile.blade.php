@@ -11,7 +11,7 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
         rel="stylesheet">
-    <title>Profile Mahasiswa</title>
+    <title>Profile Pembimbing Akademik</title>
 
     <style>
         body {
@@ -27,7 +27,7 @@
         .header {
             background-color: #658345;
             color: black;
-            padding: 20px;
+            padding: 30px;
             text-align: left;
             display: flex;
             align-items: center;
@@ -37,13 +37,12 @@
         .header h1 {
             margin: 0;
             font-size: 30px;
-            margin-left: 20px;
             color: black;
         }
 
         .header img {
             height: 60px;
-            /* margin-right: 20px; */
+            margin-right: 20px;
         }
 
         .header-content {
@@ -166,33 +165,49 @@
 
 <body>
 
-    <div class="header">
+    <header class="header">
         <div class="header-content">
-            <a href="{{ route('mahasiswa') }}">
+            <a href="{{ route('pembimbingakademik') }}">
                 <img src="{{ asset('backend\img\logoSate-removebg-preview.png') }}" alt="SATE Logo">
             </a>
-            <a href="{{ route('mahasiswa') }}" style="text-decoration: none;">
+            <a href="{{ route('pembimbingakademik') }}" style="text-decoration: none;">
                 <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
             </a>
         </div>
-    </div>
+    </header>
 
     <div class="content-wrapper">
         <div class="sidebar">
-            <a href="{{ route('mahasiswa') }}">Dashboard</a>
-            <a href="#">Profile</a>
-            <a href="#">Notifikasi</a>
-            <div class="student-performance">
-                <h3>Prestasi Mahasiswa</h3>
-                <p>IPK: {{$ipk ?? 'N/A'}}</p>
-                <p>SKS: 79</p>
-            </div>
+            <a href="{{ route('pembimbingakademik') }}" class="menu-item active">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <path d="M9 3v18" />
+                    <path d="M3 9h18" />
+                </svg>
+                Dashboard
+            </a>
+            <a href="{{ route('pembimbingakademik.profile') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+                Profile</a>
+            <a href="#" class="menu-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+                Notifikasi
+            </a>
 
             <div class="profile">
                 <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Image">
                 <div class="profile-name">
-                    <p>Nama: {{ $nama ?? 'User tidak ditemukan' }}</p>
-                    <p>NIM: {{ $nim ?? 'NIM tidak ditemukan' }}</p>
+                    <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                    <p>{{ $nidn ?? 'NIP tidak ditemukan' }}</p>
                     <p>Informatika</p>
                 </div>
                 <div class="btn-container">
@@ -202,6 +217,7 @@
             </div>
         </div>
 
+
         <div class="main-content">
             <div class="card mx-auto shadow">
                 <div class="row">
@@ -209,20 +225,19 @@
                         <div class="profile-picture rounded"></div>
                     </div>
                     <div class="col-md-8">
-                        <h5 class="card-title">Informasi Mahasiswa</h5>
-                        <p><strong>NIM</strong> {{ $nim ?? 'NIM tidak ditemukan' }}</p>
+                        <h5 class="card-title">Informasi Pembimbing Akademik</h5>
+                        <p><strong>NIP</strong> {{ $nidn ?? 'NIP tidak ditemukan' }}</p>
                         <p><strong>Nama</strong> {{ $nama ?? 'User tidak ditemukan' }}</p>
+                        <p><strong>Program Studi</strong> {{ $programstudi ?? 'N/A' }}</p>
                         <p><strong>Fakultas</strong> : Fakultas Sains dan Matematika</p>
-                        <p><strong>Prodi</strong> : Informatika</p>
-                        <p><strong>Angkatan</strong> : 2022</p>
                         <hr>
                         <p><strong>Tempat lahir</strong>: Manchester</p>
-                        <p><strong>Tanggal lahir</strong>: 1 Februari 1999</p>
+                        <p><strong>Tanggal lahir</strong>: 01 Januari 1970</p>
                         <p><strong>Kode Kewarganegaraan</strong>: 666666</p>
-                        <p><strong>Nomor HP</strong>: 08123456789</p>
-                        <p><strong>Email SSO</strong>: p@students.undip.ac.id</p>
-                        <p><strong>Email pribadi</strong>:p@gmail.com</p>
-                        <p><strong>Alamat</strong>: Oxford Road</p>
+                        <p><strong>Nomor HP</strong>: 081206060606</p>
+                        <p><strong>Email SSO</strong>:budi@students.ac.id</p>
+                        <p><strong>Email pribadi</strong>:budi@gmail.com</p>
+                        <p><strong>Alamat</strong>: Manchester</p>
                     </div>
                 </div>
             </div>

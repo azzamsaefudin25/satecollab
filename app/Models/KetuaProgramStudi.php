@@ -12,7 +12,7 @@ class Ketuaprogramstudi extends Model
     // Mengatur primary key (default di Laravel adalah 'id', jadi kita sesuaikan)
     protected $primaryKey = 'nidn_ketuaprogramstudi';
     public $incrementing = false; // Primary key tipe string, bukan integer yang auto-increment
-    
+
     protected $keyType = 'string'; // Tipe data dari primary key adalah string
 
     // Tentukan tabel yang terkait dengan model ini (jika nama tabel berbeda dari plural model)
@@ -31,8 +31,7 @@ class Ketuaprogramstudi extends Model
         return $this->belongsTo(Dosen::class, 'nidn_ketuaprogramstudi', 'nidn_dosen');
     }
     public function programStudi()
-{
-    return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
-}
-
+    {
+        return $this->belongsTo(ProgramStudi::class, 'id_programstudi', 'id_programstudi');
+    }
 }

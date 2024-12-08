@@ -43,6 +43,7 @@
             margin: 0;
             font-size: 30px;
             margin-left: 20px;
+            color: black;
         }
 
         .header img {
@@ -244,14 +245,18 @@
 
     <header class="header">
         <div class="header-content">
-            <img src="{{ asset('backend\img\logoSate-removebg-preview.png') }}" alt="SATE Logo">
-            <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
+            <a href="{{ route('pembimbingakademik') }}">
+                <img src="{{ asset('backend\img\logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            </a>
+            <a href="{{ route('ketuaprogramstudi') }}" style="text-decoration: none;">
+                <h1>SATE <br><small>Sistem Akademik Terpadu Efisien</small></h1>
+            </a>
         </div>
     </header>
 
     <div class="content-wrapper">
         <div class="sidebar">
-            <a href="#" class="menu-item active">
+            <a href="{{ route('pembimbingakademik') }}" class="menu-item active">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -260,7 +265,7 @@
                 </svg>
                 Dashboard
             </a>
-            <a href="{{ route('mahasiswa.profile') }}">
+            <a href="{{ route('pembimbingakademik.profile') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
@@ -281,10 +286,10 @@
                 <div class="profile-name">
                     <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
                     <p>{{ $nidn ?? 'NIDN tidak ditemukan' }}</p>
-                    <p>Informatika</p>
+                    <p>{{ $nama_programstudi ?? 'Tidak tersedia' }}</p>
                 </div>
                 <div class="btn-container">
-                    <button type="button" class="btn btn-outline-secondary"
+                    <button type="button" class="btn btn-outline-secondary w-75"
                         onclick="window.location.href='{{ route('logout') }}'">Logout</button>
                 </div>
             </div>

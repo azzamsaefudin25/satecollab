@@ -282,7 +282,7 @@
         <!-- Main Content -->
         <div class="main-container">
             <main>
-                <h2 class="text-center">IRS</h2>
+                <h2 class="text-center">Jadwal Kuliah</h2>
                 <h3 class="text-center mt-5">Daftar Mata Kuliah</h3>
                 <div class="table-responsive">
                     <table class="table table-bordered mt-3 text-center" id="jadwalTable" border="1">
@@ -302,7 +302,6 @@
                                 <th>Kode Ruang</th>
                                 <th>Nama Dosen Pengampu</th>
                                 <th>Status</th>
-                                <th>Status Approve</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -338,7 +337,6 @@
                                         @endif
                                     </td>
                                     <td>{{ $irs->status ?? 'N/A' }}</td>
-                                    <td>{{ $irs->status_approve ?? 'N/A' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -347,7 +345,7 @@
 
                 <div class="text-center mt-4">
                     <button type="button" class="btn btn-dark back-button"
-                        onclick="window.location.href='{{ route('irs.create') }}'"><svg
+                        onclick="window.location.href='{{ route('mahasiswa') }}'"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-arrow-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"

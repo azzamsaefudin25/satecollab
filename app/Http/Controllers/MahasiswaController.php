@@ -26,7 +26,8 @@ class MahasiswaController extends Controller
 
         if ($mahasiswa) {
             $nim = $mahasiswa->nim;
-            return view('mahasiswa.profile', compact('nama', 'nim'));
+            $ipk = $mahasiswa->ipk;
+            return view('mahasiswa.profile', compact('nama', 'nim','ipk'));
         }
         return redirect()->route('home');
     }
@@ -58,7 +59,8 @@ class MahasiswaController extends Controller
         });
         return view('mahasiswa.IRS.create', compact('jadwal', 'irsData', 'jadwalKuliah'), [
             'user' => $user,
-            'nim' => $mahasiswa->nim
+            'nim' => $mahasiswa->nim,
+            'ipk' => $mahasiswa->ipk
         ]);
     }
 
@@ -182,7 +184,9 @@ class MahasiswaController extends Controller
         }
 
         $mahasiswa = $user->mahasiswa;
+        $nama = $user->name;
         $nim = $mahasiswa->nim;
+        $ipk = $mahasiswa->ipk;
         // Debug query
         $irsIndex = IRS::with(['mahasiswa', 'jadwalKuliah'])
             ->where('nim', $nim)
@@ -196,11 +200,80 @@ class MahasiswaController extends Controller
             return $item->kode_mk . '-' . $item->nama_kelas;
         });
 
-        return view('mahasiswa.IRS.index', compact('irsIndex', 'jadwalKuliah'));
+        return view('mahasiswa.IRS.index', compact('irsIndex', 'jadwalKuliah', 'nama', 'nim', 'ipk'));
     }
+
+    public function indexJadwal()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $mahasiswa = $user->mahasiswa;
+        $nama = $user->name;
+        $nim = $mahasiswa->nim;
+        $ipk = $mahasiswa->ipk;
+        // Debug query
+        $irsIndex = IRS::with(['mahasiswa', 'jadwalKuliah'])
+            ->where('nim', $nim)
+            ->where('status_approve', 'disetujui')
+            ->get();
+
+        if ($irsIndex->isEmpty()) {
+            dd('Tidak ada data untuk NIM: ' . $nim);
+        }
+
+        $jadwalKuliah = JadwalKuliah::all()->keyBy(function ($item) {
+            return $item->kode_mk . '-' . $item->nama_kelas;
+        });
+
+        return view('mahasiswa.jadwalkuliah', compact('irsIndex', 'jadwalKuliah', 'nama', 'nim', 'ipk'));
+    }
+
+    public function indexRegistrasi()
+    {
+        $user = Auth::user();
+        $mahasiswa = $user->mahasiswa;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nim = null;
+        $ipk = $mahasiswa->ipk;
+        if ($mahasiswa) {
+            $nim = $mahasiswa->nim;
+            return view('mahasiswa.registrasi', compact('nama', 'nim', 'ipk'));
+        }
+        return redirect()->route('home');
+    }
+    public function indexKHS()
+    {
+        $user = Auth::user();
+        $mahasiswa = $user->mahasiswa;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nim = null;
+        $ipk = $mahasiswa->ipk;
+        if ($mahasiswa) {
+            $nim = $mahasiswa->nim;
+            return view('mahasiswa.khs', compact('nama', 'nim', 'ipk'));
+        }
+        return redirect()->route('home');
+    }
+
     public function store(Request $request)
     {
         $responseMessages = [];
+        DB::beginTransaction(); // Mulai transaksi database
+
         try {
             // Ambil data mahasiswa
             $user = Auth::user();
@@ -209,9 +282,6 @@ class MahasiswaController extends Controller
             if (!$mahasiswa) {
                 throw new \Exception('Mahasiswa tidak ditemukan untuk user ini.');
             }
-
-            // Log nilai awal SKS
-            Log::info('Jumlah SKS Awal: ' . $mahasiswa->jumlah_sks);
 
             // Periksa apakah ada data IRS yang dikirim
             if (!$request->has('irsData') || empty($request->irsData)) {
@@ -256,22 +326,27 @@ class MahasiswaController extends Controller
                     throw new \Exception("Penambahan SKS melebihi batas maksimal: $maxSks SKS.");
                 }
 
-                // Hitung prioritas berdasarkan semester mahasiswa dan jadwal
-                $priority = $jadwal->semester < $mahasiswa->semester ? 1 : ($jadwal->semester == $mahasiswa->semester ? 2 : 3);
+                // Cek apakah mahasiswa sudah pernah mengambil mata kuliah ini di kelas yang sama
+                $existingIRS = IRS::where('nim', $mahasiswa->nim)
+                    ->where('kode_mk', $data['kode_mk'])
+                    ->where('nama_kelas', $data['nama_kelas'])
+                    ->where('status_approve', 'menunggu konfirmasi')
+                    ->first();
 
-                if ($jadwal->terisi >= $jadwal->kapasitas) {
-                    // Cari mahasiswa terendah prioritasnya untuk dihapus
-                    $lowestPriorityIRS = IRS::where('id_jadwal', $jadwal->id_jadwal)
-                        ->orderBy('priority', 'desc')
-                        ->first();
-
-                    if ($lowestPriorityIRS) {
-                        // Hapus IRS dengan prioritas terendah
-                        $lowestPriorityIRS->delete();
-                        $jadwal->decrement('terisi');
+                // Hapus IRS yang sudah ada sebelumnya untuk mata kuliah dan kelas yang sama
+                if ($existingIRS) {
+                    // Kembalikan SKS ke jadwal kuliah
+                    $jadwalExisting = $existingIRS->jadwalKuliah;
+                    if ($jadwalExisting) {
+                        $jadwalExisting->decrement('terisi');
                     }
+
+                    // Hapus IRS yang sudah ada
+                    $existingIRS->delete();
                 }
-                $priority = 0; // Default prioritas
+
+                // Hitung prioritas
+                $priority = 0;
                 if ($jadwal->semester > $mahasiswa->semester) {
                     $priority = 3;
                 } elseif ($jadwal->semester == $mahasiswa->semester) {
@@ -281,9 +356,9 @@ class MahasiswaController extends Controller
                 }
 
                 // Buat IRS baru
-                IRS::create([
+                $irs = IRS::create([
                     'id_jadwal' => $jadwal->id_jadwal,
-                    'nim' => $data['nim'],
+                    'nim' => $mahasiswa->nim,
                     'kode_mk' => $data['kode_mk'],
                     'nama_kelas' => $data['nama_kelas'],
                     'sks' => $jadwal->sks,
@@ -298,25 +373,26 @@ class MahasiswaController extends Controller
                     'priority' => $priority
                 ]);
 
+                // Pastikan increment 'terisi' pada jadwal kuliah
                 $jadwal->increment('terisi');
-                $kodeMkList[] = $data['kode_mk']; // Tambahkan ke daftar kode MK
+
+                $kodeMkList[] = $data['kode_mk'];
                 $responseMessages[] = "IRS dengan kode mata kuliah {$data['kode_mk']} berhasil diajukan.";
             }
 
-            // Update jumlah SKS mahasiswa menggunakan SQL
-            DB::table('mahasiswa')
-                ->where('nim', $mahasiswa->nim)
-                ->update([
-                    'jumlah_sks' => $currentSks + $totalSksTambahan
-                ]);
+            // Update jumlah SKS mahasiswa
+            $mahasiswa->jumlah_sks += $totalSksTambahan;
+            $mahasiswa->save();
 
-            Log::info('Jumlah SKS Setelah: ' . $mahasiswa->fresh()->jumlah_sks); // Refresh data mahasiswa
+            // Commit transaksi
+            DB::commit();
 
             return response()->json([
                 'messages' => $responseMessages
             ]);
         } catch (\Exception $e) {
-            Log::error('Error: ' . $e->getMessage());
+            // Rollback transaksi jika terjadi kesalahan
+            DB::rollBack();
 
             return response()->json([
                 'error' => true,
@@ -324,6 +400,7 @@ class MahasiswaController extends Controller
             ], 500);
         }
     }
+
 
     public function delete(Request $request)
     {

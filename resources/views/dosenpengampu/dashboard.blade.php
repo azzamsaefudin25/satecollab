@@ -237,7 +237,7 @@
                     <p>Informatika</p>
                 </div>
                 <div class="btn-container">
-                    <button type="button" class="btn btn-outline-secondary"
+                    <button type="button" class="btn btn-outline-secondary w-75"
                         onclick="window.location.href='{{ route('logout') }}'">Logout</button>
                 </div>
             </div>

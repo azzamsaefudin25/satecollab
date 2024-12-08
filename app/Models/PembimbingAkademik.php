@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PembimbingAkademik extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'pembimbingakademik';
 
     protected $primaryKey = 'nidn_pembimbingakademik'; // Primary key adalah NIDN Pembimbing Akademik
@@ -18,9 +18,9 @@ class PembimbingAkademik extends Model
     protected $keyType = 'string'; // Tipe primary key adalah string
 
     protected $fillable = [
-        'nidn_pembimbingakademik', 
-        'nama_pembimbingakademik', 
-        'email', 
+        'nidn_pembimbingakademik',
+        'nama_pembimbingakademik',
+        'email',
     ];
 
     public function mahasiswa()
@@ -32,4 +32,5 @@ class PembimbingAkademik extends Model
     {
         return $this->belongsTo(Dosen::class, 'nidn_pembimbingakademik', 'nidn_dosen');
     }
+
 }

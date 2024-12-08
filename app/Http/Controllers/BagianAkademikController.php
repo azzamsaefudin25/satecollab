@@ -16,28 +16,36 @@ use Illuminate\Database\QueryException;
 
 class BagianAkademikController extends Controller
 {
+    public function profile()
+    {
+        $user = Auth::user();
+        $bagianAkademik = $user->bagianAkademik;
 
-    // public function dashboard()
-    // {
-    //     $user = Auth::user();
-    //     $bagianAkademik = $user->bagianAkademik;
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
 
-    //     if (!$user) {
-    //         return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
-    //     }
+        $nama = $user->name;
+        $nip = null;
 
-    //     $nama = $user->name;
-    //     $nip = null;
-
-    //     if ($bagianAkademik) {
-    //         $nip = $user->bagianAkademik->nip;
-    //         return view('bagianakademik.dashboard', compact('nama', 'nip'));
-    //     }
-    //     // return redirect()->route('home');
-    // }
+        if ($bagianAkademik) {
+            $nip = $bagianAkademik->nip;
+            return view('bagianakademik.profile', compact('nama', 'nip'));
+        }
+        return redirect()->route('home');
+    }
 
     public function indexPenyusunanRuang(Request $request)
     {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nip = $user->bagianAkademik->nip;
+
         $ruangPerkuliahan = RuangPerkuliahan::query();
 
         if ($request->has('search')) {
@@ -51,11 +59,20 @@ class BagianAkademikController extends Controller
 
         $ruangPerkuliahan = $ruangPerkuliahan->orderBy('kode_ruang', 'desc')->paginate(5);
 
-        return view('bagianakademik.penyusunanruang.index', compact('ruangPerkuliahan'));
+        return view('bagianakademik.penyusunanruang.index', compact('ruangPerkuliahan', 'nama', 'nip'));
     }
 
     public function indexPengalokasianRuang(Request $request)
     {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nip = $user->bagianAkademik->nip;
+
         $alokasiRuang = PengalokasianRuang::with('programStudi');
 
         if ($request->has('search')) {
@@ -69,24 +86,41 @@ class BagianAkademikController extends Controller
             });
         }
         $alokasiRuang = $alokasiRuang->orderBy('id', 'desc')->paginate(5);
-        return view('bagianakademik.pengalokasianruang.index', compact('alokasiRuang'));
+        return view('bagianakademik.pengalokasianruang.index', compact('alokasiRuang', 'nama', 'nip'));
     }
 
     public function createPenyusunanRuang()
     {
-        return view('bagianakademik.penyusunanruang.create');
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nip = $user->bagianAkademik->nip;
+
+        return view('bagianakademik.penyusunanruang.create', compact('nama', 'nip'));
     }
 
     // Menampilkan form penyusunan ruang
     public function createPengalokasianRuang()
     {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nip = $user->bagianAkademik->nip;
         // Mengambil data dari tabel ruangperkuliahan dan program_studi
         $ruangPerkuliahan = RuangPerkuliahan::whereDoesntHave('pengalokasianRuang', function ($query) {
             $query->whereIn('status', ['disetujui', 'menunggu konfirmasi']);
         })->orderBy('kode_ruang', 'asc')->get();
         $programStudi = ProgramStudi::all();
 
-        return view('bagianakademik.pengalokasianruang.create', compact('ruangPerkuliahan', 'programStudi'));
+        return view('bagianakademik.pengalokasianruang.create', compact('ruangPerkuliahan', 'programStudi', 'nama', 'nip'));
     }
     // Method untuk menyimpan data
     public function storePenyusunanRuang(Request $request)
@@ -180,8 +214,16 @@ class BagianAkademikController extends Controller
 
     public function editPenyusunanRuang(string $kode_ruang)
     {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nip = $user->bagianAkademik->nip;
         $ruangPerkuliahan = RuangPerkuliahan::findOrFail($kode_ruang);
-        return view('bagianakademik.penyusunanruang.edit', compact('ruangPerkuliahan'));
+        return view('bagianakademik.penyusunanruang.edit', compact('ruangPerkuliahan', 'nama', 'nip'));
     }
 
     public function updatePenyusunanRuang(Request $request, string $kode_ruang)

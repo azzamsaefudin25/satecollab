@@ -545,17 +545,46 @@
             text-align: center;
             text-decoration: none;
         }
+
+        .profile {
+            margin-top: auto;
+            padding: 20px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-name {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logout-button {
+            display: block;
+            margin-top: 10px;
+            width: 45%;
+        }
     </style>
 </head>
 
 <body>
     <div class="header">
         <div class="logo-container">
-            <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
-            <div class="logo-text">
-                <h1>SATE</h1>
-                <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
-            </div>
+            <a href="{{ route('ketuaprogramstudi') }}">
+                <img src="{{ asset('backend/img/logoSate-removebg-preview.png') }}" alt="SATE Logo">
+            </a>
+            <a href="{{ route('ketuaprogramstudi') }}" style="text-decoration: none;">
+                <div class="logo-text">
+                    <h1>SATE</h1>
+                    <p>SISTEM AKADEMIK TERPADU EFISIEN</p>
+                </div>
+            </a>
         </div>
     </div>
     <div class="main-wrapper">
@@ -569,7 +598,7 @@
                 </svg>
                 Dashboard
             </a>
-            <a href="#" class="menu-item">
+            <a href="{{ route('pembimbingakademik.profile') }}" class="menu-item">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
@@ -595,7 +624,18 @@
                 </svg>
                 Verifikasi IRS
             </a>
-
+            <div class="profile">
+                <img src="{{ asset('backend/img/profile img.jpg') }}" alt="Profile Image">
+                <div class="profile-name">
+                    <p>{{ $nama ?? 'User tidak ditemukan' }}</p>
+                    <p>{{ $nidn ?? 'NIP tidak ditemukan' }}</p>
+                    <p>Informatika</p>
+                </div>
+                <div class="logout-button">
+                    <button type="button" class="btn btn-outline-secondary"
+                        onclick="window.location.href='{{ route('logout') }}'">Logout</button>
+                </div>
+            </div>
         </div>
         <div class="content">
             <div class="container">

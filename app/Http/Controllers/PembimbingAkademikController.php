@@ -12,27 +12,38 @@ use App\Models\PembimbingAkademik;
 
 class PembimbingAkademikController extends Controller
 {
-    // public function dashboard()
-    // {
-    //     $user = Auth::user();
-    //     $pembimbingAkademik = $user->dosen ? $user->dosen->pembimbingAkademik : null;
+    public function profile()
+    {
+        $user = Auth::user();
+        $pembimbingAkademik = $user->dosen ? $user->dosen->pembimbingAkademik : null;
 
-    //     if (!$user) {
-    //         return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
-    //     }
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
 
-    //     $nama = $user->name;
-    //     $nidn = null;
+        $nama = $user->name;
+        $nidn = null;
 
-    //     if ($pembimbingAkademik) {
-    //         $nidn = $pembimbingAkademik->nidn_pembimbingakademik;
-    //         return view('pembimbingakademik.dashboard', compact('nama', 'nidn'));
-    //     }
-    //     return redirect()->route('home');
-    // }
+        if ($pembimbingAkademik) {
+            $nidn = $pembimbingAkademik->nidn_pembimbingakademik;
+            $programstudi = $pembimbingAkademik->dosen->programStudi->nama_programstudi ?? 'Program Studi tidak ditemukan';
+            return view('pembimbingakademik.profile', compact('nama', 'nidn', 'programstudi'));
+        }
+        return redirect()->route('home');
+    }
 
     public function approveIRS(Request $request)
-    { 
+    {
+        $user = Auth::user();
+        $pembimbingAkademik = $user->dosen ? $user->dosen->pembimbingAkademik : null;
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+        }
+
+        $nama = $user->name;
+        $nidn = $pembimbingAkademik->nidn_pembimbingakademik;
+
         $userEmail = Auth::user()->email;
         $pembimbing = PembimbingAkademik::where('email', $userEmail)->first();
 
@@ -58,7 +69,10 @@ class PembimbingAkademikController extends Controller
             $mahasiswa->where(function ($query) use ($search) {
                 $query->where('nim', 'like', '%' . $search . '%')
                     ->orWhere('nama_mahasiswa', 'like', '%' . $search . '%')
-                    ->orWhere('semester', 'like', '%' . $search . '%');
+                    ->orWhere('semester', 'like', '%' . $search . '%')
+                    ->orwhereHas('irs', function ($query) use ($search) {
+                        $query->where('status_approve','like', '%' . $search . '%');
+                    });
             });
         }
 
@@ -73,14 +87,23 @@ class PembimbingAkademikController extends Controller
             'mahasiswa' => $mahasiswaPaginated
         ];
 
-        return view('pembimbingakademik.verifikasiirs', compact('data'));
+        return view('pembimbingakademik.verifikasiirs', compact('data', 'nama', 'nidn'));
     }
 
     public function approveIRS2($nim)
     {
         try {
             // Validasi akses
-            $userEmail = Auth::user()->email;
+            $user = Auth::user();
+            $userEmail = $user->email;
+            $pembimbingAkademik = $user->dosen ? $user->dosen->pembimbingAkademik : null;
+
+            if (!$user) {
+                return redirect()->route('login')->withErrors(['message' => 'User tidak ditemukan.']);
+            }
+
+            $nama = $user->name;
+            $nidn = $pembimbingAkademik->nidn_pembimbingakademik;
             $pembimbing = PembimbingAkademik::where('email', $userEmail)->firstOrFail();
 
             // Cek apakah mahasiswa adalah bimbingan dari pembimbing yang login
@@ -93,7 +116,7 @@ class PembimbingAkademikController extends Controller
                 ->with('jadwalkuliah.mataKuliah')
                 ->get();
 
-            return view('pembimbingakademik.lihatverifikasi', compact('mahasiswa', 'irs'));
+            return view('pembimbingakademik.lihatverifikasi', compact('mahasiswa', 'irs', 'nama', 'nidn'));
         } catch (\Exception $e) {
             Log::error('Error in approveIRS2: ' . $e->getMessage());
             return back()->with('error', 'Mahasiswa tidak ditemukan atau bukan mahasiswa bimbingan Anda');
