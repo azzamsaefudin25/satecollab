@@ -1,10 +1,6 @@
 @extends('layout.template_d')
-<!-- START FORM -->
 @section('content')
-    <!-- Header -->
-
     <div class="container mt-4">
-
         <div class="table-container">
             <h4 class="mt-4">Daftar Alokasi Ruang Perkuliahan</h4>
 
@@ -20,7 +16,6 @@
                     </button>
                 </div>
             </form>
-
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -74,7 +69,8 @@
             <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
-                    <form action="{{ route('pengajuan.updateruangperprodi', $pengajuan->id) }}" method="POST">
+                    <form action="{{ route('pengajuan.updateruangperprodi', $pengajuans_ruang->first()?->id ?? 0) }}"
+                        method="POST">
                         @csrf
                         @method('PATCH')
                         <div class="modal-content">
@@ -112,7 +108,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Tutup</button>
                                 <button type="submit" class="btn btn-outline-primary">Simpan Perubahan</button>
                             </div>
                         </div>
@@ -120,26 +117,33 @@
                 </div>
             </div>
 
-            <button data-bs-toggle="modal" data-bs-target="#approvalModal"  class="btn btn-primary">
-                ATUR PERSETUJUAN 
+            <button data-bs-toggle="modal" data-bs-target="#approvalModal" class="btn btn-primary">
+                ATUR PERSETUJUAN
             </button>
 
             <div class="btn-right">
-                @if ($pengajuan->status === 'menunggu konfirmasi')
-                    <form action="{{ route('pengajuan.updateruang', $pengajuan->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        <input type="hidden" name="_method" value="PATCH">
-                        <input type="hidden" name="action" value="setuju">
-                        <button type="submit" class="btn btn-success me-2">SETUJU</button>
-                    </form>
-                @endif
-                @if ($pengajuan->status === 'disetujui')
-                    <form action="{{ route('pengajuan.updateruang', $pengajuan->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        <input type="hidden" name="_method" value="PATCH">
-                        <input type="hidden" name="action" value="ubah">
-                        <button type="submit" class="btn btn-warning">BATALKAN PERSETUJUAN</button>
-                    </form>
+                @if ($pengajuans_ruang->isNotEmpty())
+                    @php
+                        $firstPengajuan = $pengajuans_ruang->first();
+                    @endphp
+                    @if ($firstPengajuan->status === 'menunggu konfirmasi')
+                        <form action="{{ route('pengajuan.updateruang', $firstPengajuan->id) }}" method="POST"
+                            class="d-inline">
+                            @csrf
+                            <input type="hidden" name="_method" value="PATCH">
+                            <input type="hidden" name="action" value="setuju">
+                            <button type="submit" class="btn btn-success me-2">SETUJUI</button>
+                        </form>
+                    @endif
+                    @if ($firstPengajuan->status === 'disetujui')
+                        <form action="{{ route('pengajuan.updateruang', $firstPengajuan->id) }}" method="POST"
+                            class="d-inline">
+                            @csrf
+                            <input type="hidden" name="_method" value="PATCH">
+                            <input type="hidden" name="action" value="ubah">
+                            <button type="submit" class="btn btn-warning">BATALKAN PERSETUJUAN</button>
+                        </form>
+                    @endif
                 @endif
             </div>
         </div>

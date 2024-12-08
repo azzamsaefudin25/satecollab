@@ -1,8 +1,5 @@
 @extends('layout.template_d')
-<!-- START FORM -->
 @section('content')
-    <!-- Header -->
-
     <div class="container mt-4">
         <div class="table-container">
             <h4 class="mt-4">Daftar Pengajuan Jadwal Kuliah</h4>
@@ -37,7 +34,6 @@
                             <th>Hari</th>
                             <th>Jam Mulai</th>
                             <th>Jam Selesai</th>
-                            {{-- <th>Nama Dosen Pengampu</th> --}}
                             <th>Program Studi</th>
                             <th>Aksi</th>
                         </tr>
@@ -59,26 +55,6 @@
                                 <td>{{ $pengajuan->hari }}</td>
                                 <td>{{ $pengajuan->jam_mulai }}</td>
                                 <td>{{ $pengajuan->jam_selesai }}</td>
-                                <!-- Menampilkan daftar dosen pengampu -->
-                                {{-- <td>
-                                    <ol>
-                                        @if ($pengajuan->dosen1)
-                                            <li>{{ $pengajuan->dosen1->dosen->nama_dosen }}</li>
-                                        @endif
-                                        @if ($pengajuan->dosen2)
-                                            <li>{{ $pengajuan->dosen2->dosen->nama_dosen }}</li>
-                                        @endif
-                                        @if ($pengajuan->dosen3)
-                                            <li>{{ $pengajuan->dosen3->dosen->nama_dosen }}</li>
-                                        @endif
-                                        @if ($pengajuan->dosen4)
-                                            <li>{{ $pengajuan->dosen4->dosen->nama_dosen }}</li>
-                                        @endif
-                                        @if ($pengajuan->dosen5)
-                                            <li>{{ $pengajuan->dosen5->dosen->nama_dosen }}</li>
-                                        @endif
-                                    </ol>
-                                </td> --}}
                                 <td>{{ $pengajuan->mataKuliah->programStudi->nama_programstudi }}</td>
                                 <td>
                                     @if ($pengajuan->status === 'disetujui')
@@ -116,7 +92,8 @@
             <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
-                    <form action="{{ route('pengajuan.updatejadwalperprodi', $pengajuan->id_jadwal) }}"
+                    <form
+                        action="{{ route('pengajuan.updatejadwalperprodi', $pengajuans_jadwal->first()?->id_jadwal ?? 0) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -168,25 +145,29 @@
                 ATUR PERSETUJUAN
             </button>
 
-
             <div class="btn-right">
-                @if ($pengajuan->status === 'menunggu konfirmasi')
-                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}" method="POST"
-                        class="d-inline">
-                        @csrf
-                        <input type="hidden" name="_method" value="PATCH">
-                        <input type="hidden" name="action" value="setuju">
-                        <button type="submit" class="btn btn-success me-2">SETUJU</button>
-                    </form>
-                @endif
-                @if ($pengajuan->status === 'disetujui' || $pengajuan->status === 'ditolak')
-                    <form action="{{ route('pengajuan.updatejadwal', $pengajuan->id_jadwal) }}" method="POST"
-                        class="d-inline">
-                        @csrf
-                        <input type="hidden" name="_method" value="PATCH">
-                        <input type="hidden" name="action" value="ubah">
-                        <button type="submit" class="btn btn-warning">BATALKAN PERSETUJUAN</button>
-                    </form>
+                @if ($pengajuans_jadwal->isNotEmpty())
+                    @php
+                        $firstPengajuan = $pengajuans_jadwal->first();
+                    @endphp
+                    @if ($firstPengajuan->status === 'menunggu konfirmasi')
+                        <form action="{{ route('pengajuan.updatejadwal', $firstPengajuan->id_jadwal) }}" method="POST"
+                            class="d-inline">
+                            @csrf
+                            <input type="hidden" name="_method" value="PATCH">
+                            <input type="hidden" name="action" value="setuju">
+                            <button type="submit" class="btn btn-success me-2">SETUJU</button>
+                        </form>
+                    @endif
+                    @if ($firstPengajuan->status === 'disetujui' || $firstPengajuan->status === 'ditolak')
+                        <form action="{{ route('pengajuan.updatejadwal', $firstPengajuan->id_jadwal) }}" method="POST"
+                            class="d-inline">
+                            @csrf
+                            <input type="hidden" name="_method" value="PATCH">
+                            <input type="hidden" name="action" value="ubah">
+                            <button type="submit" class="btn btn-warning">BATALKAN PERSETUJUAN</button>
+                        </form>
+                    @endif
                 @endif
             </div>
         </div>
