@@ -2,7 +2,7 @@
 @section('content')
     <div class="container mt-4">
         <div class="table-container">
-            <h4 class="mt-4">Daftar Alokasi Ruang Perkuliahan</h4>
+            <h4 class="mt-4">Daftar Pengajuan Alokasi Ruangan</h4>
 
             <form action="{{ route('dekan.approveruang') }}" method="GET">
                 <div class="search-box d-flex justify-content-between align-items-center">
