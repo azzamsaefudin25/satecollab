@@ -135,7 +135,7 @@ class BagianAkademikController extends Controller
             $validatedData = $request->validate([
                 'kode_ruang' => 'required|string|max:25|unique:ruangperkuliahan,kode_ruang',
                 'gedung' => 'required|string|max:50',
-                'kapasitas' => 'required|integer',
+                'kapasitas' => 'required|integer|min:1',
             ], [
                 'kode_ruang.required' => 'Kode ruang wajib diisi',
                 'kode_ruang.unique' => 'Kode ruang sudah ada di database',
@@ -232,7 +232,7 @@ class BagianAkademikController extends Controller
         $validatedData = $request->validate(
             [
                 'gedung' => 'required|string|max:50',
-                'kapasitas' => 'required|integer',
+                'kapasitas' => 'required|integer|min:1',
             ],
             [
                 'gedung.required' => 'Gedung wajib diisi',
