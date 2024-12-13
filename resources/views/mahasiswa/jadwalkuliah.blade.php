@@ -262,7 +262,7 @@
 
             <div class="student-performance">
                 <h3>Prestasi Mahasiswa</h3>
-                <p>IPK:{{$ipk ?? 'N/A'}}</p>
+                <p>IPK:{{ $ipk ?? 'N/A' }}</p>
                 <p>SKS: 79</p>
             </div>
 
@@ -339,6 +339,11 @@
                                     <td>{{ $irs->status ?? 'N/A' }}</td>
                                 </tr>
                             @endforeach
+                            @if ($irsIndex->isEmpty())
+                                <tr>
+                                    <td colspan="20" class="text-center">IRS belum disetujui</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

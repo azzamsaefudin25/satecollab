@@ -192,9 +192,9 @@ class MahasiswaController extends Controller
             ->where('nim', $nim)
             ->get();
 
-        if ($irsIndex->isEmpty()) {
-            dd('Tidak ada data untuk NIM: ' . $nim);
-        }
+        // if ($irsIndex->isEmpty()) {
+        //     dd('Tidak ada data untuk NIM: ' . $nim);
+        // }
 
         $jadwalKuliah = JadwalKuliah::all()->keyBy(function ($item) {
             return $item->kode_mk . '-' . $item->nama_kelas;
@@ -221,9 +221,9 @@ class MahasiswaController extends Controller
             ->where('status_approve', 'disetujui')
             ->get();
 
-        if ($irsIndex->isEmpty()) {
-            dd('Tidak ada data untuk NIM: ' . $nim);
-        }
+        // if ($irsIndex->isEmpty()) {
+        //     dd('Tidak ada data untuk NIM: ' . $nim);
+        // }
 
         $jadwalKuliah = JadwalKuliah::all()->keyBy(function ($item) {
             return $item->kode_mk . '-' . $item->nama_kelas;
