@@ -291,9 +291,11 @@ class MahasiswaController extends Controller
             // Tentukan batas maksimal SKS berdasarkan IPK
             $ipk = $mahasiswa->ipk;
             $maxSks = 0;
-            if ($ipk >= 2.50 && $ipk < 2.75) {
+            if ($ipk >= 0 && $ipk < 2.00) {
                 $maxSks = 18;
-            } elseif ($ipk >= 2.75 && $ipk < 3.00) {
+            } elseif ($ipk >= 2.00 && $ipk < 2.50) {
+                $maxSks = 20;
+            } elseif ($ipk >= 2.50 && $ipk < 3.00) {
                 $maxSks = 22;
             } elseif ($ipk >= 3.00 && $ipk <= 4.00) {
                 $maxSks = 24;

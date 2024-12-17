@@ -262,7 +262,7 @@
 
             <div class="student-performance">
                 <h3>Prestasi Mahasiswa</h3>
-                <p>IPK:{{$ipk ?? 'N/A'}}</p>
+                <p>IPK:{{ $ipk ?? 'N/A' }}</p>
                 <p>SKS: 79</p>
             </div>
 
@@ -355,6 +355,7 @@
                         </svg>
                         BACK
                     </button>
+                    <a href="{{ route('irs.download') }}" class="btn btn-primary">Unduh IRS</a>
                 </div>
             </main>
         </div>
