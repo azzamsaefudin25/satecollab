@@ -60,7 +60,7 @@
 
     <div class="d-flex justify-content-between align-items-center mt-4">
         <!-- Back Button -->
-        <a onclick="window.location.href='{{ route('pembimbingakademik.verifikasiirs') }}'" class="btn btn-dark back-button">
+        <a onclick="window.location.href='{{ route('pembimbingakademik.indexmahasiswa') }}'" class="btn btn-dark back-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"

@@ -614,7 +614,7 @@
                 </svg>
                 Notifikasi
             </a>
-            <a href="{{ route('pembimbingakademik.verifikasiirs') }}" class="menu-item"
+            <a href="{{ route('pembimbingakademik.indexmahasiswa') }}" class="menu-item"
                 data-menu="Penyusunan Ruang Perkuliahan">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-door-closed" viewBox="0 0 16 16">

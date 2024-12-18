@@ -322,7 +322,7 @@
             </div>
             <div class="button-grid">
                 <button class="btn-green"
-                    onclick="window.location.href='{{ route('pembimbingakademik.verifikasiirs') }}'">
+                    onclick="window.location.href='{{ route('pembimbingakademik.indexmahasiswa') }}'">
                     Verifikasi IRS
                 </button>
             </div>

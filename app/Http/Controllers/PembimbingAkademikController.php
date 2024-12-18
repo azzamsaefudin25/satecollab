@@ -32,7 +32,7 @@ class PembimbingAkademikController extends Controller
         return redirect()->route('home');
     }
 
-    public function approveIRS(Request $request)
+    public function indexMahasiswa(Request $request)
     {
         $user = Auth::user();
         $pembimbingAkademik = $user->dosen ? $user->dosen->pembimbingAkademik : null;
@@ -87,10 +87,10 @@ class PembimbingAkademikController extends Controller
             'mahasiswa' => $mahasiswaPaginated
         ];
 
-        return view('pembimbingakademik.verifikasiirs', compact('data', 'nama', 'nidn'));
+        return view('pembimbingakademik.indexmahasiswa', compact('data', 'nama', 'nidn'));
     }
 
-    public function approveIRS2($nim)
+    public function indexPersetujuanIRS($nim)
     {
         try {
             // Validasi akses
@@ -116,7 +116,7 @@ class PembimbingAkademikController extends Controller
                 ->with('jadwalkuliah.mataKuliah')
                 ->get();
 
-            return view('pembimbingakademik.lihatverifikasi', compact('mahasiswa', 'irs', 'nama', 'nidn'));
+            return view('pembimbingakademik.indexpersetujuan', compact('mahasiswa', 'irs', 'nama', 'nidn'));
         } catch (\Exception $e) {
             Log::error('Error in approveIRS2: ' . $e->getMessage());
             return back()->with('error', 'Mahasiswa tidak ditemukan atau bukan mahasiswa bimbingan Anda');

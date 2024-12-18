@@ -16,7 +16,7 @@
             <div>Mahasiswa Yang Sudah Mengisi IRS<br><b>{{ $data['mahasiswaIsiIRS'] ?? 0 }}</b></div>
         </div>
 
-        <form action="{{ route('pembimbingakademik.verifikasiirs') }}" method="GET">
+        <form action="{{ route('pembimbingakademik.indexmahasiswa') }}" method="GET">
             <div class="search-container">
                 <input type="text" name="search" placeholder="CARI MAHASISWA" value="{{ request('search') }}">
                 <button type="submit">
@@ -56,7 +56,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('pembimbingakademik.lihatverifikasi', ['nim' => $mhs->nim]) }}"
+                            <a href="{{ route('pembimbingakademik.indexpersetujuan', ['nim' => $mhs->nim]) }}"
                                 class="btn btn-outline-info">Lihat</a>
                         </td>
                     </tr>

@@ -131,10 +131,9 @@ Route::post('/irs/delete', [MahasiswaController::class, 'delete'])->name('irs.de
 Route::get('Mahasiswa/irs/download', [IRSController::class, 'downloadPdf'])->name('irs.download');
 Route::get('PembimbingAkademik/irs/download/{nim}', [IRSController::class, 'downloadPdf2'])->name('irs2.download');
 
-
-// Route::post('/irs/delete', [MahasiswaController::class, 'destroy'])->name('irs.destroy');
-Route::get('/masuk/IRS', [PembimbingAkademikController::class, 'approveIRS'])->name('pembimbingakademik.verifikasiirs');
-Route::get('/masuk/IRS/verifikasi/{nim}', [PembimbingAkademikController::class, 'approveIRS2'])->name('pembimbingakademik.lihatverifikasi');
+// pembimbing akademik
+Route::get('/masuk/IRS', [PembimbingAkademikController::class, 'indexMahasiswa'])->name('pembimbingakademik.indexmahasiswa');
+Route::get('/masuk/IRS/verifikasi/{nim}', [PembimbingAkademikController::class, 'indexPersetujuanIRS'])->name('pembimbingakademik.indexpersetujuan');
 Route::post('/pembimbing-akademik/persetujuan-irs', [PembimbingAkademikController::class, 'persetujuanIRS'])->name('pembimbingakademik.persetujuanirs');
 
 Route::get('/check-irs-status', [MahasiswaController::class, 'checkStatus'])->name('check.irs.status');

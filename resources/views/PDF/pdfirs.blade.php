@@ -61,11 +61,18 @@
             text-align: left;
         }
 
+        @page {
+            margin: 50px 25px;
+        }
+
         .footer {
             position: fixed;
             bottom: 0;
+            left: 0;
+            right: 0;
             text-align: center;
             font-size: 10px;
+            color: #000;
         }
 
         .footer p {
@@ -174,9 +181,7 @@
         </div>
     </div>
 
-    <div class="footer">
-        <p>Halaman {PAGE_NUMBER} dari {PAGE_COUNT}</p>
-    </div>
+    <div class="footer"></div>
 </body>
 
 </html>
